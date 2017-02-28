@@ -34,6 +34,15 @@ function preload() {
     game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    game.load.audio('jump', 'assets/audio/Jump_03.ogg');
+    game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
+    game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
+    game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
+    game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
+    game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
+    game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
+    game.load.audio('bgm', 'assets/audio/8 Bit Adventure.mp3');
+    
 }
 
 var platforms;
@@ -57,6 +66,14 @@ var bulletXSpeed = 300;
 
 var score = 0;
 var scoreText;
+
+var jump;
+var shoot;
+var collect;
+var hitplayer;
+var hitcar;
+var win;
+var lose;
 
 function create() {
 
@@ -189,6 +206,25 @@ function create() {
     spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     spaceBar.onDown.add(shootBullet, this);
     cursors = game.input.keyboard.createCursorKeys();
+    
+    // music = game.add.audio('bgm');
+    // music.play();
+    
+    jump = game.add.audio('jump');
+    
+    shoot = game.add.audio('shoot');
+    
+    collect = game.add.audio('collect');
+    
+    hitplayer = game.add.audio('hitplayer');
+    
+    hitcar = game.add.audio('hitcar');
+    
+    win = game.add.audio('win')
+    
+    lose = game.add.audio('lose');
+    lose.loop = false;
+    lose.volume(.1);
 
 }
 
@@ -226,9 +262,10 @@ function update() {
 
     if (playerHealth == 1) {
         player.kill();
+        lose.play();
         store.set('score', 0);
         setTimeout(() => game.add.text(425, 50, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
-        setTimeout(() => location.reload(), 1500);
+        // setTimeout(() => location.reload(), 1500);
     }
     
     // increases the score by 10 when a slime hit by a bullet
