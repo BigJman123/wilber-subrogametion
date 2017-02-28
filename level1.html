@@ -39,6 +39,7 @@ function preload() {
     game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
     game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
     game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
+    game.load.audio('carbump', 'assets/audio/Hit_02.ogg');
     game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
     game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
     game.load.audio('bgm', 'assets/audio/8 Bit Adventure.mp3');
@@ -186,7 +187,7 @@ function create() {
 
     // let offset = 250;
     slimeLocations.forEach(function (location) {
-        let rand = getRandomInt(0, 300);
+        let rand = getRandomInt(0, 250);
         // setTimeout(() => {
             var slime = new Slime(game, location[0] + rand, location[1]);
             slimes.add(slime);    
@@ -211,20 +212,38 @@ function create() {
     // music.play();
     
     jump = game.add.audio('jump');
+    jump.loop = false;
+    jump.volume = 0.2;
     
     shoot = game.add.audio('shoot');
+    shoot.loop = false;
+    shoot.volume = 0.2;
     
     collect = game.add.audio('collect');
+    collect.loop = false;
+    collect.volume = 0.2;
     
     hitplayer = game.add.audio('hitplayer');
+    hitplayer.loop = false;
+    hitplayer.volume = 0.2;
     
     hitcar = game.add.audio('hitcar');
+    hitcar.loop = false;
+    hitcar.volume = 0.2;
+    
+    carbump = game.add.audio('carbump');
+    carbump.loop = false;
+    carbump.volume = 0.2;
     
     win = game.add.audio('win')
+    win.loop = false;
+    win.totalDuration = 2;
+    win.volume = 0.2;
     
     lose = game.add.audio('lose');
     lose.loop = false;
-    lose.volume(.1);
+    lose.totalDuratio = 3;
+    lose.volume = 0.2;
 
 }
 
@@ -243,6 +262,7 @@ function update() {
     // health and stuffs
 
     if (hitSlime && ! invincible && ! cheats.check('god')) {
+        hitplayer.play();
         playerHealth -= 33;
         healthbar.setPercent(playerHealth);
         makeInvincible();
@@ -261,8 +281,8 @@ function update() {
     }
 
     if (playerHealth == 1) {
+        // lose.play();
         player.kill();
-        lose.play();
         store.set('score', 0);
         setTimeout(() => game.add.text(425, 50, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
         // setTimeout(() => location.reload(), 1500);
@@ -270,20 +290,23 @@ function update() {
     
     // increases the score by 10 when a slime hit by a bullet
     if (killSlime) {
+        hitcar.play();
         score += 10;
         scoreText.text = 'score: ' + score;
     }
 
     if (grabStar) {
+        collect.play();
         score += 50;
         scoreText.text = 'score: ' + score;
     }
 
     if (stars.countLiving() == 0){
+        // win.play();
         store.set('score', score);
         setTimeout(() => game.add.text(400, 75, 'Loading Level 2!', { fontSize: '30px', fill: '#ffd799'}), 1000);
         
-        setTimeout(() => {window.location = 'level2.html'}, 3000);
+        // setTimeout(() => {window.location = 'level2.html'}, 3000);
     }
 
     function collectStar(player, stars) {
@@ -325,6 +348,7 @@ function update() {
     // Allow the player to jump if they are touching the ground.
     if (cursors.up.isDown && player.body.touching.down && hitPlatform)
     {
+        jump.play();
         player.frame = 11;
         player.body.velocity.y = -350;
     }
