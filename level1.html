@@ -39,7 +39,6 @@ function preload() {
     game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
     game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
     game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
-    game.load.audio('carbump', 'assets/audio/Hit_02.ogg');
     game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
     game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
     game.load.audio('bgm', 'assets/audio/8 Bit Adventure.mp3');
@@ -57,6 +56,8 @@ var healthText;
 var healthbar;
 var playerHealth = 100;
 var invincible = false;
+var youwin = false;
+var youlose = false;
 
 var cursors;
 var spaceBar;
@@ -208,8 +209,9 @@ function create() {
     spaceBar.onDown.add(shootBullet, this);
     cursors = game.input.keyboard.createCursorKeys();
     
-    // music = game.add.audio('bgm');
-    // music.play();
+    music = game.add.audio('bgm');
+    music.volume = 0.3;
+    music.play();
     
     jump = game.add.audio('jump');
     jump.loop = false;
@@ -230,10 +232,6 @@ function create() {
     hitcar = game.add.audio('hitcar');
     hitcar.loop = false;
     hitcar.volume = 0.2;
-    
-    carbump = game.add.audio('carbump');
-    carbump.loop = false;
-    carbump.volume = 0.2;
     
     win = game.add.audio('win')
     win.loop = false;
@@ -280,12 +278,14 @@ function update() {
         player.alpha = 1;
     }
 
-    if (playerHealth == 1) {
-        // lose.play();
+    if (playerHealth == 1 && youlose == false) {
+        youlose = true;
+        music.stop();
+        lose.play();
         player.kill();
         store.set('score', 0);
         setTimeout(() => game.add.text(425, 50, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
-        // setTimeout(() => location.reload(), 1500);
+        setTimeout(() => location.reload(), 3000);
     }
     
     // increases the score by 10 when a slime hit by a bullet
@@ -301,12 +301,14 @@ function update() {
         scoreText.text = 'score: ' + score;
     }
 
-    if (stars.countLiving() == 0){
-        // win.play();
+    if (stars.countLiving() == 0 && youwin == false) {
+        youwin = true;
+        music.stop();
+        win.play();
         store.set('score', score);
         setTimeout(() => game.add.text(400, 75, 'Loading Level 2!', { fontSize: '30px', fill: '#ffd799'}), 1000);
         
-        // setTimeout(() => {window.location = 'level2.html'}, 3000);
+        setTimeout(() => {window.location = 'level2.html'}, 3000);
     }
 
     function collectStar(player, stars) {
