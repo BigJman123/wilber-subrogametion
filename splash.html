@@ -26,11 +26,12 @@ var game = new Phaser.Game(1000, 650, Phaser.AUTO, '', { preload: preload, creat
 
 function preload() {
 
+    game.load.image('black', 'assets/black 1000x650.png', 1000, 650);
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('ground2', 'assets/platform6.png');
     game.load.image('wilber', 'assets/wilber.png');
-    game.load.image('subro', 'assets/subrohunter.png');
+    game.load.image('subro', 'assets/hunterhigh.png');
     game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
     game.load.spritesheet('gavel', 'assets/gavel.png', 32, 32);
     game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
@@ -68,12 +69,14 @@ function create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    black = game.add.sprite(0, 0, 'black');
+
     //  A simple background for our game
     sky = game.add.sprite(0, 0, 'sky');
     sky.scale.setTo(2, 2);
 
-    shield = game.add.sprite(300, 150, 'subro');
-    shield.scale.setTo(1.5, 1.5);
+    shield = game.add.sprite(150, 100, 'subro');
+    shield.scale.setTo(1, 1);
 
     //  The platforms group contains the ground and ledges then we enable physics on platforms
     platforms = game.add.group();
