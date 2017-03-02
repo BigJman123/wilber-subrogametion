@@ -100,9 +100,9 @@ function create() {
     black = game.add.sprite(0, 0, 'black');
     black.alpha = 1;
 
-    game.add.tween(black).to( { alpha: 1 }, 0, Phaser.Easing.Linear.None, true, 0, 0, true);
+    // game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, true);
 
-    text = game.add.text(475, 50, 'Created with', { fontSize: '20px', fill: '#ffffff'});
+    text = game.add.text(475, 50, 'Created using', { fontSize: '20px', fill: '#ffffff'});
 
     text.anchor.setTo(0.5, 0.5);
     text.alpha = 0;
@@ -114,7 +114,12 @@ function create() {
     phaser.anchor.setTo(0.5, 0.5);
     phaser.alpha = 0;
 
-    game.add.tween(phaser).to( { alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, true);
+    var phasertween = game.add.tween(phaser)
+    phasertween.to( { alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, true);
+
+    setTimeout(function() {
+        game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
+    }, 6000);
 
     //  Player physics properties. Give the little guy a slight bounce.
     game.physics.arcade.enable(player);
