@@ -32,6 +32,7 @@ function preload() {
     game.load.image('ground2', 'assets/platform6.png');
     game.load.image('wilber', 'assets/wilber.png');
     game.load.image('subro', 'assets/hunterhigh.png');
+    game.load.image('phaserlogo', 'assets/phaser logo.png', 635, 545);
     game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
     game.load.spritesheet('gavel', 'assets/gavel.png', 32, 32);
     game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
@@ -44,6 +45,7 @@ var platforms;
 var slimes;
 var bullets;
 var stars;
+var black;
 
 var player;
 
@@ -64,18 +66,20 @@ var scoreText;
 
 var bgm;
 
+var start = true;
+
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    black = game.add.sprite(0, 0, 'black');
+    
 
     //  A simple background for our game
     sky = game.add.sprite(0, 0, 'sky');
     sky.scale.setTo(2, 2);
 
-    shield = game.add.sprite(150, 100, 'subro');
+    shield = game.add.sprite(125, 100, 'subro');
     shield.scale.setTo(1, 1);
 
     //  The platforms group contains the ground and ledges then we enable physics on platforms
@@ -92,6 +96,15 @@ function create() {
     // The player and its settings
     player = game.add.sprite(475, game.world.height - 110, 'ken');
     player.scale.setTo(0.75, 0.75);
+
+    black = game.add.sprite(0, 0, 'black');
+
+    phaser = game.add.sprite(game.world.centerX, game.world.centerY, 'phaserlogo');
+    phaser.scale.setTo(.80, .80);
+    phaser.anchor.setTo(0.5, 0.5);
+    phaser.alpha = 0;
+
+    game.add.tween(phaser).to( { alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, true);
 
     //  Player physics properties. Give the little guy a slight bounce.
     game.physics.arcade.enable(player);
@@ -174,6 +187,10 @@ function create() {
     spaceBar.onDown.add(shootBullet, this);
     cursors = game.input.keyboard.createCursorKeys();
 
+
+    music = game.add.audio('bgm');
+    music.play();
+    music.volume = 0.5;
 }
 
 
@@ -186,8 +203,6 @@ function update() {
     var killSlime = game.physics.arcade.overlap(bullets, slimes);
 
     var grabStar = game.physics.arcade.overlap(player, stars, collectStar, null, this);
-
-
     
 
     if (stars.countLiving() == 10){
