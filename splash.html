@@ -36,6 +36,7 @@ function preload() {
     game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    game.load.audio('bgm', 'assets/audio/8 Bit Adventure.mp3');
 }
 
 var platforms;
@@ -59,6 +60,8 @@ var bulletXSpeed = 300;
 
 var score = 0;
 var scoreText;
+
+var bgm;
 
 function create() {
 

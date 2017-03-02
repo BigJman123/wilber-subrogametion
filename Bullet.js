@@ -2,6 +2,9 @@ Bullet = function (game, x, y, direction, speed) {
     Phaser.Sprite.call(this, game, x, y, "gavel");
     game.physics.enable(this, Phaser.Physics.ARCADE);
     this.xSpeed = direction * speed;
+    this.anchor.setTo(0.5, 0.5);
+    this.scale.setTo(0.875, 0.875);
+    this.myRotation = direction * 10;
 };
 
 Bullet.prototype = Object.create(Phaser.Sprite.prototype);
@@ -12,6 +15,7 @@ Bullet.prototype.update = function() {
     // bullet animations
     // let animation = direction == 1 ? 'rightbatarang' : 'leftbatarang';
     // this.animations.play(animation);
+    this.angle += this.myRotation;
 
     game.physics.arcade.overlap(this, platforms, function (bullet) {
         setTimeout(() => bullet.destroy(), 1)
@@ -38,7 +42,7 @@ Bullet.prototype.update = function() {
 function shootBullet() {
     if (bullets.length < 5) {
         shoot.play();
-        var bullet = new Bullet(game, player.x + 10, player.y + 10, direction, bulletXSpeed);
+        var bullet = new Bullet(game, player.x + 10, player.y + 20, direction, bulletXSpeed);
         bullets.add(bullet);
     }
 }
