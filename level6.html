@@ -5,7 +5,7 @@
         // NEW GOOGLE ANALYTICS
     </script>
 	<meta charset="UTF-8" />
-	<title>Level 5</title>
+	<title>Level 6</title>
     <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
     <script type="text/javascript" src="vendor/store.min.js"></script>
     <script type="text/javascript" src="Bullet.js"></script>
@@ -34,17 +34,17 @@ function preload() {
     game.load.image('ground5', 'assets/platform5.png');
     game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
     game.load.spritesheet('gavel', 'assets/gavel.png', 32, 32);
-    game.load.spritesheet('slime', 'assets/car5 64x20.png', 64, 20);
+    game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
-    game.load.audio('jump', 'assets/audio/Jump_03.ogg');
-    game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
-    game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
-    game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
-    game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
-    game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
-    game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
-    game.load.audio('bgm', 'assets/audio/8 Bit Adventure.mp3');
+    // game.load.audio('jump', 'assets/audio/Jump_03.ogg');
+    // game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
+    // game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
+    // game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
+    // game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
+    // game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
+    // game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
+    // game.load.audio('bgm', 'assets/audio/8 Bit Adventure.mp3');
 }
 
 var platforms;
@@ -93,76 +93,52 @@ function create() {
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
 
-    // Left from the top down
-    // Left 1
-    ledge = platforms.create(0, 150, 'ground4');
+    // Bottom platforms
+    ledge = platforms.create(200, 500, 'ground3');
     ledge.body.immovable = true;
-    ledge.scale.setTo(3, 1);
-    // Left 2
-    ledge = platforms.create(125, 270, 'ground5');
+    ledge.scale.setTo(1.5, 1);
+    ledge = platforms.create(580, 500, 'ground3');
     ledge.body.immovable = true;
-    ledge.scale.setTo(2, 1);
-    // Left 3
-    ledge = platforms.create(0, 330, 'ground5');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(2, 1);
-    // Left 4
-    ledge = platforms.create(100, 415, 'ground5');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(2, 1);
-    // Left 5
-    ledge = platforms.create(0, 500, 'ground5');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(2, 1);
+    ledge.scale.setTo(1.5, 1);
     
-    // Right from the top down
-    // Right 1
-    ledge = platforms.create(850, 150, 'ground4');
+    // Left platforms
+    ledge = platforms.create(90, 425, 'ground5');
     ledge.body.immovable = true;
-    ledge.scale.setTo(3, 1);
-    // Right 2
-    ledge = platforms.create(810, 270, 'ground5');
+    ledge = platforms.create(0, 340, 'ground5');
     ledge.body.immovable = true;
-    ledge.scale.setTo(2, 1);
-    // Right 3
-    ledge = platforms.create(934, 330, 'ground5')
+    ledge = platforms.create(170, 275, 'ground5');
     ledge.body.immovable = true;
-    ledge.scale.setTo(2, 1);
-    // Right 4
-    ledge = platforms.create(850, 415, 'ground5');
+    ledge = platforms.create(300, 190, 'ground5');
     ledge.body.immovable = true;
-    ledge.scale.setTo(2, 1);
-    // Right 5
-    ledge = platforms.create(934, 500, 'ground5');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(2, 1);
-    
-    // Highest ledge
-    ledge = platforms.create(475, 145, 'ground4');
+    ledge = platforms.create(850, 150, 'ground3');
     ledge.body.immovable = true;
     
-    // Middle ledges
-    // Top left
-    ledge = platforms.create(250, 225, 'ground3');
+    // Right platforms
+    ledge = platforms.create(880, 425, 'ground5');
     ledge.body.immovable = true;
-    // Top middle
-    ledge = platforms.create(485, 265, 'ground5');
+    ledge = platforms.create(970, 340, 'ground5');
+    ledge.body.immovable = true
+    ledge = platforms.create(800, 275, 'ground5');
     ledge.body.immovable = true;
-    // Top right
-    ledge = platforms.create(600, 225, 'ground3');
+    ledge = platforms.create(650, 190, 'ground5');
     ledge.body.immovable = true;
-    // Middle left
-    ledge = platforms.create(275, 335, 'ground3');
+    ledge = platforms.create(0, 150, 'ground3');
     ledge.body.immovable = true;
-    // Middle right
-    ledge = platforms.create(575, 335, 'ground3');
+    
+    // Middle platform
+    ledge = platforms.create(335, 350, 'ground2');
     ledge.body.immovable = true;
-    // Bottom middle
-    ledge = platforms.create(300, 415, 'ground');
+    ledge.scale.setTo(1.1, 1);
+    
+    // Top platform
+    ledge = platforms.create(380, 110, 'ground3');
     ledge.body.immovable = true;
+    ledge.scale.setTo(1.5, 1);
+    
+
     
     // The player and its settings
-    player = game.add.sprite(475, game.world.height - 110, 'ken');
+    player = game.add.sprite(480, game.world.height - 110, 'ken');
     player.scale.setTo(0.75, 0.75);
 
     //  Player physics properties. Give the little guy a slight bounce.
@@ -189,16 +165,17 @@ function create() {
 
     // Top row
     stars.create(55, 94, 'money2');
-    stars.create(475, 89, 'money2');
-    stars.create(900, 94, 'money2');
+    stars.create(470, 54, 'money2');
+    stars.create(905, 94, 'money2');
     
-    // Middle section
-    stars.create(315, 187, 'money1');
-    stars.create(665, 187, 'money1');
-    stars.create(488, 227, 'money1');
-    stars.create(340, 297, 'money1');
-    stars.create(640, 297, 'money1');
-    stars.create(475, 358, 'money2');
+    // Middle row
+    stars.create(172, 237, 'money1');
+    stars.create(470, 294, 'money2');
+    stars.create(800, 237, 'money1');
+    
+    stars.create(300, 462, 'money1');
+    stars.create(680, 462, 'money1');
+    
 
     // the bullet group contains all bullets and enables physics on them.
     bullets = game.add.group();
@@ -210,17 +187,18 @@ function create() {
 
     let slimeLocations = [
         
-        [15, 130],
-        [900, 130],
+        // Top row
+        [90, 130],
+        [450, 90],
+        [910, 130],
         
-        [290, 205],
-        [615, 205],
+        // Middle row
+        [360, 330],
+        [530, 330],
         
-        [280, 315],
-        [615, 315],
+        [220, 478],
+        [640, 478]
         
-        [330, 395],
-        [570, 395]
 ];
 
     // let offset = 250;
@@ -244,39 +222,39 @@ function create() {
     spaceBar.onDown.add(shootBullet, this);
     cursors = game.input.keyboard.createCursorKeys();
     
-    music = game.add.audio('bgm');
-    music.volume = 0.3;
-    music.play();
+    // music = game.add.audio('bgm');
+    // music.volume = 0.3;
+    // music.play();
     
-    jump = game.add.audio('jump');
-    jump.loop = false;
-    jump.volume = 0.2;
+    // jump = game.add.audio('jump');
+    // jump.loop = false;
+    // jump.volume = 0.2;
     
-    shoot = game.add.audio('shoot');
-    shoot.loop = false;
-    shoot.volume = 0.2;
+    // shoot = game.add.audio('shoot');
+    // shoot.loop = false;
+    // shoot.volume = 0.2;
     
-    collect = game.add.audio('collect');
-    collect.loop = false;
-    collect.volume = 0.2;
+    // collect = game.add.audio('collect');
+    // collect.loop = false;
+    // collect.volume = 0.2;
     
-    hitplayer = game.add.audio('hitplayer');
-    hitplayer.loop = false;
-    hitplayer.volume = 0.2;
+    // hitplayer = game.add.audio('hitplayer');
+    // hitplayer.loop = false;
+    // hitplayer.volume = 0.2;
     
-    hitcar = game.add.audio('hitcar');
-    hitcar.loop = false;
-    hitcar.volume = 0.2;
+    // hitcar = game.add.audio('hitcar');
+    // hitcar.loop = false;
+    // hitcar.volume = 0.2;
     
-    win = game.add.audio('win')
-    win.loop = false;
-    win.totalDuration = 2;
-    win.volume = 0.2;
+    // win = game.add.audio('win')
+    // win.loop = false;
+    // win.totalDuration = 2;
+    // win.volume = 0.2;
     
-    lose = game.add.audio('lose');
-    lose.loop = false;
-    lose.totalDuratio = 3;
-    lose.volume = 0.2;
+    // lose = game.add.audio('lose');
+    // lose.loop = false;
+    // lose.totalDuratio = 3;
+    // lose.volume = 0.2;
 
 }
 
@@ -295,7 +273,7 @@ function update() {
     // health and stuffs
 
     if (hitSlime && ! invincible && ! cheats.check('god')) {
-        hitplayer.play();
+        // hitplayer.play();
         playerHealth -= 33;
         healthbar.setPercent(playerHealth);
         makeInvincible();
@@ -315,11 +293,11 @@ function update() {
 
     if (playerHealth == 1 && youlose == false) {
         youlose = true;
-        music.stop();
-        lose.play();
+        // music.stop();
+        // lose.play();
         player.kill();
         store.get('score');
-        setTimeout(() => game.add.text(425, 35, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
+        setTimeout(() => game.add.text(415, 10, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
 
         setTimeout(() => location.reload(), 3000);
     }
@@ -327,26 +305,26 @@ function update() {
     
     // increases the score by 10 when a slime hit by a bullet
     if (killSlime) {
-        hitcar.play();
+        // hitcar.play();
         score += 10;
         scoreText.text = 'score: ' + score;
     }
 
     if (grabStar) {
-        collect.play();
+        // collect.play();
         score += 50;
         scoreText.text = 'score: ' + score;
     }
 
     if (stars.countLiving() == 0 && youwin == false){
         youwin = true;
-        music.stop();
-        win.play();
+        // music.stop();
+        // win.play();
         store.set('score', score);
-        setTimeout(() => game.add.text(440, 15, 'Loading Level 6!', { fontSize: '30px', fill: '#ffd799'}), 500);
+        setTimeout(() => game.add.text(375, 10, 'Loading Level 7!', { fontSize: '30px', fill: '#ffd799'}), 500);
         // setTimeout(() => game.add.text(320, 40, 'You are a true Subro Hunter!', { fontSize: '30px', fill: '#ffd799'}), 500);
         
-        setTimeout(() => {window.location = 'level6.html'}, 3000);
+        setTimeout(() => {window.location = 'level7.html'}, 3000);
     }
 
     function collectStar(player, stars) {
@@ -388,7 +366,7 @@ function update() {
     // Allow the player to jump if they are touching the ground.
     if (cursors.up.isDown && player.body.touching.down && hitPlatform)
     {
-        jump.play();
+        // jump.play();
         player.frame = 11;
         player.body.velocity.y = -350;
     }
