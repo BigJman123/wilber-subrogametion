@@ -5,7 +5,7 @@
         // NEW GOOGLE ANALYTICS
     </script>
 	<meta charset="UTF-8" />
-	<title>Level 1</title>
+	<title>Splash</title>
     <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
     <script type="text/javascript" src="vendor/store.min.js"></script>
     <script type="text/javascript" src="Bullet.js"></script>
@@ -30,7 +30,7 @@ function preload() {
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('ground2', 'assets/platform6.png');
-    game.load.image('wilber', 'assets/wilber.png');
+    game.load.image('shield', 'assets/wilber.png');
     game.load.image('subro', 'assets/hunterhigh.png');
     game.load.image('phaserlogo', 'assets/phaser logo.png', 635, 545);
     game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
@@ -101,25 +101,58 @@ function create() {
     black.alpha = 1;
 
     // game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, true);
-
-    text = game.add.text(475, 50, 'Created using', { fontSize: '20px', fill: '#ffffff'});
+    
+    // splash credits
+    text1 = game.add.text(game.world.centerX - 80, 240, 'Created by:', { fontSize: '20px', fill: '#ffffff'});
+    text2 = game.add.text(game.world.centerX - 125, 270, 'Jordan Center', { fontSize: '30px', fill: '#ffffff'});
+    text3 = game.add.text(game.world.centerX - 45, 310, 'and', { fontSize: '20px', fill: '#ffffff'})
+    text4 = game.add.text(game.world.centerX - 125, 340, 'Jacob Bennett', { fontSize: '30px', fill: '#ffffff'});
+    
+    // text1.anchor.setTo(0.5, 0.5);
+    text1.alpha = 0;
+    text2.alpha = 0;
+    text3.alpha = 0;
+    text4.alpha = 0;
+    
+    game.add.tween(text1).to( { alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, true);
+    game.add.tween(text2).to( { alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, true);
+    game.add.tween(text3).to( { alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, true);
+    game.add.tween(text4).to( { alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, true);
+    
+    // phaser logo text
+    text = game.add.text(485, 75, 'Powered by', { fontSize: '20px', fill: '#ffffff'});
 
     text.anchor.setTo(0.5, 0.5);
     text.alpha = 0;
 
-    game.add.tween(text).to( { alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, true);
-
+    setTimeout(function () {
+        game.add.tween(text).to( { alpha: 1 }, 3500, Phaser.Easing.Linear.None, true, 0, 0, true); 
+    }, 6000);
+    
     phaser = game.add.sprite(game.world.centerX, game.world.centerY, 'phaserlogo');
     phaser.scale.setTo(.80, .80);
     phaser.anchor.setTo(0.5, 0.5);
     phaser.alpha = 0;
 
     var phasertween = game.add.tween(phaser)
-    phasertween.to( { alpha: 1 }, 3000, Phaser.Easing.Linear.None, true, 0, 0, true);
+    
+    setTimeout(function () {
+        phasertween.to( { alpha: 1 }, 3500, Phaser.Easing.Linear.None, true, 0, 0, true);
+    }, 6000);
+    
+    shield = game.add.sprite(game.world.centerX - 10, game.world.centerY - 10, 'shield');
+    shield.anchor.setTo(0.5, 0.5);
+    shield.alpha = 0;
+    
+    var shield = game.add.tween(shield)
+    
+    setTimeout(function () {
+        shield.to( { alpha: 1 }, 3500, Phaser.Easing.Linear.None, true, 0, 0, true);
+    }, 13000);
 
     setTimeout(function() {
         game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
-    }, 6000);
+    }, 21750);
 
     //  Player physics properties. Give the little guy a slight bounce.
     game.physics.arcade.enable(player);
