@@ -394,7 +394,7 @@ function update() {
     if (cursors.up.isDown && player.body.touching.down && hitPlatform)
     {
         jump.play();
-        player.frame = 11;
+        player.frame = direction == 1 ? 11 : 0;
         player.body.velocity.y = -350;
     }
 }

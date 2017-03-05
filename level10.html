@@ -5,7 +5,7 @@
         // NEW GOOGLE ANALYTICS
     </script>
 	<meta charset="UTF-8" />
-	<title>Level 9</title>
+	<title>Level 10</title>
     <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
     <script type="text/javascript" src="vendor/store.min.js"></script>
     <script type="text/javascript" src="Bullet.js"></script>
@@ -34,7 +34,7 @@ function preload() {
     game.load.image('ground5', 'assets/platform5.png');
     game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
     game.load.spritesheet('gavel', 'assets/gavel.png', 32, 32);
-    game.load.spritesheet('slime', 'assets/car4 67x21.png', 67, 21);
+    game.load.spritesheet('slime', 'assets/car5 64x20.png', 64, 20);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
     game.load.audio('jump', 'assets/audio/Jump_03.ogg');
@@ -94,53 +94,74 @@ function create() {
     ground.body.immovable = true;
     
     
-    // First column
-    ledge = platforms.create(-35, 235, 'ground3');
+    // First column from the left
+    ledge = platforms.create(0, 500, 'ground2');
     ledge.body.immovable = true;
-    ledge = platforms.create(-35, 375, 'ground3');
+    ledge.scale.setTo(.850, 1);
+    ledge = platforms.create(0, 335, 'ground2');
     ledge.body.immovable = true;
-    
-    // Second column
-    ledge = platforms.create(195, 165, 'ground3');
+    ledge.scale.setTo(.850, 1);
+    ledge = platforms.create(0, 165, 'ground2');
     ledge.body.immovable = true;
-    ledge = platforms.create(195, 305, 'ground3');
-    ledge.body.immovable = true;
-    ledge = platforms.create(195, 445, 'ground3');
-    ledge.body.immovable = true;
-    
-    // Third column
-    ledge = platforms.create(425, 90, 'ground3');
-    ledge.body.immovable = true;
-    ledge = platforms.create(425, 235, 'ground3');
-    ledge.body.immovable = true;
-    ledge = platforms.create(425, 375, 'ground3');
-    ledge.body.immovable = true;
-    ledge = platforms.create(425, 520, 'ground3');
-    ledge.body.immovable = true;
-    
-    // Fourth column
-    ledge = platforms.create(657, 165, 'ground3');
-    ledge.body.immovable = true;
-    ledge = platforms.create(657, 305, 'ground3');
-    ledge.body.immovable = true;
-    ledge = platforms.create(657, 445, 'ground3');
-    ledge.body.immovable = true;
-    
-    // Fifth column
-    ledge = platforms.create(885, 235, 'ground3');
-    ledge.body.immovable = true;
-    ledge = platforms.create(885, 375, 'ground3');
-    ledge.body.immovable = true;
+    ledge.scale.setTo(.850, 1);
 
+    // Second column from the left
+    ledge = platforms.create(350, 500, 'ground5');
+    ledge.body.immovable = true;
+    ledge = platforms.create(350, 335, 'ground5');
+    ledge.body.immovable = true;
+    ledge = platforms.create(350, 165, 'ground5');
+    ledge.body.immovable = true;
+    
+    // Third column from the left
+    ledge = platforms.create(490, 415, 'ground5');
+    ledge.body.immovable = true;
+    ledge = platforms.create(490, 250, 'ground5');
+    ledge.body.immovable = true;
+    
+    // Fourth column from the left
+    ledge = platforms.create(625, 500, 'ground5');
+    ledge.body.immovable = true;
+    ledge = platforms.create(625, 335, 'ground5');
+    ledge.body.immovable = true;
+    ledge = platforms.create(625, 165, 'ground5');
+    ledge.body.immovable = true;
+    
+    // Fifth column from the left
+    ledge = platforms.create(745, 500, 'ground2');
+    ledge.body.immovable = true;
+    ledge.scale.setTo(.850, 1);
+    ledge = platforms.create(745, 335, 'ground2');
+    ledge.body.immovable = true;
+    ledge.scale.setTo(.850, 1);
+    ledge = platforms.create(745, 165, 'ground2');
+    ledge.body.immovable = true;
+    ledge.scale.setTo(.850, 1);
+    
+    ledge = platforms.create();
+    ledge.body.immovable = true;
+    ledge = platforms.create();
+    ledge.body.immovable = true;
+    ledge = platforms.create();
+    ledge.body.immovable = true;
+    ledge = platforms.create();
+    ledge.body.immovable = true;
+    ledge = platforms.create();
+    ledge.body.immovable = true;
+    ledge = platforms.create();
+    ledge.body.immovable = true;
+    ledge = platforms.create();
+    ledge.body.immovable = true;
+    
     
     // The player and its settings
-    player = game.add.sprite(477, game.world.height - 607, 'ken');
+    player = game.add.sprite(480, game.world.height - 110, 'ken');
     player.scale.setTo(0.75, 0.75);
 
     //  Player physics properties. Give the little guy a slight bounce.
     game.physics.arcade.enable(player);
     player.body.bounce.y = 0.0;
-    player.body.gravity.y = 775;
+    player.body.gravity.y = 675;
     player.body.collideWorldBounds = true;
 
     //  Our three animations, walking left ,right and jumping.
@@ -159,17 +180,19 @@ function create() {
     stars = game.add.group();
     stars.enableBody = true;
 
-    // First column from left
-    stars.create(37, 179, 'money2');
-    stars.create(37, 319, 'money2');
+    // Left column
+    stars.create(105, 109, 'money2');
+    stars.create(105, 279, 'money2');
+    stars.create(105, 444, 'money2');
     
-    // Third column from left
-    stars.create(485, 197, 'money1');
-    stars.create(485, 483, 'money1');
+    // Middle column
+    stars.create(490, 212, 'money1');
+    stars.create(490, 377, 'money1');
     
-    // Fifth column from left
-    stars.create(923, 179, 'money2');
-    stars.create(923, 319, 'money2');
+    // Right column
+    stars.create(850, 109, 'money2');
+    stars.create(850, 279, 'money2');
+    stars.create(850, 444, 'money2');
     
 
     // the bullet group contains all bullets and enables physics on them.
@@ -182,15 +205,13 @@ function create() {
 
     let slimeLocations = [
         
-        [235, 145],
-        [250, 285],
-        [265, 425],
+        [55, 145],
+        [80, 315],
+        [105, 480],
         
-        [450, 355],
-        
-        [670, 145],
-        [685, 285],
-        [700, 425]
+        [850, 145],
+        [825, 315],
+        [800, 480]
         
         
         
@@ -292,7 +313,7 @@ function update() {
         lose.play();
         player.kill();
         store.get('score');
-        setTimeout(() => game.add.text(420, 10, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
+        setTimeout(() => game.add.text(425, 50, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
 
         setTimeout(() => location.reload(), 3000);
     }
@@ -316,10 +337,10 @@ function update() {
         music.stop();
         win.play();
         store.set('score', score);
-        setTimeout(() => game.add.text(387, 10, 'Loading Level 9!', { fontSize: '30px', fill: '#ffd799'}), 500);
+        setTimeout(() => game.add.text(430, 50, 'Get ready!', { fontSize: '30px', fill: '#ffd799'}), 500);
         // setTimeout(() => game.add.text(320, 40, 'You are a true Subro Hunter!', { fontSize: '30px', fill: '#ffd799'}), 500);
         
-        setTimeout(() => {window.location = 'level10.html'}, 3000);
+        setTimeout(() => {window.location = 'boss.html'}, 3000);
     }
 
     function collectStar(player, stars) {
