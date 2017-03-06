@@ -9,9 +9,10 @@
     <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
     <script type="text/javascript" src="vendor/store.min.js"></script>
     <script type="text/javascript" src="Bullet.js"></script>
-    <script type="text/javascript" src="Slime.js"></script>
+    <!-- <script type="text/javascript" src="Slime.js"></script> -->
     <script type="text/javascript" src="HealthBar.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
+    <script type="text/javascript" src="Tween.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -35,7 +36,11 @@ function preload() {
     game.load.image('phaserlogo', 'assets/phaser logo.png', 635, 545);
     game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
     game.load.spritesheet('gavel', 'assets/gavel.png', 32, 32);
-    game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
+    game.load.spritesheet('slime1', 'assets/car1 66x24.png', 66, 24);
+    game.load.spritesheet('slime2', 'assets/car2 68x21.png', 68, 21);
+    game.load.spritesheet('slime3', 'assets/car3 69x27.png', 69, 27);
+    game.load.spritesheet('slime4', 'assets/car4 67x21.png', 67, 21);
+    game.load.spritesheet('slime5', 'assets/car5 64x20.png', 64, 20);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
     game.load.audio('bgm', 'assets/audio/8 Bit Adventure.mp3');
@@ -48,6 +53,39 @@ var stars;
 var black;
 
 var player;
+
+var pretend = (function() {
+
+    var direction = {
+        left: false,
+        right: false,
+        up: false,
+        down: false,
+    };
+
+    var move = function(dir, duration, at)
+    {
+        var that = this;
+
+        setTimeout(function() {that[dir] = true;}, at);
+        setTimeout(function() {that[dir] = false;}, at + duration);
+    };
+
+    var fire = function(at)
+    {
+        setTimeout(function() {shootBullet();}, at);
+    }
+
+    return {
+        move: move,
+        fire: fire,
+        left: direction.left,
+        right: direction.right,
+        up: direction.up,
+        down: direction.down
+    }
+})();
+
 
 var healthText;
 var healthbar;
@@ -94,7 +132,7 @@ function create() {
     ground.body.immovable = true;
     
     // The player and its settings
-    player = game.add.sprite(475, game.world.height - 110, 'ken');
+    player = game.add.sprite(-100, 540, 'ken');
     player.scale.setTo(0.75, 0.75);
 
     black = game.add.sprite(0, 0, 'black');
@@ -154,10 +192,14 @@ function create() {
         game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
     }, 19500);
 
+    // text = game.add.text(325, 425, 'press the space bar to start', { fontSize: '25px', fill: '#ffffff'});
+
+    // game.add.tween(text).to( { alpha: 0} , 500, Phaser.Easing.Linear.None, true, 0, -1, true);
+
     //  Player physics properties. Give the little guy a slight bounce.
     game.physics.arcade.enable(player);
     player.body.bounce.y = 0.0;
-    player.body.gravity.y = 425;
+    player.body.gravity.y = 775;
     player.body.collideWorldBounds = true;
 
     //  Our three animations, walking left ,right and jumping.
@@ -230,12 +272,24 @@ function create() {
 
     });
     
+    function startGame (game) {
+        setTimeout(() => {window.location = 'level1.html'}, 500);
+    }
+
     // this makes the spacebar the key that shoots bullets
     spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    spaceBar.onDown.add(shootBullet, this);
+    spaceBar.onDown.add(startGame, this);
     cursors = game.input.keyboard.createCursorKeys();
 
 
+    // control the movement of the player
+    pretend.move('right', 2000, 0);
+    pretend.move('left', 100, 2000);
+    pretend.move('up', 100, 2100);
+    pretend.move('left', 1000, 2100);
+    pretend.fire(2040);
+    pretend.fire(3000);
+    
     music = game.add.audio('bgm');
     music.play();
     music.volume = 0.5;
@@ -252,7 +306,6 @@ function update() {
 
     var grabStar = game.physics.arcade.overlap(player, stars, collectStar, null, this);
     
-
     if (stars.countLiving() == 10){
         store.set('score', score);
         setTimeout(() => game.add.text(400, 75, 'Loading Level 2!', { fontSize: '30px', fill: '#ffd799'}), 1000);
@@ -274,19 +327,18 @@ function update() {
 
     handlePlayerMovement();
 
-    if (cursors.left.isDown) {
-
+    if (pretend.left) {
         player.body.velocity.x = -225;
         let animation = playerIsOnGround() ? 'left' : 'jumpleft';
         player.animations.play(animation);
 
-    } else if (cursors.right.isDown) {
+    } else if (pretend.right) {
 
         player.body.velocity.x = 225;
         let animation = playerIsOnGround() ? 'right' : 'jumpright';
         player.animations.play(animation);
 
-    } else if (cursors.right.onUp || cursors.left.onUp) {
+    } else if (! pretend.right || ! pretend.left) {
         //  Stand still
         player.animations.stop();
 
@@ -295,12 +347,23 @@ function update() {
             player.animations.play(animation);
         }
     }
+
     // Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down && hitPlatform)
+    if (pretend.up && player.body.touching.down && hitPlatform)
     {
-        player.frame = 11;
+        player.frame = direction == 1 ? 11 : 0;
         player.body.velocity.y = -350;
     }
+
+    function handlePlayerMovement() {
+    if (pretend.left) {
+        direction = -1;
+    }
+    else if (pretend.right) {
+        direction = 1;
+    }
+}
+
 }
 
 </script>
