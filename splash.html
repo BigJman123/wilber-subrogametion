@@ -43,7 +43,10 @@ function preload() {
     game.load.spritesheet('slime5', 'assets/car5 64x20.png', 64, 20);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
-    // game.load.audio('bgm', 'assets/audio/8 Bit Adventure.mp3');
+    game.load.audio('jump', 'assets/audio/Jump_03.ogg');
+    game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
+    game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
+    game.load.audio('bgm', 'assets/audio/8 Bit Adventure.mp3');
 }
 
 var platforms;
@@ -136,66 +139,76 @@ function create() {
     player = game.add.sprite(0, 540, 'ken');
     player.scale.setTo(0.75, 0.75);
 
-    // black = game.add.sprite(0, 0, 'black');
-    // black.alpha = 1;
+    black = game.add.sprite(0, 0, 'black');
+    black.alpha = 1;
 
-    // // game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, true);
-    
-    // // splash credits
-    // text1 = game.add.text(game.world.centerX - 80, 240, 'Created by:', { fontSize: '20px', fill: '#ffffff'});
-    // text2 = game.add.text(game.world.centerX - 125, 270, 'Jordan Center', { fontSize: '30px', fill: '#ffffff'});
-    // text3 = game.add.text(game.world.centerX - 45, 310, 'and', { fontSize: '20px', fill: '#ffffff'})
-    // text4 = game.add.text(game.world.centerX - 125, 340, 'Jacob Bennett', { fontSize: '30px', fill: '#ffffff'});
-    
-    // // text1.anchor.setTo(0.5, 0.5);
-    // text1.alpha = 0;
-    // text2.alpha = 0;
-    // text3.alpha = 0;
-    // text4.alpha = 0;
-    
-    // game.add.tween(text1).to( { alpha: 1 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
-    // game.add.tween(text2).to( { alpha: 1 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
-    // game.add.tween(text3).to( { alpha: 1 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
-    // game.add.tween(text4).to( { alpha: 1 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
-    
-    // // phaser logo text
-    // text = game.add.text(485, 75, 'Powered by', { fontSize: '20px', fill: '#ffffff'});
+    // game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, true);
 
-    // text.anchor.setTo(0.5, 0.5);
-    // text.alpha = 0;
+    skip = game.add.text(850, 600, 'space bar to skip', { fontSize: '15px', fill: '#ffffff'});
+    skip.alpha = .2;
 
-    // setTimeout(function () {
-    //     game.add.tween(text).to( { alpha: 1 }, 3250, Phaser.Easing.Linear.None, true, 0, 0, true); 
-    // }, 5000);
+    setTimeout(function () {
+        game.add.tween(skip).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false); 
+    }, 18000);
     
-    // phaser = game.add.sprite(game.world.centerX, game.world.centerY, 'phaserlogo');
-    // phaser.scale.setTo(.80, .80);
-    // phaser.anchor.setTo(0.5, 0.5);
-    // phaser.alpha = 0;
+    // splash credits
+    text1 = game.add.text(game.world.centerX - 80, 240, 'Created by:', { fontSize: '20px', fill: '#ffffff'});
+    text2 = game.add.text(game.world.centerX - 125, 270, 'Jordan Center', { fontSize: '30px', fill: '#ffffff'});
+    text3 = game.add.text(game.world.centerX - 45, 310, 'and', { fontSize: '20px', fill: '#ffffff'})
+    text4 = game.add.text(game.world.centerX - 125, 340, 'Jacob Bennett', { fontSize: '30px', fill: '#ffffff'});
+    
+    // text1.anchor.setTo(0.5, 0.5);
+    text1.alpha = 0;
+    text2.alpha = 0;
+    text3.alpha = 0;
+    text4.alpha = 0;
+    
+    game.add.tween(text1).to( { alpha: 1 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
+    game.add.tween(text2).to( { alpha: 1 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
+    game.add.tween(text3).to( { alpha: 1 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
+    game.add.tween(text4).to( { alpha: 1 }, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
+    
+    // phaser logo text
+    text = game.add.text(485, 75, 'Powered by', { fontSize: '20px', fill: '#ffffff'});
 
-    // var phasertween = game.add.tween(phaser)
-    
-    // setTimeout(function () {
-    //     phasertween.to( { alpha: 1 }, 3250, Phaser.Easing.Linear.None, true, 0, 0, true);
-    // }, 5000);
-    
-    // shield = game.add.sprite(game.world.centerX - 10, game.world.centerY - 10, 'shield');
-    // shield.anchor.setTo(0.5, 0.5);
-    // shield.alpha = 0;
-    
-    // var shield = game.add.tween(shield)
-    
-    // setTimeout(function () {
-    //     shield.to( { alpha: 1 }, 3250, Phaser.Easing.Linear.None, true, 0, 0, true);
-    // }, 11500);
+    text.anchor.setTo(0.5, 0.5);
+    text.alpha = 0;
 
-    // setTimeout(function() {
-    //     game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
-    // }, 19500);
+    setTimeout(function () {
+        game.add.tween(text).to( { alpha: 1 }, 3250, Phaser.Easing.Linear.None, true, 0, 0, true); 
+    }, 5000);
+    
+    phaser = game.add.sprite(game.world.centerX, game.world.centerY, 'phaserlogo');
+    phaser.scale.setTo(.80, .80);
+    phaser.anchor.setTo(0.5, 0.5);
+    phaser.alpha = 0;
 
-    text = game.add.text(325, 425, 'press the space bar to start', { fontSize: '25px', fill: '#ffffff'});
+    var phasertween = game.add.tween(phaser)
+    
+    setTimeout(function () {
+        phasertween.to( { alpha: 1 }, 3250, Phaser.Easing.Linear.None, true, 0, 0, true);
+    }, 5000);
+    
+    shield = game.add.sprite(game.world.centerX - 10, game.world.centerY - 10, 'shield');
+    shield.anchor.setTo(0.5, 0.5);
+    shield.alpha = 0;
+    
+    var shield = game.add.tween(shield)
+    
+    setTimeout(function () {
+        shield.to( { alpha: 1 }, 3250, Phaser.Easing.Linear.None, true, 0, 0, true);
+    }, 11500);
 
-    game.add.tween(text).to( { alpha: 0} , 500, Phaser.Easing.Linear.None, true, 0, -1, true);
+    start = game.add.text(325, 425, 'press the space bar to start', { fontSize: '25px', fill: '#ffffff'});
+    start.alpha = 0;
+
+    setTimeout(function() {
+        game.add.tween(start).to( { alpha: 1} , 0, Phaser.Easing.Linear.None, true, 0, -1, true);
+    }, 20000);
+
+    setTimeout(function() {
+        game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
+    }, 19500);
 
     //  Player physics properties. Give the little guy a slight bounce.
     game.physics.arcade.enable(player);
@@ -288,18 +301,35 @@ function create() {
 
 
     // control the movement of the player
+    setTimeout(() => {
+
     pretend.move('right', 0, 4000);
     pretend.move('left', 4000, 0);
     pretend.move('left', 5500, 500);
     pretend.move('left', 8000, 1000);
     pretend.move('left', 9500, 1000);
-    pretend.move('up', 9500, 500)
     pretend.fire(9500);
-    pretend.move('up', 12000, 10000)
+    pretend.move('up', 9500, 600)
+    pretend.move('right', 11000, 650);
+    pretend.move('up', 12000, 100000)
+        
+    }, 19500);
     
-    // music = game.add.audio('bgm');
-    // music.play();
-    // music.volume = 0.5;
+    music = game.add.audio('bgm');
+    music.play();
+    music.volume = 0.5;
+
+    jump = game.add.audio('jump');
+    jump.loop = false;
+    jump.volume = 0.5;
+    
+    shoot = game.add.audio('shoot');
+    shoot.loop = false;
+    shoot.volume = 0.5;
+    
+    hitcar = game.add.audio('hitcar');
+    hitcar.loop = false;
+    hitcar.volume = 0.5;
 }
 
 
@@ -318,6 +348,10 @@ function update() {
         setTimeout(() => game.add.text(400, 75, 'Loading Level 2!', { fontSize: '30px', fill: '#ffd799'}), 1000);
         
         setTimeout(() => {window.location = 'level2.html'}, 3000);
+    }
+
+    if (killSlime) {
+        hitcar.play();
     }
 
     function collectStar(player, stars) {
@@ -358,6 +392,7 @@ function update() {
     // Allow the player to jump if they are touching the ground.
     if (pretend.up && player.body.touching.down && hitPlatform)
     {
+        jump.play();
         player.frame = direction == 1 ? 11 : 0;
         player.body.velocity.y = -350;
     }
@@ -384,15 +419,17 @@ function update() {
 
     // tweenRight = game.add.tween(slime5).to({x: 550}, 3000, Phaser.Easing.Linear.None, true);
 
+    setTimeout(() => {
+        if (animationRunning === false){
+            animationRunning = true;
+            tweenRight = game.add.tween(slimes).to({x: 350}, 3000, Phaser.Easing.Linear.None, true);
+            // player.scale.setTo(-1, 1);s
+            tweenRight.onComplete.addOnce(function() {
+                setTimeout(() => game.add.tween(slime1).to({x: 700}, 1000, Phaser.Easing.Linear.None, true), 6500);
+            });
+        }
 
-    if (animationRunning === false){
-        animationRunning = true;
-        tweenRight = game.add.tween(slimes).to({x: 350}, 3000, Phaser.Easing.Linear.None, true);
-        // player.scale.setTo(-1, 1);s
-        tweenRight.onComplete.addOnce(function() {
-            setTimeout(() => game.add.tween(slime1).to({x: 700}, 1000, Phaser.Easing.Linear.None, true), 6500);
-        });
-    }
+    }, 19500);
 
 
 }
