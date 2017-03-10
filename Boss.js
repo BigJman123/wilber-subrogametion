@@ -1,5 +1,7 @@
 var direction2;
 
+var player2Health = 100;
+
 var pretend = (function() {
 
     var direction = {
@@ -34,7 +36,6 @@ var pretend = (function() {
 
 var setupPlayer2 = function() {
     player2 = game.add.sprite(480, game.world.height - 200, 'joe');
-    player2.scale.setTo(0.75, 0.75);
 
     game.physics.arcade.enable(player2);
     player2.body.bounce.y = 0.0;
@@ -66,15 +67,45 @@ var setupPlayer2 = function() {
         pretend.move('right', 6200, 2000);
     }, 9200);
 
+    healthText = game.add.text(775, 60, "Joe's Health");
 
+    // Health bar
+    var barConfig = {x: 200, y: 100};
+    healthbar = new HealthBar(this.game, {x: 875, y: 100});
 
 }
 
 var player2Update = function() {
     var hitPlatform = game.physics.arcade.collide(player2, platforms);
+    
+    var collidePlayer2 = game.physics.arcade.collide(player, player2);
+    
+    var hitPlayer2 = game.physics.arcade.collide(bullets, player2);
+    
+    
+    if (collidePlayer2) {
+        playerHealth -= 33;
+        healthbar.setPercent(playerHealth);
+        game.camera.flash(0xff0000, 500);
+    }
+    
+    if (hitPlayer2) {
+        player2Health -= 33;
+        healthbar.setPercent(player2Health);
+    }
 
     function playerIsOnGround(player) {
         return player.body.touching.down && hitPlatform;
+    }
+    
+    if (player2Health == 1) {
+        // youlose = true;
+        // music.stop();
+        // lose.play();
+        player2.kill();
+        // store.get('score');
+
+        // setTimeout(() => location.reload(), 3000);
     }
 
 
