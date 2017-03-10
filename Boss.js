@@ -1,5 +1,8 @@
 var direction2;
 
+var healthbar2;
+var healthText2;
+
 var player2Health = 100;
 
 var pretend = (function() {
@@ -44,12 +47,12 @@ var setupPlayer2 = function() {
 
     //  Our three animations, walking left ,right and jumping.
 
-    player2.animations.add('left', [4, 3, 2, 1], 10, true);
-    player2.animations.add('right', [7, 8, 9, 10], 10, true);
+    player2.animations.add('left', [3, 2, 1], 10, true);
+    player2.animations.add('right', [6, 7, 8], 10, true);
     player2.animations.add('jumpleft', [0], 10, true);
-    player2.animations.add('jumpright', [11], 10, true);
-    player2.animations.add('standleft', [5], 10, true);
-    player2.animations.add('standright', [6], 10, true);
+    player2.animations.add('jumpright', [9], 10, true);
+    player2.animations.add('standleft', [4], 10, true);
+    player2.animations.add('standright', [5], 10, true);
 
     // pretend.move('right', 0, 2000);
     // pretend.move('left', 2000, 4000);
@@ -67,11 +70,11 @@ var setupPlayer2 = function() {
         pretend.move('right', 6200, 2000);
     }, 9200);
 
-    healthText = game.add.text(775, 60, "Joe's Health");
+    healthText2 = game.add.text(775, 60, "Joe's Health");
 
     // Health bar
     var barConfig = {x: 200, y: 100};
-    healthbar = new HealthBar(this.game, {x: 875, y: 100});
+    healthbar2 = new HealthBar(this.game, {x: 875, y: 100});
 
 }
 
@@ -80,7 +83,7 @@ var player2Update = function() {
     
     var collidePlayer2 = game.physics.arcade.collide(player, player2);
     
-    var hitPlayer2 = game.physics.arcade.collide(bullets, player2);
+    var hitPlayer2 = game.physics.arcade.overlap(bullets, player2);
     
     
     if (collidePlayer2) {
@@ -90,15 +93,16 @@ var player2Update = function() {
     }
     
     if (hitPlayer2) {
-        player2Health -= 33;
-        healthbar.setPercent(player2Health);
+        player2Health -= 20;
+        healthbar2.setPercent(player2Health);
+        // setTimeout(() => bullets.destroy(), 1);
     }
 
     function playerIsOnGround(player) {
         return player.body.touching.down && hitPlatform;
     }
     
-    if (player2Health == 1) {
+    if (player2Health == 0) {
         // youlose = true;
         // music.stop();
         // lose.play();
@@ -146,7 +150,6 @@ var player2Update = function() {
         player2.frame = direction == 1 ? 11 : 0;
         player2.body.velocity.y = -350;
     }
-
 
 }
 
