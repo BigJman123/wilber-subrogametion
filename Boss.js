@@ -38,7 +38,7 @@ var pretend = (function() {
 })();
 
 var setupPlayer2 = function() {
-    player2 = game.add.sprite(480, game.world.height - 200, 'joe');
+    player2 = game.add.sprite(480, game.world.height - 125, 'joe');
 
     game.physics.arcade.enable(player2);
     player2.body.bounce.y = 0.0;
@@ -83,7 +83,7 @@ var player2Update = function() {
     
     var collidePlayer2 = game.physics.arcade.collide(player, player2);
     
-    var hitPlayer2 = game.physics.arcade.overlap(bullets, player2);
+    // var hitPlayer2 = game.physics.arcade.overlap(bullets, player2);
     
     
     if (collidePlayer2) {
@@ -92,11 +92,11 @@ var player2Update = function() {
         game.camera.flash(0xff0000, 500);
     }
     
-    if (hitPlayer2) {
-        player2Health -= 20;
-        healthbar2.setPercent(player2Health);
-        // setTimeout(() => bullets.destroy(), 1);
-    }
+    // if (hitPlayer2) {
+    //     player2Health -= 20;
+    //     healthbar2.setPercent(player2Health);
+    //     // setTimeout(() => bullets.destroy(), 1);
+    // }
 
     function playerIsOnGround(player) {
         return player.body.touching.down && hitPlatform;

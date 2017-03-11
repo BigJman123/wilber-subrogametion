@@ -25,6 +25,12 @@ Bullet.prototype.update = function() {
         slime.destroy();
         setTimeout(() => bullet.destroy(), 1);
     });
+    
+    game.physics.arcade.collide(this, player2, function (bullet, player2) {
+        player2Health -= 20;
+        healthbar2.setPercent(player2Health);
+        setTimeout(() => bullet.destroy(), 1);
+    });
 
     if (this.body == null) {
         return;
