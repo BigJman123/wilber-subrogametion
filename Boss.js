@@ -5,7 +5,7 @@ var healthText2;
 
 var player2Health = 100;
 
-var pretend2 = (function() {
+var pretend = (function() {
 
     var direction = {
         left: false,
@@ -24,7 +24,7 @@ var pretend2 = (function() {
 
     var fire = function(at)
     {
-        setTimeout(function() {shootBullet();}, at);
+        setTimeout(function() {shootBulletPretend();}, at);
     }
 
     return {
@@ -59,16 +59,18 @@ var setupPlayer2 = function() {
     // pretend.move('right', 6000, 2000);  
 
     setTimeout(function() {
-        pretend2.move('right', 0, 2000);
-        pretend2.move('left', 2000, 4200);
-        pretend2.move('right', 6200, 2000);
+        pretend.move('right', 0, 2000);
+        pretend.move('left', 2000, 4200);
+        pretend.move('right', 6200, 2000);
     }, 1000);
 
     setInterval(function() {
-        pretend2.fire(0, 2000);
-        pretend2.move('right', 0, 2000);
-        pretend2.move('left', 2000, 4200);
-        pretend2.move('right', 6200, 2000);
+        pretend.fire(0, 2000);
+        pretend.move('right', 0, 2000);
+        pretend.fire(2000, 4200);
+        pretend.move('left', 2000, 4200);
+        pretend.fire(6200, 2000);
+        pretend.move('right', 6200, 2000);
     }, 9200);
 
     healthText2 = game.add.text(775, 60, "Joe's Health");
@@ -118,25 +120,25 @@ var player2Update = function() {
 
     player2.body.velocity.x = 0;
 
-    if (pretend2.left) {
+    if (pretend.left) {
         direction2 = -1;
     }
-    else if (pretend2.right) {
+    else if (pretend.right) {
         direction2 = 1;
     }
 
-    if (pretend2.left) {
+    if (pretend.left) {
         player2.body.velocity.x = -225;
         let animation = playerIsOnGround(player2) ? 'left' : 'jumpleft';
         player2.animations.play(animation);
 
-    } else if (pretend2.right) {
+    } else if (pretend.right) {
 
         player2.body.velocity.x = 225;
         let animation = playerIsOnGround(player2) ? 'right' : 'jumpright';
         player2.animations.play(animation);
 
-    } else if (! pretend2.right || ! pretend2.left) {
+    } else if (! pretend.right || ! pretend.left) {
         //  Stand still
         player2.animations.stop();
 
@@ -147,7 +149,7 @@ var player2Update = function() {
     }
 
     // Allow the player to jump if they are touching the ground.
-    if (pretend2.up && player2.body.touching.down && hitPlatform)
+    if (pretend.up && player2.body.touching.down && hitPlatform)
     {
         jump.play();
         player2.frame = direction == 1 ? 11 : 0;

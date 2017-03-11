@@ -51,7 +51,8 @@ function preload() {
 
 var platforms;
 var slimes;
-var bullets;
+var bullets1;
+var bullets2;
 
 var player;
 var player2;
@@ -200,8 +201,11 @@ function create() {
     
 
     // the bullet group contains all bullets and enables physics on them.
-    bullets = game.add.group();
-    bullets.enableBody = true;
+    bullets1 = game.add.group();
+    bullets1.enableBody = true;
+    
+    bullets2 = game.add.group();
+    bullets2.enableBody = true;
     
     // the slime group contains all slimes and enables physics on them. The for loop adds slimes to the game.
     slimes = game.add.group();
@@ -284,23 +288,17 @@ function update() {
     //  Collide the player and the stars with the platforms
     var hitPlatform = game.physics.arcade.collide(player, platforms);
 
-    var hitSlime = game.physics.arcade.collide(player, slimes);
-    
-    var killSlime = game.physics.arcade.overlap(bullets, slimes);
-
-    var grabStar = game.physics.arcade.overlap(player, stars, collectStar, null, this);
-
 
     // health and stuffs
 
-    if (hitSlime && ! invincible && ! cheats.check('god')) {
-        // hitplayer.play();
-        playerHealth -= 33;
-        healthbar.setPercent(playerHealth);
-        makeInvincible();
-        game.camera.flash(0xff0000, 500);
-        setTimeout(() => notInvincible(), 1000);
-    }
+    // if (hitSlime && ! invincible && ! cheats.check('god')) {
+    //     // hitplayer.play();
+    //     playerHealth -= 33;
+    //     healthbar.setPercent(playerHealth);
+    //     makeInvincible();
+    //     game.camera.flash(0xff0000, 500);
+    //     setTimeout(() => notInvincible(), 1000);
+    // }
 
     function makeInvincible() {
         invincible = true;
@@ -325,17 +323,17 @@ function update() {
     
     
     // increases the score by 10 when a slime hit by a bullet
-    if (killSlime) {
-        // hitcar.play();
-        score += 10;
-        scoreText.text = 'score: ' + score;
-    }
+    // if (killSlime) {
+    //     // hitcar.play();
+    //     score += 10;
+    //     scoreText.text = 'score: ' + score;
+    // }
 
-    if (grabStar) {
-        // collect.play();
-        score += 50;
-        scoreText.text = 'score: ' + score;
-    }
+    // if (grabStar) {
+    //     // collect.play();
+    //     score += 50;
+    //     scoreText.text = 'score: ' + score;
+    // }
 
     if (stars.countLiving() == 0 && youwin == false){
         // youwin = true;
@@ -348,9 +346,9 @@ function update() {
         // setTimeout(() => {window.location = 'boss.html'}, 3000);
     }
 
-    function collectStar(player, stars) {
-        stars.kill();
-    }
+    // function collectStar(player, stars) {
+    //     stars.kill();
+    // }
 
     // helper
     function playerIsOnGround(player) {
