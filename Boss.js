@@ -5,7 +5,7 @@ var healthText2;
 
 var player2Health = 100;
 
-var pretend = (function() {
+var pretend2 = (function() {
 
     var direction = {
         left: false,
@@ -59,15 +59,16 @@ var setupPlayer2 = function() {
     // pretend.move('right', 6000, 2000);  
 
     setTimeout(function() {
-        pretend.move('right', 0, 2000);
-        pretend.move('left', 2000, 4200);
-        pretend.move('right', 6200, 2000);
+        pretend2.move('right', 0, 2000);
+        pretend2.move('left', 2000, 4200);
+        pretend2.move('right', 6200, 2000);
     }, 1000);
 
     setInterval(function() {
-        pretend.move('right', 0, 2000);
-        pretend.move('left', 2000, 4200);
-        pretend.move('right', 6200, 2000);
+        pretend2.fire(0, 2000);
+        pretend2.move('right', 0, 2000);
+        pretend2.move('left', 2000, 4200);
+        pretend2.move('right', 6200, 2000);
     }, 9200);
 
     healthText2 = game.add.text(775, 60, "Joe's Health");
@@ -81,7 +82,9 @@ var setupPlayer2 = function() {
 var player2Update = function() {
     var hitPlatform = game.physics.arcade.collide(player2, platforms);
     
-    var collidePlayer2 = game.physics.arcade.collide(player, player2);
+    var collidePlayer2 = game.physics.arcade.collide(player, player2, function() {
+        game.camera.flash(0xff0000, 500);
+    });
     
     // var hitPlayer2 = game.physics.arcade.overlap(bullets, player2);
     
@@ -89,7 +92,7 @@ var player2Update = function() {
     if (collidePlayer2) {
         playerHealth -= 33;
         healthbar.setPercent(playerHealth);
-        game.camera.flash(0xff0000, 500);
+        // game.camera.flash(0xff0000, 500);
     }
     
     // if (hitPlayer2) {
@@ -115,25 +118,25 @@ var player2Update = function() {
 
     player2.body.velocity.x = 0;
 
-    if (pretend.left) {
+    if (pretend2.left) {
         direction2 = -1;
     }
-    else if (pretend.right) {
+    else if (pretend2.right) {
         direction2 = 1;
     }
 
-    if (pretend.left) {
+    if (pretend2.left) {
         player2.body.velocity.x = -225;
         let animation = playerIsOnGround(player2) ? 'left' : 'jumpleft';
         player2.animations.play(animation);
 
-    } else if (pretend.right) {
+    } else if (pretend2.right) {
 
         player2.body.velocity.x = 225;
         let animation = playerIsOnGround(player2) ? 'right' : 'jumpright';
         player2.animations.play(animation);
 
-    } else if (! pretend.right || ! pretend.left) {
+    } else if (! pretend2.right || ! pretend2.left) {
         //  Stand still
         player2.animations.stop();
 
@@ -144,7 +147,7 @@ var player2Update = function() {
     }
 
     // Allow the player to jump if they are touching the ground.
-    if (pretend.up && player2.body.touching.down && hitPlatform)
+    if (pretend2.up && player2.body.touching.down && hitPlatform)
     {
         jump.play();
         player2.frame = direction == 1 ? 11 : 0;
