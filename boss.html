@@ -288,6 +288,12 @@ function update() {
     //  Collide the player and the stars with the platforms
     var hitPlatform = game.physics.arcade.collide(player, platforms);
 
+    // var hitSlime = game.physics.arcade.collide(player, slimes);
+    
+    // var killSlime = game.physics.arcade.overlap(bullets, slimes);
+
+    // var grabStar = game.physics.arcade.overlap(player, stars, collectStar, null, this);
+
 
     // health and stuffs
 
@@ -300,15 +306,15 @@ function update() {
     //     setTimeout(() => notInvincible(), 1000);
     // }
 
-    function makeInvincible() {
-        invincible = true;
-        player.alpha = 0.2;
-    }
+    // function makeInvincible() {
+    //     invincible = true;
+    //     player.alpha = 0.2;
+    // }
 
-    function notInvincible() {
-        invincible = false;
-        player.alpha = 1;
-    }
+    // function notInvincible() {
+    //     invincible = false;
+    //     player.alpha = 1;
+    // }
 
     if (playerHealth == 1 && youlose == false) {
         youlose = true;
