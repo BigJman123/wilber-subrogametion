@@ -5,7 +5,7 @@
         // NEW GOOGLE ANALYTICS
     </script>
 	<meta charset="UTF-8" />
-	<title>Level 10</title>
+	<title>Boss</title>
     <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
     <script type="text/javascript" src="vendor/store.min.js"></script>
     <script type="text/javascript" src="Bullet.js"></script>
@@ -13,6 +13,7 @@
     <script type="text/javascript" src="HealthBar.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Boss.js"></script>
+    <script type="text/javascript" src="BulletPretend.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -51,7 +52,7 @@ function preload() {
 
 var platforms;
 var slimes;
-var bullets1;
+var bullets;
 var bullets2;
 
 var player;
@@ -201,8 +202,8 @@ function create() {
     
 
     // the bullet group contains all bullets and enables physics on them.
-    bullets1 = game.add.group();
-    bullets1.enableBody = true;
+    bullets = game.add.group();
+    bullets.enableBody = true;
     
     bullets2 = game.add.group();
     bullets2.enableBody = true;

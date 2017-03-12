@@ -26,16 +26,10 @@ Bullet.prototype.update = function() {
         setTimeout(() => bullet.destroy(), 1);
     });
     
-    game.physics.arcade.collide(this, player2, function (bullet1, player2) {
+    game.physics.arcade.collide(this, player2, function (bullet, player2) {
         player2Health -= 20;
         healthbar2.setPercent(player2Health);
-        setTimeout(() => bullet1.destroy(), 1);
-    });
-    
-    game.physics.arcade.collide(this, player, function (bullet2, player) {
-        playerHealth -= 33;
-        healthbar.setPercent(playerHealth);
-        setTimeout(() => bullet2.destroy(), 1);
+        setTimeout(() => bullet.destroy(), 1);
     });
 
     if (this.body == null) {
@@ -52,17 +46,9 @@ Bullet.prototype.update = function() {
 };
 
 function shootBullet() {
-    if (bullets1.length < 5) {
+    if (bullets.length < 5) {
         shoot.play();
-        var bullet1 = new Bullet(game, player.x + 10, player.y + 25, direction, bulletXSpeed);
-        bullets1.add(bullet1);
-    }
-}
-
-function shootBulletPretend() {
-    if (bullets2.length < 5) {
-        shoot.play();
-        var bullet2 = new Bullet(game, player2.x, player2.y, direction2, bulletXSpeed);
-        bullets2.add(bullet2);
+        var bullet = new Bullet(game, player.x + 10, player.y + 25, direction, bulletXSpeed);
+        bullets.add(bullet);
     }
 }
