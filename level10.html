@@ -12,6 +12,9 @@
     <script type="text/javascript" src="Slime.js"></script>
     <script type="text/javascript" src="HealthBar.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
+    <script type="text/javascript" src="Player.js"></script>
+    <script type="text/javascript" src="Music.js"></script>
+    <script type="text/javascript" src="Helper.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -26,13 +29,14 @@ var game = new Phaser.Game(1000, 650, Phaser.AUTO, '', { preload: preload, creat
 
 function preload() {
 
+    playerAssets();
+
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('ground2', 'assets/platform2.png');
     game.load.image('ground3', 'assets/platform3.png');
     game.load.image('ground4', 'assets/platform4.png');
     game.load.image('ground5', 'assets/platform5.png');
-    game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
     game.load.spritesheet('gavel', 'assets/gavel.png', 32, 32);
     game.load.spritesheet('slime', 'assets/car5 64x20.png', 64, 20);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
@@ -50,6 +54,12 @@ function preload() {
 var platforms;
 var slimes;
 var bullets;
+
+var hitSlime;
+var killSlime;
+var grabStar;
+var collectStar;
+var hitPlatform;
 
 var player;
 
@@ -154,23 +164,7 @@ function create() {
     ledge.body.immovable = true;
     
     
-    // The player and its settings
-    player = game.add.sprite(480, game.world.height - 110, 'ken');
-    player.scale.setTo(0.75, 0.75);
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    game.physics.arcade.enable(player);
-    player.body.bounce.y = 0.0;
-    player.body.gravity.y = 675;
-    player.body.collideWorldBounds = true;
-
-    //  Our three animations, walking left ,right and jumping.
-    player.animations.add('left', [4, 3, 2, 1], 10, true);
-    player.animations.add('right', [7, 8, 9, 10], 10, true);
-    player.animations.add('jumpleft', [0], 10, true);
-    player.animations.add('jumpright', [11], 10, true);
-    player.animations.add('standleft', [5], 10, true);
-    player.animations.add('standright', [6], 10, true);
+    playerCreate(675, game.world.height - 110);
 
     // Health bar
     var barConfig = {x: 200, y: 100};
@@ -238,154 +232,13 @@ function create() {
     spaceBar.onDown.add(shootBullet, this);
     cursors = game.input.keyboard.createCursorKeys();
     
-    music = game.add.audio('bgm');
-    music.volume = 0.3;
-    music.play();
-    
-    jump = game.add.audio('jump');
-    jump.loop = false;
-    jump.volume = 0.2;
-    
-    shoot = game.add.audio('shoot');
-    shoot.loop = false;
-    shoot.volume = 0.2;
-    
-    collect = game.add.audio('collect');
-    collect.loop = false;
-    collect.volume = 0.2;
-    
-    hitplayer = game.add.audio('hitplayer');
-    hitplayer.loop = false;
-    hitplayer.volume = 0.2;
-    
-    hitcar = game.add.audio('hitcar');
-    hitcar.loop = false;
-    hitcar.volume = 0.2;
-    
-    win = game.add.audio('win')
-    win.loop = false;
-    win.totalDuration = 2;
-    win.volume = 0.2;
-    
-    lose = game.add.audio('lose');
-    lose.loop = false;
-    lose.totalDuratio = 3;
-    lose.volume = 0.2;
+   gameMusic();
 
 }
 
 
 function update() {
-    //  Collide the player and the stars with the platforms
-    var hitPlatform = game.physics.arcade.collide(player, platforms);
-
-    var hitSlime = game.physics.arcade.collide(player, slimes);
-    
-    var killSlime = game.physics.arcade.overlap(bullets, slimes);
-
-    var grabStar = game.physics.arcade.overlap(player, stars, collectStar, null, this);
-
-
-    // health and stuffs
-
-    if (hitSlime && ! invincible && ! cheats.check('god')) {
-        hitplayer.play();
-        playerHealth -= 33;
-        healthbar.setPercent(playerHealth);
-        makeInvincible();
-        game.camera.flash(0xff0000, 500);
-        setTimeout(() => notInvincible(), 1000);
-    }
-
-    function makeInvincible() {
-        invincible = true;
-        player.alpha = 0.2;
-    }
-
-    function notInvincible() {
-        invincible = false;
-        player.alpha = 1;
-    }
-
-    if (playerHealth == 1 && youlose == false) {
-        youlose = true;
-        music.stop();
-        lose.play();
-        player.kill();
-        store.get('score');
-        setTimeout(() => game.add.text(425, 50, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
-
-        setTimeout(() => location.reload(), 3000);
-    }
-    
-    
-    // increases the score by 10 when a slime hit by a bullet
-    if (killSlime) {
-        hitcar.play();
-        score += 10;
-        scoreText.text = 'score: ' + score;
-    }
-
-    if (grabStar) {
-        collect.play();
-        score += 50;
-        scoreText.text = 'score: ' + score;
-    }
-
-    if (stars.countLiving() == 0 && youwin == false){
-        youwin = true;
-        music.stop();
-        win.play();
-        store.set('score', score);
-        setTimeout(() => game.add.text(430, 50, 'Get ready!', { fontSize: '30px', fill: '#ffd799'}), 500);
-        // setTimeout(() => game.add.text(320, 40, 'You are a true Subro Hunter!', { fontSize: '30px', fill: '#ffd799'}), 500);
-        
-        setTimeout(() => {window.location = 'boss.html'}, 3000);
-    }
-
-    function collectStar(player, stars) {
-        stars.kill();
-    }
-
-    // helper
-    function playerIsOnGround() {
-        return player.body.touching.down && hitPlatform;
-    }
-
-    //  Reset the players velocity (movement)
-    player.body.velocity.x = 0;
-
-    handlePlayerMovement();
-
-    
-    if (cursors.left.isDown) {
-
-        player.body.velocity.x = -225;
-        let animation = playerIsOnGround() ? 'left' : 'jumpleft';
-        player.animations.play(animation);
-
-    } else if (cursors.right.isDown) {
-
-        player.body.velocity.x = 225;
-        let animation = playerIsOnGround() ? 'right' : 'jumpright';
-        player.animations.play(animation);
-
-    } else if (cursors.right.onUp || cursors.left.onUp) {
-        //  Stand still
-        player.animations.stop();
-
-        if (playerIsOnGround()) {
-            let animation = direction == 1 ? 'standright' : 'standleft';
-            player.animations.play(animation);
-        }
-    }
-    // Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down && hitPlatform)
-    {
-        jump.play();
-        player.frame = direction == 1 ? 11 : 0;
-        player.body.velocity.y = -350;
-    }
+    playerUpdate('boss.html', 'Get Ready!');
 }
 
 </script>

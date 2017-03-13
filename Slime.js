@@ -69,12 +69,3 @@ Slime.prototype.update = function () {
     }
 
 };
-
-function handlePlayerMovement() {
-    if (cursors.left.isDown) {
-        direction = -1;
-    }
-    else if (cursors.right.isDown) {
-        direction = 1;
-    }
-}
