@@ -38,7 +38,7 @@ var pretend = (function() {
 })();
 
 var setupPlayer2 = function() {
-    player2 = game.add.sprite(480, game.world.height - 125, 'joe');
+    player2 = game.add.sprite(900, game.world.height - 125, 'joe');
 
     game.physics.arcade.enable(player2);
     player2.body.bounce.y = 0.0;
@@ -54,23 +54,22 @@ var setupPlayer2 = function() {
     player2.animations.add('standleft', [4], 10, true);
     player2.animations.add('standright', [5], 10, true);
 
-    // pretend.move('right', 0, 2000);
-    // pretend.move('left', 2000, 4000);
-    // pretend.move('right', 6000, 2000);  
-
     setTimeout(function() {
-        pretend.move('right', 0, 2000);
-        pretend.move('left', 2000, 4200);
-        pretend.move('right', 6200, 2000);
+        pretend.move('left', 0, 500);
+        pretend.move('left', 5000, 5000);
+        pretend.fire(0, 1000);
+        pretend.fire(1000, 1000);
+        pretend.fire(2000, 1000);
+        pretend.fire(3000, 1000);
+        pretend.fire(4000, 1000);
+        pretend.move('right', 2000, 4200);
+        pretend.move('left', 6200, 2000);
     }, 1000);
 
     setInterval(function() {
-        pretend.fire(0, 2000);
-        pretend.move('right', 0, 2000);
-        pretend.fire(2000, 4200);
-        pretend.move('left', 2000, 4200);
-        pretend.fire(6200, 2000);
-        pretend.move('right', 6200, 2000);
+        pretend.move('left', 0, 2000);
+        pretend.move('right', 2000, 4200);
+        pretend.move('left', 6200, 2000);
     }, 9200);
 
     healthText2 = game.add.text(775, 60, "Joe's Health");
