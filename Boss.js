@@ -112,6 +112,7 @@ var player2Update = function() {
         // music.stop();
         // lose.play();
         player2.kill();
+        bullets2.destroy();
         // store.get('score');
 
         // setTimeout(() => location.reload(), 3000);

@@ -322,6 +322,7 @@ function update() {
         // music.stop();
         // lose.play();
         player.kill();
+        bullets.destroy();
         store.get('score');
         setTimeout(() => game.add.text(425, 50, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
 
