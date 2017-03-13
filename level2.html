@@ -14,7 +14,7 @@
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Player.js"></script>
     <script type="text/javascript" src="Music.js"></script>
-    <script type="text/javascript" src="Helper.js"></script>
+    <script type="text/javascript" src="Platforms.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -90,36 +90,22 @@ function create() {
     platforms = game.add.group();
     platforms.enableBody = true;
 
-    // Here we create the ground and scale it to fit the width of the game
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
-    ground.scale.setTo(3, 2);
+    Platforms.create();
 
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-
-    // Now let's create two ledges
     // Top center ledge C1
-    ledge = platforms.create(300, 125, 'ground');
-    ledge.body.immovable = true;
+    Platforms.add(300, 125, 'ground', 1, 1);
     // Center ledge C2
-    ledge = platforms.create(300, 300, 'ground');
-    ledge.body.immovable = true;
+    Platforms.add(300, 300, 'ground', 1, 1);
     // Bottom center ledge C3
-    ledge = platforms.create(300, 475, 'ground');
-    ledge.body.immovable = true;
+    Platforms.add(300, 475, 'ground', 1, 1);
     // Left upper ledge L1
-    ledge = platforms.create(-200, 215, 'ground');
-    ledge.body.immovable = true;
+    Platforms.add(-200, 215, 'ground', 1, 1);
     // Right upper R1
-    ledge = platforms.create (800, 215, 'ground');
-    ledge.body.immovable = true;
+    Platforms.add(800, 215, 'ground', 1, 1);
     // Left lower ledge L2
-    ledge = platforms.create(-200, 385, 'ground');
-    ledge.body.immovable = true;
+    Platforms.add(-200, 385, 'ground', 1, 1);
     // Right lower ledge R2
-    ledge = platforms.create (800, 385, 'ground');
-    ledge.body.immovable = true;
-
+    Platforms.add(800, 385, 'ground', 1, 1);
 
     playerCreate(530, game.world.height - 110);
 

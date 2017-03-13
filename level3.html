@@ -14,7 +14,7 @@
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Player.js"></script>
     <script type="text/javascript" src="Music.js"></script>
-    <script type="text/javascript" src="Helper.js"></script>
+    <script type="text/javascript" src="Platforms.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -87,43 +87,25 @@ function create() {
     sky = game.add.sprite(0, 0, 'sky');
     sky.scale.setTo(2, 2);
 
-    //  The platforms group contains the ground and ledges then we enable physics on platforms
-    platforms = game.add.group();
-    platforms.enableBody = true;
+    Platforms.create();
 
-    // Here we create the ground and scale it to fit the width of the game
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
-    ground.scale.setTo(3, 2);
-
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-
-    // Now let's create two ledges
     // Left top ledge L1
-    ledge = platforms.create(-50, 150, 'ground2');
-    ledge.body.immovable = true;
+    Platforms.add(-50, 150, 'ground2', 1, 1);
     // Left middle ledge L2
-    ledge = platforms.create(200, 360, 'ground3');
-    ledge.body.immovable = true;
+    Platforms.add(200, 360, 'ground3', 1, 1);
     // Left bottom ledge L3
-    ledge = platforms.create(0, 465, 'ground3');
-    ledge.body.immovable = true;
+    Platforms.add(0, 465, 'ground3', 1, 1);
     // Right top ledge R1
-    ledge = platforms.create(750, 150, 'ground2');
-    ledge.body.immovable = true;
+    Platforms.add(750, 150, 'ground2', 1, 1);
     // Right middle ledge R2
-    ledge = platforms.create(650, 360, 'ground3');
-    ledge.body.immovable = true;
+    Platforms.add(650, 360, 'ground3', 1, 1);
     // Right bottom ledge R3
-    ledge = platforms.create(850, 465, 'ground3');
-    ledge.body.immovable = true;
+    Platforms.add(850, 465, 'ground3', 1, 1);
     // Middle top ledge M1
-    ledge = platforms.create(350, 240, 'ground2');
-    ledge.body.immovable = true;
+    Platforms.add(350, 240, 'ground2', 1, 1);
     // Middle bottom ledge M2
-    ledge = platforms.create(350, 425, 'ground2');
-    ledge.body.immovable = true;
-    
+    Platforms.add(350, 425, 'ground2', 1, 1);
+
     
     playerCreate(480, game.world.height - 110);
 
@@ -158,8 +140,8 @@ function create() {
 
     let slimeLocations = [
         //L1/R1
-        [35, 120],
-        [825, 120],
+        [35, 125],
+        [825, 125],
         
         // L2/R2
         [225, 335],

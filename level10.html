@@ -14,7 +14,7 @@
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Player.js"></script>
     <script type="text/javascript" src="Music.js"></script>
-    <script type="text/javascript" src="Helper.js"></script>
+    <script type="text/javascript" src="Platforms.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -89,79 +89,32 @@ function create() {
     sky = game.add.sprite(0, 0, 'sky');
     sky.scale.setTo(2, 2);
 
-    //  The platforms group contains the ground and ledges then we enable physics on platforms
-    platforms = this.add.physicsGroup();
 
-    // platforms = game.add.group();
-    platforms = game.add.group();
-    platforms.enableBody = true;
-
-    // Here we create the ground and scale it to fit the width of the game
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
-    ground.scale.setTo(3, 2);
-
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-    
+    Platforms.create();
     
     // First column from the left
-    ledge = platforms.create(0, 500, 'ground2');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(.850, 1);
-    ledge = platforms.create(0, 335, 'ground2');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(.850, 1);
-    ledge = platforms.create(0, 165, 'ground2');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(.850, 1);
+    Platforms.add(0, 500, 'ground2', .850, 1);
+    Platforms.add(0, 335, 'ground2', .850, 1);
+    Platforms.add(0, 165, 'ground2', .850, 1);
 
     // Second column from the left
-    ledge = platforms.create(350, 500, 'ground5');
-    ledge.body.immovable = true;
-    ledge = platforms.create(350, 335, 'ground5');
-    ledge.body.immovable = true;
-    ledge = platforms.create(350, 165, 'ground5');
-    ledge.body.immovable = true;
+    Platforms.add(350, 500, 'ground5', 1, 1);
+    Platforms.add(350, 335, 'ground5', 1, 1);
+    Platforms.add(350, 165, 'ground5', 1, 1);
     
     // Third column from the left
-    ledge = platforms.create(490, 415, 'ground5');
-    ledge.body.immovable = true;
-    ledge = platforms.create(490, 250, 'ground5');
-    ledge.body.immovable = true;
+    Platforms.add(490, 415, 'ground5', 1, 1);
+    Platforms.add(490, 250, 'ground5', 1, 1);
     
     // Fourth column from the left
-    ledge = platforms.create(625, 500, 'ground5');
-    ledge.body.immovable = true;
-    ledge = platforms.create(625, 335, 'ground5');
-    ledge.body.immovable = true;
-    ledge = platforms.create(625, 165, 'ground5');
-    ledge.body.immovable = true;
+    Platforms.add(625, 500, 'ground5', 1, 1);
+    Platforms.add(625, 335, 'ground5', 1, 1);
+    Platforms.add(625, 165, 'ground5', 1, 1);
     
     // Fifth column from the left
-    ledge = platforms.create(745, 500, 'ground2');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(.850, 1);
-    ledge = platforms.create(745, 335, 'ground2');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(.850, 1);
-    ledge = platforms.create(745, 165, 'ground2');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(.850, 1);
-    
-    ledge = platforms.create();
-    ledge.body.immovable = true;
-    ledge = platforms.create();
-    ledge.body.immovable = true;
-    ledge = platforms.create();
-    ledge.body.immovable = true;
-    ledge = platforms.create();
-    ledge.body.immovable = true;
-    ledge = platforms.create();
-    ledge.body.immovable = true;
-    ledge = platforms.create();
-    ledge.body.immovable = true;
-    ledge = platforms.create();
-    ledge.body.immovable = true;
+    Platforms.add(745, 500, 'ground2', .850, 1);
+    Platforms.add(745, 335, 'ground2', .850, 1);
+    Platforms.add(745, 165, 'ground2', .850, 1);
     
     
     playerCreate(675, game.world.height - 110);

@@ -14,7 +14,7 @@
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Player.js"></script>
     <script type="text/javascript" src="Music.js"></script>
-    <script type="text/javascript" src="Helper.js"></script>
+    <script type="text/javascript" src="Platforms.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -96,31 +96,13 @@ function create() {
     //  A simple background for our game
     game.add.sprite(0, 0, 'sky').scale.setTo(2,2);
 
-    //  The platforms group contains the ground and ledges then we enable physics on platforms
-    platforms = game.add.group();
-    platforms.enableBody = true;
+    // Ledges
+    Platforms.create();
+    Platforms.add(110, 170, 'ground2', 1.3, 1);
+    Platforms.add(110, 315, 'ground2', 1.3, 1);
+    Platforms.add(110, 455, 'ground2', 1.3, 1);
 
-    // Here we create the ground and scale it to fit the width of the game
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
-    ground.scale.setTo(3, 2);
-
-    //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
-
-    //  Now let's create two ledges
-    // Top Ledge
-    ledge = platforms.create(110, 170, 'ground2');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(1.3, 1);
-    // Second ledge from top
-    ledge = platforms.create(110, 315, 'ground2');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(1.3, 1);
-    // Third ledge from top
-    ledge = platforms.create(110, 455, 'ground2');
-    ledge.body.immovable = true;
-    ledge.scale.setTo(1.3, 1);
-    
+    // Player    
     playerCreate(425, game.world.height - 110);
 
     // Health bar
