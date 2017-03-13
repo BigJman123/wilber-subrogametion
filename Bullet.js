@@ -1,3 +1,5 @@
+var player2;
+
 Bullet = function (game, x, y, direction, speed) {
     Phaser.Sprite.call(this, game, x, y, "gavel");
     game.physics.enable(this, Phaser.Physics.ARCADE);
