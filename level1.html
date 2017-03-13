@@ -15,6 +15,7 @@
     <script type="text/javascript" src="Player.js"></script>
     <script type="text/javascript" src="Music.js"></script>
     <script type="text/javascript" src="Platforms.js"></script>
+    <script type="text/javascript" src="Timer.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -25,11 +26,7 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(1000, 650, Phaser.AUTO, '', { preload: preload, create: create, update: update, updateTimer: updateTimer });
-
-function updateTimer() {
-    console.log('stuffs');
-}
+var game = new Phaser.Game(1000, 650, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -91,7 +88,6 @@ var hitcar;
 var win;
 var lose;
 var bgm;
-var timer;
 
 function create() {
 
@@ -182,8 +178,7 @@ function create() {
     
     healthText = game.add.text(775, 3, 'health');
 
-    timer = game.add.text(100, 100, '90');
-
+    Timer.create();
 
     // this makes the spacebar the key that shoots bullets
     spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -197,7 +192,8 @@ function create() {
 
 function update() {
 
-    // this.updateTimer();
+    Timer.updateDisplay();
+    
     playerUpdate('level2.html', 'Loading Level 2!');
 
 }
