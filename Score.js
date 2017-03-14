@@ -21,6 +21,10 @@ Score.add = function(value) {
     scoreText.text = 'score: ' + score;
 }
 
+Score.finalScore() {
+	
+}
+
 Score.checkBonus = function() {
 	if (youwin == true && Score.levelEnd == false) {
 		Score.levelEnd = true;
