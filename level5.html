@@ -16,6 +16,7 @@
     <script type="text/javascript" src="Music.js"></script>
     <script type="text/javascript" src="Platforms.js"></script>
     <script type="text/javascript" src="Timer.js"></script>
+    <script type="text/javascript" src="Score.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -191,7 +192,7 @@ function create() {
 
     });
     
-    scoreText = game.add.text(16, 16, 'score: ' + score, { fontSize: '32px', fill: '#000' });
+    Score.create();
     
     healthText = game.add.text(775, 3, 'health');
     
@@ -211,6 +212,7 @@ function create() {
 function update() {
     
     Timer.updateDisplay();
+    Score.checkBonus();
 
     playerUpdate('level6.html', 'Loading Level 6!');
 

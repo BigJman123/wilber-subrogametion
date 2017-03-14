@@ -16,6 +16,7 @@
     <script type="text/javascript" src="Music.js"></script>
     <script type="text/javascript" src="Platforms.js"></script>
     <script type="text/javascript" src="Timer.js"></script>
+    <script type="text/javascript" src="Score.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -76,19 +77,6 @@ var spaceBar;
 var direction = 1;
 
 var bulletXSpeed = 300;
-
-var score = 0;
-var scoreText;
-var scoreStop = true;
-
-var jump;
-var shoot;
-var collect;
-var hitplayer;
-var hitcar;
-var win;
-var lose;
-var bgm;
 
 function create() {
 
@@ -173,9 +161,8 @@ function create() {
 
     });
     
-    
-    store.set('score', 0);
-    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    Score.reset();
+    Score.create();
     
     healthText = game.add.text(775, 3, 'health');
 
@@ -194,6 +181,7 @@ function create() {
 function update() {
 
     Timer.updateDisplay();
+    Score.checkBonus();
     
     playerUpdate('level2.html', 'Loading Level 2!');
 

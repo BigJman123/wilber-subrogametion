@@ -16,6 +16,7 @@
     <script type="text/javascript" src="Music.js"></script>
     <script type="text/javascript" src="Platforms.js"></script>
     <script type="text/javascript" src="Timer.js"></script>
+    <script type="text/javascript" src="Score.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -46,6 +47,7 @@ function preload() {
     game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
     game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
     game.load.audio('bgm', 'assets/audio/SubroHunterLevels.mp3');
+    
 }
 
 var platforms;
@@ -74,9 +76,6 @@ var spaceBar;
 var direction = 1;
 
 var bulletXSpeed = 300;
-
-var score = store.get('score') || 0;
-var scoreText;
 
 function create() {
 
@@ -181,7 +180,7 @@ function create() {
 
     });
     
-    scoreText = game.add.text(16, 16, 'score: ' + score, { fontSize: '32px', fill: '#000' });
+    Score.create();
     
     healthText = game.add.text(775, 3, 'health');
     
@@ -201,6 +200,7 @@ function create() {
 function update() {
     
     Timer.updateDisplay();
+    Score.checkBonus();
 
     playerUpdate('level3.html', 'Loading Level 3!');
 
