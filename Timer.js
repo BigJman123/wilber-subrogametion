@@ -11,7 +11,7 @@ Timer.create = function() {
 };
 
 Timer.addText = function() {
-	timer = game.add.text(175, 20, '90');
+	timer = game.add.text(250, 20, '90');
 }
 
 Timer.update = function() {
