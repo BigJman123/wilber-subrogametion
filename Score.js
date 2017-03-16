@@ -27,9 +27,12 @@ Score.finalScore = function() {
 		
 		game.currentTimer.pause();
 		final = Timer.timeAvailable - counter;
-		score += final * 5;
+		finalScore = final * 5;
+		score += finalScore;
 		scoreText.text = 'score: ', + score;
-	}
+
+		setTimeout(() => game.add.text(415, 100, 'Time Bonus! +' + finalScore, { fontSize: '25px', fill: '#000' }), 1000);
+	} 
 }
 
 // Score.checkBonus = function() {
