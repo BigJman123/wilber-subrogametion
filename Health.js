@@ -2,7 +2,7 @@ var Health = {};
 
 Health.level = 3;
 
-Health.preload = function() {
+Health.assets = function() {
     game.load.spritesheet('health', 'assets/hearts 608x44.png', 152, 44);
 }
 
