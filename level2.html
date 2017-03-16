@@ -10,12 +10,13 @@
     <script type="text/javascript" src="vendor/store.min.js"></script>
     <script type="text/javascript" src="Bullet.js"></script>
     <script type="text/javascript" src="Slime.js"></script>
-    <script type="text/javascript" src="HealthBar.js"></script>
+    <script type="text/javascript" src="Health.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Player.js"></script>
     <script type="text/javascript" src="Music.js"></script>
     <script type="text/javascript" src="Platforms.js"></script>
     <script type="text/javascript" src="Timer.js"></script>
+    <script type="text/javascript" src="Score.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -38,6 +39,7 @@ function preload() {
     game.load.spritesheet('slime', 'assets/car2 68x21.png', 68, 21);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    game.add.spritesheet('health', 'assets/hearts 608x44.png', 152, 44);
     game.load.audio('jump', 'assets/audio/Jump_03.ogg');
     game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
     game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
@@ -46,6 +48,7 @@ function preload() {
     game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
     game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
     game.load.audio('bgm', 'assets/audio/SubroHunterLevels.mp3');
+    
 }
 
 var platforms;
@@ -62,7 +65,6 @@ var hitPlatform;
 var player;
 
 var healthText;
-var healthbar;
 var playerHealth = 100;
 var invincible = false;
 var youwin = false;
@@ -74,9 +76,6 @@ var spaceBar;
 var direction = 1;
 
 var bulletXSpeed = 300;
-
-var score = store.get('score') || 0;
-var scoreText;
 
 function create() {
 
@@ -110,9 +109,7 @@ function create() {
 
     playerCreate(530, game.world.height - 110);
 
-    // Health bar
-    var barConfig = {x: 200, y: 100};
-    healthbar = new HealthBar(this.game, {x: 875, y: 40});
+    Health.hearts();    
 
     // makes a stars group and enables physics
     stars = game.add.group();
@@ -181,7 +178,7 @@ function create() {
 
     });
     
-    scoreText = game.add.text(16, 16, 'score: ' + score, { fontSize: '32px', fill: '#000' });
+    Score.create();
     
     healthText = game.add.text(775, 3, 'health');
     
@@ -201,6 +198,7 @@ function create() {
 function update() {
     
     Timer.updateDisplay();
+    Score.checkBonus();
 
     playerUpdate('level3.html', 'Loading Level 3!');
 

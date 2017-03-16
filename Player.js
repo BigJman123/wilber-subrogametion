@@ -52,8 +52,7 @@ function playerUpdate (nextlevel, loadinglevel) {
 
     if (hitSlime && ! invincible && ! cheats.check('god')) {
         hitplayer.play();
-        playerHealth -= 33;
-        healthbar.setPercent(playerHealth);
+        Health.hit();
         makeInvincible();
         game.camera.flash(0xff0000, 500);
         setTimeout(() => notInvincible(), 1000);
@@ -72,22 +71,20 @@ function playerUpdate (nextlevel, loadinglevel) {
     // increases the score by 10 when a slime hit by a bullet
     if (killSlime) {
         hitcar.play();
-        score += 10;
-        scoreText.text = 'score: ' + score;
+        Score.add(50);
     }
 
     if (grabStar) {
         collect.play();
-        score += 50;
-        scoreText.text = 'score: ' + score;
+        Score.add(100);
     }
 
-    if (playerHealth == 1 && youlose == false) {
+    if (Health.isEmpty() && youlose == false) {
         youlose = true;
         music.stop();
         lose.play();
         player.kill();
-        store.set('score', 0);
+        
         setTimeout(() => game.add.text(425, 10, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
         setTimeout(() => location.reload(), 3000);
     }
@@ -96,7 +93,7 @@ function playerUpdate (nextlevel, loadinglevel) {
         youwin = true;
         music.stop();
         win.play();
-        store.set('score', score);
+        // store.set('score', score);
         setTimeout(() => game.add.text(400, 10, loadinglevel, { fontSize: '30px', fill: '#ffd799'}), 1000);
         
         setTimeout(() => {window.location = nextlevel}, 3000);

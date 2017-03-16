@@ -3,6 +3,8 @@ var counter = 0;
 
 var Timer = {};
 
+Timer.timeAvailable = 90;
+
 Timer.create = function() {
 	game.currentTimer = game.time.create(false);
     game.currentTimer.loop(Phaser.Timer.SECOND, Timer.update, game);
@@ -11,7 +13,7 @@ Timer.create = function() {
 };
 
 Timer.addText = function() {
-	timer = game.add.text(250, 20, '90');
+	timer = game.add.text(250, 20, Timer.timeAvailable);
 }
 
 Timer.update = function() {
@@ -19,14 +21,12 @@ Timer.update = function() {
 }
 
 Timer.updateDisplay = function() {
-	timer.text = 90 - counter;
+	timer.text = Timer.timeAvailable - counter;
 	
 	if (timer.text == 0 && youlose == false) {
-	    youlose == true;
+	    youlose = true;
 	    timer.kill();
-        player.kill();
         
-        youlose = true;
         music.stop();
         lose.play();
         player.kill();
