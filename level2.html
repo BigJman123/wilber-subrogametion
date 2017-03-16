@@ -39,7 +39,7 @@ function preload() {
     game.load.spritesheet('slime', 'assets/car2 68x21.png', 68, 21);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
-    game.add.spritesheet('health', 'assets/hearts 608x44.png', 152, 44);
+    Health.assets();
     game.load.audio('jump', 'assets/audio/Jump_03.ogg');
     game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
     game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
@@ -109,7 +109,7 @@ function create() {
 
     playerCreate(530, game.world.height - 110);
 
-    Health.hearts();    
+    Health.create();    
 
     // makes a stars group and enables physics
     stars = game.add.group();
@@ -179,8 +179,6 @@ function create() {
     });
     
     Score.create();
-    
-    healthText = game.add.text(775, 3, 'health');
     
     Timer.create();
 
