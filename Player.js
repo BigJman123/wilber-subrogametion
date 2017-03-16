@@ -52,8 +52,7 @@ function playerUpdate (nextlevel, loadinglevel) {
 
     if (hitSlime && ! invincible && ! cheats.check('god')) {
         hitplayer.play();
-        playerHealth -= 33;
-        healthbar.setPercent(playerHealth);
+        Health.hit();
         makeInvincible();
         game.camera.flash(0xff0000, 500);
         setTimeout(() => notInvincible(), 1000);
@@ -80,7 +79,7 @@ function playerUpdate (nextlevel, loadinglevel) {
         Score.add(100);
     }
 
-    if (playerHealth == 1 && youlose == false) {
+    if (Health.isEmpty() && youlose == false) {
         youlose = true;
         music.stop();
         lose.play();

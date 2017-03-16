@@ -10,7 +10,7 @@
     <script type="text/javascript" src="vendor/store.min.js"></script>
     <script type="text/javascript" src="Bullet.js"></script>
     <script type="text/javascript" src="Slime.js"></script>
-    <script type="text/javascript" src="HealthBar.js"></script>
+    <script type="text/javascript" src="Health.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Player.js"></script>
     <script type="text/javascript" src="Music.js"></script>
@@ -40,6 +40,7 @@ function preload() {
     game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    Health.preload();
     game.load.audio('jump', 'assets/audio/Jump_03.ogg');
     game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
     game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
@@ -65,7 +66,7 @@ var hitPlatform;
 var player;
 
 var healthText;
-var healthbar;
+var health;
 var playerHealth = 100;
 var invincible = false;
 var youwin = false;
@@ -94,10 +95,6 @@ function create() {
 
     // Player    
     playerCreate(425, game.world.height - 110);
-
-    // Health bar
-    var barConfig = {x: 200, y: 100};
-    healthbar = new HealthBar(this.game, {x: 875, y: 40});
 
     // makes a stars group and enables physics
     stars = game.add.group();
@@ -164,7 +161,8 @@ function create() {
     Score.reset();
     Score.create();
     
-    healthText = game.add.text(775, 3, 'health');
+    // healthText = game.add.text(775, 3, 'health');
+    Health.create();
 
     Timer.create();
 
@@ -180,11 +178,15 @@ function create() {
 
 function update() {
 
+    playerUpdate('level2.html', 'Loading Level 2!');
+
+    // Health.update();
+
     Timer.updateDisplay();
+
     // Score.checkBonus();
     Score.finalScore();
     
-    playerUpdate('level2.html', 'Loading Level 2!');
 
 }
 
