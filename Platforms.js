@@ -2,10 +2,11 @@ var Platforms = {};
 
 Platforms.assets = function() {
     game.load.image('ground', 'assets/platform.png');
-    game.load.image('ground2', 'assets/platform6.png');
+    game.load.image('ground2', 'assets/platform2.png');
     game.load.image('ground3', 'assets/platform3.png');
     game.load.image('ground4', 'assets/platform4.png');
     game.load.image('ground5', 'assets/platform5.png');
+    game.load.image('ground6', 'assets/platform6.png');
 }
 
 Platforms.create = function() {
