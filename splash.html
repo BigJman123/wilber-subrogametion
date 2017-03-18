@@ -32,6 +32,7 @@ function preload() {
     game.load.image('ground2', 'assets/platform6.png');
     game.load.image('shield', 'assets/wilber.png');
     game.load.image('hunter', 'assets/hunterhigh.png');
+    game.load.image('subrohunter', 'assets/Subro Hunter black 1680x585.png');
     game.load.image('phaserlogo', 'assets/phaser logo.png', 635, 545);
     game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
     game.load.spritesheet('gavel', 'assets/gavel 18x27.png', 18, 27);
@@ -120,7 +121,8 @@ function create() {
     sky = game.add.sprite(0, 0, 'sky');
     sky.scale.setTo(2, 2);
 
-    hunter = game.add.sprite(125, 100, 'hunter');
+    hunter = game.add.sprite(175, 100, 'subrohunter');
+    hunter.scale.setTo(.4, .4);
 
     //  The platforms group contains the ground and ledges then we enable physics on platforms
     platforms = game.add.group();
