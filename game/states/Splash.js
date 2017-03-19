@@ -14,14 +14,15 @@ Splash.prototype = {
   },
 
   loadBgm: function () {
-    game.load.audio('jump', 'assets/bgm/Jump_03.ogg');
-    game.load.audio('shoot', 'assets/bgm/Shoot_01.ogg');
-    game.load.audio('collect', 'assets/bgm/Collect_Point_01.ogg');
-    game.load.audio('hitplayer', 'assets/bgm/Hit_03.ogg');
-    game.load.audio('hitcar', 'assets/bgm/Hit_01.ogg');
-    game.load.audio('win', 'assets/bgm/Jingle_Achievement_00.ogg');
-    game.load.audio('lose', 'assets/bgm/Jingle_Lose_00.ogg');
-    game.load.audio('bgm', 'assets/bgm/SubroHunterMain.mp3');
+    game.load.audio('jump', 'assets/audio/Jump_03.ogg');
+    game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
+    game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
+    game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
+    game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
+    game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
+    game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
+    game.load.audio('main', 'assets/audio/SubroHunterMain.mp3');
+    game.load.audio('level', 'assets/audio/SubroHunterLevels.mp3');
   },
 
   loadImages: function () {
@@ -80,7 +81,7 @@ Splash.prototype = {
   },
 
   addGameMusic: function () {
-    music = game.add.audio('bgm');
+    music = game.add.audio('main');
     music.loop = true;
     // music.play();
   },

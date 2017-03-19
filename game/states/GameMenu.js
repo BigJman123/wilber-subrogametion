@@ -21,9 +21,9 @@ GameMenu.prototype = {
 
   create: function () {
 
-    if (music.name !== "bgm" && gameOptions.playMusic) {
+    if (music.name !== "main" && gameOptions.playMusic) {
       music.stop();
-      music = game.add.audio('bgm');
+      music = game.add.audio('main');
       music.loop = true;
       // music.play();
     }

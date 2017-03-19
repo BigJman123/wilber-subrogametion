@@ -1,7 +1,11 @@
 function gameMusic () {
-	music = game.add.audio('bgm');
-    music.volume = 0.3;
-    music.play();
+	main = game.add.audio('main');
+    main.volume = 0.3;
+    // music.play();
+    
+    level = game.add.audio('level');
+    level.volume = 0.3;
+    level.play();
     
     jump = game.add.audio('jump');
     jump.loop = false;
