@@ -1,44 +1,36 @@
-var Game = function(game) {};
+var Level1 = function(game) {};
 
-Game.prototype = {
+Level1.prototype = {
+  
+  loadLevelScripts: function() {
+    game.load.script('player', 'js/player.js');
+    game.load.script('platforms', 'js/platforms.js');
+    game.load.script('bullet', 'js/bullet.js');
+    game.load.script('slime', 'js/slime.js');
+    game.load.script('health', 'js/health.js');
+    game.load.script('health', 'js/health.js');
+  },
+  
+  preload: function() {
+    this.loadLevelScripts();
+  },
 
   setupBG: function() {
       var sky = game.add.sprite(0, 0, 'sky');
       sky.scale.setTo(2, 2);
 
-      this.platforms = game.add.group();
-      this.platforms.enableBody = true;
-
-      var ground = this.platforms.create(0, game.world.height - 64, 'ground');
-      ground.body.immovable = true;
-      ground.scale.setTo(3, 2);
+      this.Platforms.create();
   },
 
   setupPlayer: function() {
-      var player = game.add.sprite(475, game.world.height - 110, 'ken');
-      player.scale.setTo(0.75, 0.75);
-
-      //  Player physics properties. Give the little guy a slight bounce.
-      game.physics.arcade.enable(player);
-      player.body.bounce.y = 0.0;
-      player.body.gravity.y = 425;
-      player.body.collideWorldBounds = true;
-
-      player.animations.add('left', [4, 3, 2, 1], 10, true);
-      player.animations.add('right', [7, 8, 9, 10], 10, true);
-      player.animations.add('jumpleft', [0], 10, true);
-      player.animations.add('jumpright', [11], 10, true);
-      player.animations.add('standleft', [5], 10, true);
-      player.animations.add('standright', [6], 10, true);
-
-      this.player = player;
+      this.playerCreate();
   },
 
-  createLedge: function(x,y) {
-      var ledge = this.platforms.create(x, y, 'ground2');
-      ledge.body.immovable = true;
-      ledge.scale.setTo(1.3, 1);
-  },
+  // createLedge: function(x,y) {
+  //     var ledge = this.platforms.create(x, y, 'ground2');
+  //     ledge.body.immovable = true;
+  //     ledge.scale.setTo(1.3, 1);
+  // },
 
   create: function () {
       this.game.soundfx = {};
@@ -56,9 +48,13 @@ Game.prototype = {
 
     this.setupBG();
 
-    this.createLedge(110, 170);
-    this.createLedge(110, 315);
-    this.createLedge(110, 455);
+    // this.createLedge(110, 170);
+    // this.createLedge(110, 315);
+    // this.createLedge(110, 455);
+    
+    this.Platforms.add(110, 170, 2.6, 1);
+    this.Platforms.add(110, 315, 2.6, 1);
+    this.Platforms.add(110, 455, 2.6, 1);
 
     this.setupPlayer();
     console.info('player setup');

@@ -1,0 +1,229 @@
+<!doctype html> 
+<html lang="en"> 
+<head>
+    <script>
+      // NEW GOOGLE ANALYTICS
+    </script>
+	<meta charset="UTF-8" />
+	<title>Level 4</title>
+    <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
+    <script type="text/javascript" src="vendor/store.min.js"></script>
+    <script type="text/javascript" src="Bullet.js"></script>
+    <script type="text/javascript" src="Slime.js"></script>
+    <script type="text/javascript" src="Health.js"></script>
+    <script type="text/javascript" src="Cheats.js"></script>
+    <script type="text/javascript" src="Player.js"></script>
+    <script type="text/javascript" src="Music.js"></script>
+    <script type="text/javascript" src="Platforms.js"></script>
+    <script type="text/javascript" src="Timer.js"></script>
+    <script type="text/javascript" src="Score.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(1000, 650, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+function preload() {
+
+    playerAssets();
+
+    game.load.image('sky', 'assets/sky.png');
+    Platforms.assets();
+    game.load.spritesheet('gavel', 'assets/gavel.png', 32, 32);
+    game.load.spritesheet('slime', 'assets/car4 67x21.png', 67, 21);
+    game.load.spritesheet('money1', 'assets/money1 30x36.png');
+    game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    Health.assets();
+    game.load.audio('jump', 'assets/audio/Jump_03.ogg');
+    game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
+    game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
+    game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
+    game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
+    game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
+    game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
+    game.load.audio('bgm', 'assets/audio/SubroHunterLevels.mp3');
+}
+
+var platforms;
+var slimes;
+var bullets;
+
+var hitSlime;
+var killSlime;
+var grabStar;
+var collectStar;
+var hitPlatform;
+
+var player;
+
+var healthText;
+var playerHealth = 100;
+var invincible = false;
+var youwin = false;
+var youlose = false;
+
+var cursors;
+var spaceBar;
+
+var direction = 1;
+
+var bulletXSpeed = 300;
+
+var score = store.get('score') || 0;
+var scoreText;
+
+function create() {
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //  A simple background for our game
+    sky = game.add.sprite(0, 0, 'sky');
+    sky.scale.set(2, 2);
+
+    Platforms.create();
+
+    // First column from the left top to bottom
+    // L6
+    Platforms.add(50, 120, 'ground5', 3.5, .7);
+    Platforms.add(50, 270, 'ground5', 3.5, .7);
+    Platforms.add(50, 420, 'ground5', 3.5, .7);
+
+    // Second column from the left top to bottom
+    // L9
+    Platforms.add(250, 195, 'ground5', 3.5, .7);
+    Platforms.add(250, 345, 'ground5', 3.5, .7);
+    Platforms.add(250, 495, 'ground5', 3.5, .7);
+
+    // Third column from the left top to bottom
+    // L12
+    Platforms.add(450, 120, 'ground5', 3.5, .7);
+    Platforms.add(450, 270, 'ground5', 3.5, .7);
+    Platforms.add(450, 420, 'ground5', 3.5, .7);
+
+    // Fourth column from the left top to bottom
+    // L15
+    Platforms.add(640, 195, 'ground5', 3.5, .7);
+    Platforms.add(640, 345, 'ground5', 3.5, .7);
+    Platforms.add(640, 495, 'ground5', 3.5, .7);
+
+    // Fifth column from the left top to bottom
+    // L17
+    Platforms.add(840, 120, 'ground5', 3.5, .7);
+    Platforms.add(840, 270, 'ground5', 3.5, .7);
+    Platforms.add(840, 420, 'ground5', 3.5, .7);
+
+    
+    playerCreate(650, game.world.height - 110);
+
+    Health.create();
+
+    // makes a stars group and enables physics
+    stars = game.add.group();
+    stars.enableBody = true;
+
+    // First column
+    stars.create(83, 63, 'money2');
+    stars.create(92, 232, 'money1');
+    stars.create(93, 382, 'money1');
+    
+    // Second column
+    // stars.create(293, 155, 'money1');
+    // stars.create(290, 306, 'money1');
+    
+    // Third column
+    stars.create(484, 63, 'money2');
+    stars.create(484, 213, 'money2');
+    
+    // Fourth column
+    // stars.create(683, 155, 'money1');
+    // stars.create(680, 306, 'money1');
+    
+    // Fifth column
+    stars.create(873, 63, 'money2');
+    stars.create(883, 232, 'money1');
+    stars.create(883, 382, 'money1');
+    
+
+    // the bullet group contains all bullets and enables physics on them.
+    bullets = game.add.group();
+    bullets.enableBody = true;
+    
+    // the slime group contains all slimes and enables physics on them. The for loop adds slimes to the game.
+    slimes = game.add.group();
+    slimes.enableBody = true;
+
+    let slimeLocations = [
+        // First column from the left
+        // [55, 100],
+        // [60, 250],
+        // [50, 400],
+        
+        // Second column from top
+        [265, 175],
+        [270, 325],
+        [260, 475],
+        
+        // Third column from the left
+        // [450, 100],
+        // [465, 250],
+        [460, 400],
+        
+        
+        // Fourth column from the left
+        [660, 175],
+        [655, 325],
+        [670, 475],
+        
+        // Fifth column from the left
+        // [850, 100],
+        // [840, 250],
+        // [865, 400]
+        
+]
+
+    // let offset = 250;
+    slimeLocations.forEach(function (location) {
+
+        // setTimeout(() => {
+            var slime = new Slime(game, location[0], location[1]);
+            slimes.add(slime);    
+        // }, 500 + offset);
+        // offset += 500;
+
+    });
+    
+    Score.create();
+    
+    Timer.create();
+
+
+    // this makes the spacebar the key that shoots bullets
+    spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceBar.onDown.add(shootBullet, this);
+    cursors = game.input.keyboard.createCursorKeys();
+    
+    gameMusic();
+
+}
+
+
+function update() {
+    
+    Timer.updateDisplay();
+    Score.checkBonus();
+
+    playerUpdate('level5.html', 'Loading Level 5!');
+
+}
+
+</script>
+
+</body>
+</html>

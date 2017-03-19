@@ -1,0 +1,208 @@
+<!doctype html> 
+<html lang="en"> 
+<head>
+    <script>
+      // NEW GOOGLE ANALYTICS
+    </script>
+	<meta charset="UTF-8" />
+	<title>Level 2</title>
+    <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
+    <script type="text/javascript" src="vendor/store.min.js"></script>
+    <script type="text/javascript" src="Bullet.js"></script>
+    <script type="text/javascript" src="Slime.js"></script>
+    <script type="text/javascript" src="Health.js"></script>
+    <script type="text/javascript" src="Cheats.js"></script>
+    <script type="text/javascript" src="Player.js"></script>
+    <script type="text/javascript" src="Music.js"></script>
+    <script type="text/javascript" src="Platforms.js"></script>
+    <script type="text/javascript" src="Timer.js"></script>
+    <script type="text/javascript" src="Score.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(1000, 650, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+function preload() {
+
+    playerAssets();
+
+    game.load.image('sky', 'assets/sky.png');
+    Platforms.assets();
+    game.load.spritesheet('gavel', 'assets/gavel.png', 32, 32);
+    game.load.spritesheet('slime', 'assets/car2 68x21.png', 68, 21);
+    game.load.spritesheet('money1', 'assets/money1 30x36.png');
+    game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    Health.assets();
+    game.load.audio('jump', 'assets/audio/Jump_03.ogg');
+    game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
+    game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
+    game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
+    game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
+    game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
+    game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
+    game.load.audio('bgm', 'assets/audio/SubroHunterLevels.mp3');
+    
+}
+
+var platforms;
+var slimes;
+var bullets;
+var stars;
+
+var hitSlime;
+var killSlime;
+var grabStar;
+var collectStar;
+var hitPlatform;
+
+var player;
+
+var healthText;
+var playerHealth = 100;
+var invincible = false;
+var youwin = false;
+var youlose = false;
+
+var cursors;
+var spaceBar;
+
+var direction = 1;
+
+var bulletXSpeed = 300;
+
+function create() {
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //  A simple background for our game
+    sky = game.add.sprite(0, 0, 'sky');
+    sky.scale.setTo(2, 2);
+
+    //  The platforms group contains the ground and ledges then we enable physics on platforms
+    platforms = game.add.group();
+    platforms.enableBody = true;
+
+    Platforms.create();
+
+    // Top center ledge C1
+    Platforms.add(300, 125, 'ground', 1, 1);
+    // Center ledge C2
+    Platforms.add(300, 300, 'ground', 1, 1);
+    // Bottom center ledge C3
+    Platforms.add(300, 475, 'ground', 1, 1);
+    // Left upper ledge L1
+    Platforms.add(-200, 215, 'ground', 1, 1);
+    // Right upper R1
+    Platforms.add(800, 215, 'ground', 1, 1);
+    // Left lower ledge L2
+    Platforms.add(-200, 385, 'ground', 1, 1);
+    // Right lower ledge R2
+    Platforms.add(800, 385, 'ground', 1, 1);
+
+    playerCreate(530, game.world.height - 110);
+
+    Health.create();    
+
+    // makes a stars group and enables physics
+    stars = game.add.group();
+    stars.enableBody = true;
+
+    // Left side
+    stars.create(85, 176, 'money1');
+    stars.create(85, 344, 'money1');
+    // Right side
+    stars.create(885, 176, 'money1');
+    stars.create(885, 344, 'money1');
+    // Middle
+    stars.create(475, 68, 'money2');
+    stars.create(475, 244, 'money2');
+    stars.create(475, 418, 'money2');
+
+    // the bullet group contains all bullets and enables physics on them.
+    bullets = game.add.group();
+    bullets.enableBody = true;
+    
+    // the slime group contains all slimes and enables physics on them. The for loop adds slimes to the game.
+    slimes = game.add.group();
+    slimes.enableBody = true;
+
+    let slimeLocations = [
+        // // C1
+        [300, 105],
+        [500, 105],
+        
+        // L1
+        [50, 195],
+
+        // R1
+        [850, 195],
+        
+        // // C2
+        [300, 280],
+        [500, 280],
+        
+        // L2
+        [50, 365],
+        
+        // R2
+        [850, 365],
+        
+        // C3
+        [300, 455],
+        [500, 455],
+];
+
+    // a function that gives a random integer
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    // let offset = 250;
+    slimeLocations.forEach(function (location) {
+        let rand = getRandomInt(0, 115);
+        // setTimeout(() => {
+            var slime = new Slime(game, location[0] + rand, location[1]);
+            slimes.add(slime);    
+        // }, 500 + offset);
+        // offset += 500;
+
+    });
+    
+    Score.create();
+    
+    Timer.create();
+
+
+    // this makes the spacebar the key that shoots bullets
+    spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceBar.onDown.add(shootBullet, this);
+    cursors = game.input.keyboard.createCursorKeys();
+    
+    gameMusic();
+
+}
+
+
+function update() {
+    
+    Timer.updateDisplay();
+    Score.checkBonus();
+
+    playerUpdate('level3.html', 'Loading Level 3!');
+
+}
+
+</script>
+
+</body>
+</html>

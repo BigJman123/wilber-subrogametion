@@ -7,7 +7,7 @@ Splash.prototype = {
     game.load.script('mixins', 'lib/mixins.js');
     // game.load.script('WebFont', 'vendor/webfontloader.js');
     game.load.script('gamemenu','states/GameMenu.js');
-    game.load.script('game', 'states/Game.js');
+    game.load.script('game', 'states/Level1.js');
     game.load.script('gameover','states/GameOver.js');
     game.load.script('credits', 'states/Credits.js');
     game.load.script('options', 'states/Options.js');
@@ -73,7 +73,7 @@ Splash.prototype = {
   addGameStates: function () {
 
     game.state.add("GameMenu",GameMenu);
-    game.state.add("Game",Game);
+    game.state.add("Level1",Level1);
     game.state.add("GameOver",GameOver);
     game.state.add("Credits",Credits);
     game.state.add("Options",Options);

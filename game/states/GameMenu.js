@@ -32,7 +32,7 @@ GameMenu.prototype = {
     game.add.existing(this.titleText);
 
     this.addMenuOption('Start', function () {
-      game.state.start("Game");
+      game.state.start("Level1");
     });
     this.addMenuOption('Options', function () {
       game.state.start("Options");
