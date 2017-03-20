@@ -107,7 +107,7 @@ function playerUpdate (nextlevel, loadinglevel) {
         Score.add(100);
     }
 
-    if (playerHealth == 100 && youlose == false) {
+    if (Health.isEmpty() && youlose == false) {
         youlose = true;
         music.stop();
         lose.play();
