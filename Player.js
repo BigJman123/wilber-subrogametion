@@ -53,21 +53,32 @@ function playerUpdate (nextlevel, loadinglevel) {
         }, 500);
     }
 
+
+
+    var fakeDirection = {
+        left: cursors.left.isDown,
+        right: cursors.right.isDown,
+        up: cursors.up.isDown,
+        fire: spaceBar.isDown, 
+    };
+
+    if (record) {
+        pretendDir.push(fakeDirection);
+    }
+
 	// helper
 	function playerIsOnGround() {
 	        return player.body.touching.down && hitPlatform;
 	}
 
-	function handlePlayerMovement() {
-	    if (cursors.left.isDown) {
-	        direction = -1;
-	    }
-	    else if (cursors.right.isDown) {
-	        direction = 1;
-	    }
-	}
 
-	handlePlayerMovement();
+    // handle player movement
+    if (cursors.left.isDown) {
+        direction = -1;
+    }
+    else if (cursors.right.isDown) {
+        direction = 1;
+    }
 
 	//  Collide the player and the stars with the platforms
     var hitPlatform = game.physics.arcade.collide(player, platforms);

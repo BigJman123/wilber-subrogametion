@@ -1,9 +1,9 @@
-var direction2;
+var direction2 = -1;
 
-var healthbar2;
 var healthText2;
+var health2;
 
-var player2Health = 100;
+var playerHealthPretend = 100;
 
 var pretend = (function() {
 
@@ -38,11 +38,11 @@ var pretend = (function() {
 })();
 
 var setupPlayer2 = function() {
-    player2 = game.add.sprite(900, game.world.height - 125, 'joe');
+    player2 = game.add.sprite(840, game.world.height - 238, 'joe');
 
     game.physics.arcade.enable(player2);
     player2.body.bounce.y = 0.0;
-    player2.body.gravity.y = 675;
+    player2.body.gravity.y = 500;
     player2.body.collideWorldBounds = true;
 
     //  Our three animations, walking left ,right and jumping.
@@ -54,29 +54,28 @@ var setupPlayer2 = function() {
     player2.animations.add('standleft', [4], 10, true);
     player2.animations.add('standright', [5], 10, true);
 
-    setTimeout(function() {
-        pretend.move('left', 0, 500);
-        pretend.move('left', 5000, 5000);
-        pretend.fire(0, 1000);
-        pretend.fire(1000, 1000);
-        pretend.fire(2000, 1000);
-        pretend.fire(3000, 1000);
-        pretend.fire(4000, 1000);
-        pretend.move('right', 2000, 4200);
-        pretend.move('left', 6200, 2000);
-    }, 1000);
+    // setTimeout(function() {
+    //     pretend.move('left', 0, 500);
+    //     pretend.move('left', 5000, 5000);
+    //     pretend.fire(0, 1000);
+    //     pretend.fire(1000, 1000);
+    //     pretend.fire(2000, 1000);
+    //     pretend.fire(3000, 1000);
+    //     pretend.fire(4000, 1000);
+    //     pretend.move('right', 2000, 4200);
+    //     pretend.move('left', 6200, 2000);
+    // }, 1000);
 
-    setInterval(function() {
-        pretend.move('left', 0, 2000);
-        pretend.move('right', 2000, 4200);
-        pretend.move('left', 6200, 2000);
-    }, 9200);
+    // setInterval(function() {
+    //     pretend.move('left', 0, 2000);
+    //     pretend.move('right', 2000, 4200);
+    //     pretend.move('left', 6200, 2000);
+    // }, 9200);
 
-    healthText2 = game.add.text(775, 60, "Joe's Health");
 
     // Health bar
-    var barConfig = {x: 200, y: 100};
-    healthbar2 = new HealthBar(this.game, {x: 875, y: 100});
+    healthText2 = game.add.text(810, 10, "Joe's Health");
+    HealthPretend.create(830, 50); 
 
 }
 
@@ -89,10 +88,19 @@ var player2Update = function() {
     
     // var hitPlayer2 = game.physics.arcade.overlap(bullets, player2);
     
-    
+    if (typeof(fakeMove[fakeFrame]) == "undefined") {
+        fakeFrame = 0;
+    }
+    pretend = fakeMove[fakeFrame];
+
+
+    if (pretend.fire) {
+        shootBulletPretend();
+    }
+
     if (collidePlayer2) {
-        playerHealth -= 33;
-        healthbar.setPercent(playerHealth);
+        Health.hit();
+        // healthbar.setPercent(playerHealth);
         // game.camera.flash(0xff0000, 500);
     }
     
@@ -106,7 +114,7 @@ var player2Update = function() {
         return player.body.touching.down && hitPlatform;
     }
     
-    if (player2Health == 0) {
+    if (HealthPretend.isEmpty()) {
         // youlose = true;
         // music.stop();
         // lose.play();
@@ -143,7 +151,7 @@ var player2Update = function() {
         player2.animations.stop();
 
         if (playerIsOnGround(player2)) {
-            let animation = direction == 1 ? 'standright' : 'standleft';
+            let animation = direction2 == 1 ? 'standright' : 'standleft';
             player2.animations.play(animation);
         }
     }
@@ -152,7 +160,7 @@ var player2Update = function() {
     if (pretend.up && player2.body.touching.down && hitPlatform)
     {
         jump.play();
-        player2.frame = direction == 1 ? 11 : 0;
+        player2.frame = direction2 == 1 ? 11 : 0;
         player2.body.velocity.y = -350;
     }
 

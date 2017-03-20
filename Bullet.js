@@ -1,5 +1,3 @@
-var player2;
-
 Bullet = function (game, x, y, direction, speed) {
     Phaser.Sprite.call(this, game, x, y, "gavel");
     game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -20,7 +18,7 @@ Bullet.prototype.update = function() {
     this.angle += this.myRotation;
 
     game.physics.arcade.overlap(this, platforms, function (bullet) {
-        setTimeout(() => bullet.destroy(), 1)
+        setTimeout(() => bullet.destroy(), 1);
     });
 
     game.physics.arcade.overlap(this, slimes, function (bullet, slime) {
@@ -29,8 +27,7 @@ Bullet.prototype.update = function() {
     });
     
     game.physics.arcade.collide(this, player2, function (bullet, player2) {
-        player2Health -= 20;
-        healthbar2.setPercent(player2Health);
+        HealthPretend.hit();
         setTimeout(() => bullet.destroy(), 1);
     });
 

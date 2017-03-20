@@ -10,7 +10,8 @@
     <script type="text/javascript" src="vendor/store.min.js"></script>
     <script type="text/javascript" src="Bullet.js"></script>
     <script type="text/javascript" src="Slime.js"></script>
-    <script type="text/javascript" src="HealthBar.js"></script>
+    <script type="text/javascript" src="Health.js"></script>
+    <script type="text/javascript" src="HealthPretend.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Music.js"></script>
     <script type="text/javascript" src="Player.js"></script>
@@ -18,6 +19,7 @@
     <script type="text/javascript" src="Timer.js"></script>
     <script type="text/javascript" src="Boss.js"></script>
     <script type="text/javascript" src="BulletPretend.js"></script>
+    <script type="text/javascript" src="bossmove.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -40,10 +42,12 @@ function preload() {
     game.load.image('ground5', 'assets/platform5.png');
     game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
     game.load.spritesheet('joe', 'assets/JoeBoss.png', 64, 64);
-    game.load.spritesheet('gavel', 'assets/gavel.png', 32, 32);
+    game.load.spritesheet('gavel', 'assets/gavel 32x32.png', 32, 32);
     game.load.spritesheet('slime', 'assets/car5 64x20.png', 64, 20);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    // Health.assets();
+    HealthPretend.assets();
     // game.load.audio('jump', 'assets/audio/Jump_03.ogg');
     game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
     // game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
@@ -63,7 +67,7 @@ var player;
 var player2;
 
 var healthText;
-var healthbar;
+var health;
 var playerHealth = 100;
 var invincible = false;
 var youwin = false;
@@ -78,6 +82,10 @@ var bulletXSpeed = 300;
 
 var score = store.get('score') || 0;
 var scoreText;
+
+var pretendDir = [];
+var record = false;
+var fakeFrame = 0;
 
 function create() {
 
@@ -102,76 +110,40 @@ function create() {
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
     
-    
-    // // First column from the left
-    // ledge = platforms.create(0, 500, 'ground2');
-    // ledge.body.immovable = true;
-    // ledge.scale.setTo(.850, 1);
-    // ledge = platforms.create(0, 335, 'ground2');
-    // ledge.body.immovable = true;
-    // ledge.scale.setTo(.850, 1);
-    // ledge = platforms.create(0, 165, 'ground2');
-    // ledge.body.immovable = true;
-    // ledge.scale.setTo(.850, 1);
+    // left ledges
+    ledge = platforms.create(65, 475, 'ground2');
+    ledge.scale.setTo(.8, 1);
+    ledge.body.immovable = true;
+    ledge = platforms.create(65, 250, 'ground2');
+    ledge.scale.setTo(.8, 1);
+    ledge.body.immovable = true;
 
-    // // Second column from the left
-    // ledge = platforms.create(350, 500, 'ground5');
-    // ledge.body.immovable = true;
-    // ledge = platforms.create(350, 335, 'ground5');
-    // ledge.body.immovable = true;
-    // ledge = platforms.create(350, 165, 'ground5');
-    // ledge.body.immovable = true;
-    
-    // // Third column from the left
-    // ledge = platforms.create(490, 415, 'ground5');
-    // ledge.body.immovable = true;
-    // ledge = platforms.create(490, 250, 'ground5');
-    // ledge.body.immovable = true;
-    
-    // // Fourth column from the left
-    // ledge = platforms.create(625, 500, 'ground5');
-    // ledge.body.immovable = true;
-    // ledge = platforms.create(625, 335, 'ground5');
-    // ledge.body.immovable = true;
-    // ledge = platforms.create(625, 165, 'ground5');
-    // ledge.body.immovable = true;
-    
-    // // Fifth column from the left
-    // ledge = platforms.create(745, 500, 'ground2');
-    // ledge.body.immovable = true;
-    // ledge.scale.setTo(.850, 1);
-    // ledge = platforms.create(745, 335, 'ground2');
-    // ledge.body.immovable = true;
-    // ledge.scale.setTo(.850, 1);
-    // ledge = platforms.create(745, 165, 'ground2');
-    // ledge.body.immovable = true;
-    // ledge.scale.setTo(.850, 1);
-    
-    // ledge = platforms.create();
-    // ledge.body.immovable = true;
-    // ledge = platforms.create();
-    // ledge.body.immovable = true;
-    // ledge = platforms.create();
-    // ledge.body.immovable = true;
-    // ledge = platforms.create();
-    // ledge.body.immovable = true;
-    // ledge = platforms.create();
-    // ledge.body.immovable = true;
-    // ledge = platforms.create();
-    // ledge.body.immovable = true;
-    // ledge = platforms.create();
-    // ledge.body.immovable = true;
-    
+    // right ledges
+    ledge = platforms.create(690, 475, 'ground2');
+    ledge.scale.setTo(.8, 1);
+    ledge.body.immovable = true;
+    ledge = platforms.create(690, 250, 'ground2');
+    ledge.scale.setTo(.8, 1);
+    ledge.body.immovable = true;
+
+    // top and middle ledges
+    ledge = platforms.create(375, 365, 'ground2');
+    ledge.scale.setTo(.8, 1);
+    ledge.body.immovable = true;
+    ledge = platforms.create(375, 140, 'ground2');
+    ledge.scale.setTo(.8, 1);
+    ledge.body.immovable = true;
+
     setupPlayer2();
 
     // The player and its settings
-    player = game.add.sprite(150, game.world.height - 110, 'ken');
+    player = game.add.sprite(90, game.world.height - 220, 'ken');
     player.scale.setTo(0.75, 0.75);
 
     //  Player physics properties. Give the little guy a slight bounce.
     game.physics.arcade.enable(player);
     player.body.bounce.y = 0.0;
-    player.body.gravity.y = 675;
+    player.body.gravity.y = 500;
     player.body.collideWorldBounds = true;
 
     //  Our three animations, walking left ,right and jumping.
@@ -181,10 +153,6 @@ function create() {
     player.animations.add('jumpright', [11], 10, true);
     player.animations.add('standleft', [5], 10, true);
     player.animations.add('standright', [6], 10, true);
-
-    // Health bar
-    var barConfig = {x: 200, y: 100};
-    healthbar = new HealthBar(this.game, {x: 875, y: 40});
 
     // makes a stars group and enables physics
     stars = game.add.group();
@@ -241,9 +209,11 @@ function create() {
 
     });
     
-    scoreText = game.add.text(16, 16, 'score: ' + score, { fontSize: '32px', fill: '#000' });
+    // scoreText = game.add.text(16, 16, 'score: ' + score, { fontSize: '32px', fill: '#000' });
     
-    healthText = game.add.text(775, 3, "Ken's Health");
+    // Health bar
+    healthText = game.add.text(35, 10, "Ken's Health");
+    Health.create(50, 50);
 
 
     // this makes the spacebar the key that shoots bullets
@@ -260,7 +230,6 @@ function create() {
 function update() {
 
     //  Collide the player and the stars with the platforms
-    var hitPlatform = game.physics.arcade.collide(player, platforms);
 
     // var hitSlime = game.physics.arcade.collide(player, slimes);
     
@@ -289,8 +258,10 @@ function update() {
     //     invincible = false;
     //     player.alpha = 1;
     // }
+    fakeFrame += 1;
 
-    if (playerHealth == 1 && youlose == false) {
+
+    if (Health.isEmpty() && youlose == false) {
         youlose = true;
         // music.stop();
         // lose.play();
@@ -299,7 +270,7 @@ function update() {
         store.get('score');
         setTimeout(() => game.add.text(425, 50, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
 
-        setTimeout(() => location.reload(), 3000);
+        // setTimeout(() => location.reload(), 3000);
     }
     
     
@@ -317,7 +288,7 @@ function update() {
     // }
 
     if (stars.countLiving() == 0 && youwin == false){
-        // youwin = true;
+        youwin = true;
         // music.stop();
         // win.play();
         store.set('score', score);
@@ -332,46 +303,11 @@ function update() {
     // }
 
     // helper
-    function playerIsOnGround(player) {
-        return player.body.touching.down && hitPlatform;
-    }
 
 
     playerUpdate();
 
     player2Update();
-
-    //  Reset the players velocity (movement)
-    player.body.velocity.x = 0;
-    
-    if (cursors.left.isDown) {
-
-        player.body.velocity.x = -225;
-        let animation = playerIsOnGround(player) ? 'left' : 'jumpleft';
-        player.animations.play(animation);
-
-    } else if (cursors.right.isDown) {
-
-        player.body.velocity.x = 225;
-        let animation = playerIsOnGround(player) ? 'right' : 'jumpright';
-        player.animations.play(animation);
-
-    } else if (cursors.right.onUp || cursors.left.onUp) {
-        //  Stand still
-        player.animations.stop();
-
-        if (playerIsOnGround(player)) {
-            let animation = direction == 1 ? 'standright' : 'standleft';
-            player.animations.play(animation);
-        }
-    }
-    // Allow the player to jump if they are touching the ground.
-    if (cursors.up.isDown && player.body.touching.down && hitPlatform)
-    {
-        // jump.play();
-        player.frame = direction == 1 ? 11 : 0;
-        player.body.velocity.y = -350;
-    }
 }
 
 </script>
