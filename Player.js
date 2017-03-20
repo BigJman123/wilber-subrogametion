@@ -24,6 +24,32 @@ function playerCreate (gravity, height) {
 }
 
 function playerUpdate (nextlevel, loadinglevel) {
+    
+    var randQuote = [
+        'Be The Hunter Not The Hunted',
+        'Knowledge Is Our Ammo Preparation Is Our Game',
+        'Carpe Pecunia (SEIZE THE MONEY)',
+        'CHARGE! (OR CHECK OR CASH)',
+        'U Send UM We Suspend UM',
+        'The Subro Is Strong With This One',
+        'Grab UM By The Assets',
+        "They Can Run But They Can't Drive"
+        // setTimeout(() => game.add.text(425, 20, 'Subro Suvival Tip #', { fontSize: '30px', fill: '#000' }), 500),
+        // setTimeout(() => game.add.text(425, 30, 'Be The Hunter\nNot The Hunted', { fontSize: '25px', fill: '#000' }), 500),
+        // setTimeout(() => game.add.text(425, 30, 'Knowledge Is Our Ammo\nPreparation Is Our Game', { fontSize: '25px', fill: '#000' }), 500),
+        // setTimeout(() => game.add.text(425, 30, 'Carpe Pecunia\n(SEIZE THE MONEY)', { fontSize: '25px', fill: '#000' }), 500),
+        // setTimeout(() => game.add.text(425, 30, 'CHARGE!\n(OR CHECK OR CASH)', { fontSize: '25px', fill: '#000' }), 500),
+        // setTimeout(() => game.add.text(425, 30, 'U Send UM\nWe Suspend UM', { fontSize: '25px', fill: '#000' }), 500),
+        // setTimeout(() => game.add.text(425, 30, 'The Subro Is\nStrong With This One', { fontSize: '25px', fill: '#000' }), 500),
+        // setTimeout(() => game.add.text(425, 30, 'Grab UM By\nThe Assets', { fontSize: '25px', fill: '#000' }), 500),
+        // setTimeout(() => game.add.text(425, 30, "They Can Run\nBut They Can't Drive", { fontSize: '25px', fill: '#000' }), 500)
+    ];
+    
+    function getRandQuote () {
+        var quote = randQuote[Math.floor(Math.random() * 8)];
+        
+        return quote;
+    }
 
 	// helper
 	function playerIsOnGround() {
@@ -85,7 +111,9 @@ function playerUpdate (nextlevel, loadinglevel) {
         lose.play();
         player.kill();
         
-        setTimeout(() => game.add.text(425, 10, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
+        setTimeout(() => game.add.text(425, 10, 'Subro Suvival Tip #', { fontSize: '30px', fill: '#000' }), 500);
+        setTimeout(() => game.add.text(390, 50, getRandQuote(), { fontSize: '25px', fill: '#000' }), 500);
+        // getRandQuote();
         setTimeout(() => location.reload(), 3000);
     }
 
