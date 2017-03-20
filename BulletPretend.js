@@ -12,20 +12,8 @@ BulletPretend.prototype.constructor = BulletPretend;
 
 BulletPretend.prototype.update = function() {
 
-    // bullet animations
-    // let animation = direction == 1 ? 'rightbatarang' : 'leftbatarang';
-    // this.animations.play(animation);
     this.angle += this.myRotation;
 
-    game.physics.arcade.overlap(this, platforms, function (bullet2) {
-        setTimeout(() => bullet2.destroy(), 1)
-    });
-
-    // game.physics.arcade.overlap(this, slimes, function (bullet, slime) {
-    //     slime.destroy();
-    //     setTimeout(() => bullet.destroy(), 1);
-    // });
-    
     game.physics.arcade.collide(this, player, function (bullet2, player) {
         Health.hit();
         setTimeout(() => bullet2.destroy(), 1);

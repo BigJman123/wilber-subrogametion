@@ -1,5 +1,6 @@
 //copy(JSON.stringify(pretendDir))
-var fakeMove = [{"left":false,"right":false,"up":false,"fire":false},
+var fakeMove = [
+{"left":false,"right":false,"up":false,"fire":false},
 {"left":false,"right":false,"up":false,"fire":false},
 {"left":false,"right":false,"up":false,"fire":false},
 {"left":false,"right":false,"up":false,"fire":false},
