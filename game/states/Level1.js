@@ -73,7 +73,7 @@ Level1.prototype = {
     Platforms.add(110, 455, 'ground2', 2.6, 1);
 
     playerCreate();
-    console.info('player setup');
+    console.info('player, platforms, bullets, slime, stars, music have been setup');
   },
 
   update: function() {
