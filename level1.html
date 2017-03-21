@@ -1,8 +1,18 @@
 <!doctype html> 
 <html lang="en"> 
 <head>
+
     <script>
         // NEW GOOGLE ANALYTICS
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({ 
+            // active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
+            google: {
+                families: ['Press Start 2P']
+            }
+        });
     </script>
 	<meta charset="UTF-8" />
 	<title>Level 1</title>
@@ -29,6 +39,16 @@
 
 var game = new Phaser.Game(1000, 650, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
+// function createText() {
+//     setTimeout(function() {
+//         text = game.add.text(game.world.centerX, game.world.centerY, "here is some text");
+//         text.anchor.setTo(0.5);
+
+//         text.font = 'Press Start 2P';
+//         text.fontSize = 15;
+//     }, 1000);
+// }
+
 function preload() {
 
     playerAssets();
@@ -39,6 +59,9 @@ function preload() {
     game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    game.load.spritesheet('bgimage1', 'assets/bgimage1.png', 225, 75);
+    game.load.spritesheet('bgimage2', 'assets/bgimage2.png', 250, 125);
+    game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
     Health.assets();
     game.load.audio('jump', 'assets/audio/Jump_03.ogg');
     game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
@@ -64,6 +87,8 @@ var hitPlatform;
 
 var player;
 
+var finalScore;
+
 var healthText;
 var health;
 var playerHealth = 100;
@@ -80,6 +105,8 @@ var bulletXSpeed = 300;
 
 var record;
 
+var camera;
+
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -87,6 +114,11 @@ function create() {
 
     //  A simple background for our game
     game.add.sprite(0, 0, 'sky').scale.setTo(2,2);
+
+    game.add.sprite(0, -15, 'bgimage1', 0);
+    game.add.sprite(850, -15, 'bgimage2', 0).scale.setTo(.6, .6);
+    game.add.sprite(game.world.centerX - 75, -30, 'bgimage2', 1).scale.setTo(.6, .6);
+    
 
     // Ledges
     Platforms.create();
@@ -163,7 +195,7 @@ function create() {
     Score.create();
     
     // healthText = game.add.text(775, 3, 'health');
-    Health.create(860, 10);
+    Health.create(868, 10);
 
     Timer.create();
 
@@ -179,6 +211,8 @@ function create() {
 
 function update() {
 
+    Score.finalScore();
+
     playerUpdate('level2.html', 'Loading Level 2!');
 
     // Health.update();
@@ -186,7 +220,6 @@ function update() {
     Timer.updateDisplay();
 
     // Score.checkBonus();
-    // Score.finalScore();
     
 
 }

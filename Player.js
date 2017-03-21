@@ -130,14 +130,23 @@ function playerUpdate (nextlevel, loadinglevel) {
         setTimeout(() => location.reload(), 3000);
     }
 
-    if (stars.countLiving() == 0 && youwin == false) {
+    if (stars.countLiving() == 9 && youwin == false) {
         youwin = true;
         music.stop();
         win.play();
-        // store.set('score', score);
-        setTimeout(() => game.add.text(400, 10, loadinglevel, { fontSize: '30px', fill: '#ffd799'}), 1000);
+
+        setTimeout(() => 
+            dimGame()
+
+        , 1500);
+
+        setTimeout(() => game.add.sprite(game.world.centerX, game.world.centerY, 'bgimage3').anchor.setTo(.5), 1500);
         
-        setTimeout(() => {window.location = nextlevel}, 3000);
+        setTimeout(() => game.add.text(392, 250, 'Time Bonus! +' + Score.finalScore(), { fontSize: '25px', fill: '#000' }), 2000);
+        // store.set('score', score);
+        setTimeout(() => game.add.text(400, 175, loadinglevel, { fontSize: '25px', fill: '#ffd799'}), 8000);
+        
+        // setTimeout(() => {window.location = nextlevel}, 9000);
     }
 
     function collectStar(player, stars) {
@@ -175,4 +184,12 @@ function playerUpdate (nextlevel, loadinglevel) {
         player.frame = direction == 1 ? 11 : 0;
         player.body.velocity.y = -350;
     }
+}
+
+function dimGame() {
+    var graphicOverlay = new Phaser.Graphics(game, 0, 0);
+            graphicOverlay.beginFill(0x000000, 0.35);
+            graphicOverlay.drawRect(0, 0, 1000, 650);
+            graphicOverlay.endFill();
+            game.add.image(0, 0, graphicOverlay.generateTexture());
 }

@@ -13,7 +13,9 @@ Score.create = function() {
 	// only on level 1
 	// store.set('score', 0);
 	score = store.get('score') || 0;
-    scoreText = game.add.text(16, 16, 'score: ' + score, { fontSize: '32px', fill: '#000' });
+	
+    scoreText = game.add.text(8, 8, 'SCORE: ' + score, { fontSize: '16px', fill: '#000' });
+    scoreText.font = 'Press Start 2P';
 }
 
 Score.add = function(value) {
@@ -21,19 +23,20 @@ Score.add = function(value) {
     scoreText.text = 'score: ' + score;
 }
 
-// Score.finalScore = function() {
-// 	if (youwin == true && Score.levelEnd == false) {
-// 		Score.levelEnd = true;
+Score.finalScore = function() {
+	if (youwin == true && Score.levelEnd == false) {
+		Score.levelEnd = true;
 		
-// 		game.currentTimer.pause();
-// 		final = Timer.timeAvailable - counter;
-// 		finalScore = final * 5;
-// 		score += finalScore;
-// 		scoreText.text = 'score: ', + score;
+		Timer.pause();
+		
+		var timeBonus = Timer.getTimeRemaining() * 5;
+		score += timeBonus;
+		scoreText.text = 'score: ' + score;
 
-// 		setTimeout(() => game.add.text(415, 100, 'Time Bonus! +' + finalScore, { fontSize: '25px', fill: '#000' }), 1000);
-// 	} 
-// }
+		return score;
+	}
+		return score;
+}
 
 // Score.checkBonus = function() {
 // 	if (youwin == true && Score.levelEnd == false) {
