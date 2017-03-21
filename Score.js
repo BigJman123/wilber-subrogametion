@@ -21,35 +21,35 @@ Score.add = function(value) {
     scoreText.text = 'score: ' + score;
 }
 
-Score.finalScore = function() {
-	if (youwin == true && Score.levelEnd == false) {
-		Score.levelEnd = true;
+// Score.finalScore = function() {
+// 	if (youwin == true && Score.levelEnd == false) {
+// 		Score.levelEnd = true;
 		
-		game.currentTimer.pause();
-		final = Timer.timeAvailable - counter;
-		finalScore = final * 5;
-		score += finalScore;
-		scoreText.text = 'score: ', + score;
+// 		game.currentTimer.pause();
+// 		final = Timer.timeAvailable - counter;
+// 		finalScore = final * 5;
+// 		score += finalScore;
+// 		scoreText.text = 'score: ', + score;
 
-		setTimeout(() => game.add.text(415, 100, 'Time Bonus! +' + finalScore, { fontSize: '25px', fill: '#000' }), 1000);
-	} 
-}
+// 		setTimeout(() => game.add.text(415, 100, 'Time Bonus! +' + finalScore, { fontSize: '25px', fill: '#000' }), 1000);
+// 	} 
+// }
 
-Score.checkBonus = function() {
-	if (youwin == true && Score.levelEnd == false) {
-		Score.levelEnd = true;
+// Score.checkBonus = function() {
+// 	if (youwin == true && Score.levelEnd == false) {
+// 		Score.levelEnd = true;
 
-		if (timer.text >= 60) {
-	        setTimeout(() => game.add.text(365, 50, 'Time Bonus! +250 points!', { fontSize: '25px', fill: '#000' }), 100);
-	        score += 250;
-	    }
+// 		if (timer.text >= 60) {
+// 	        setTimeout(() => game.add.text(365, 50, 'Time Bonus! +250 points!', { fontSize: '25px', fill: '#000' }), 100);
+// 	        score += 250;
+// 	    }
 	    
-	    if (playerHealth == 100) {
-	        setTimeout(() => game.add.text(335, 80, 'Full Health Bonus! +250 points!', { fontSize: '25px', fill: '#000' }), 100);
-	        score += 250;
-	    }	
+// 	    if (playerHealth == 100) {
+// 	        setTimeout(() => game.add.text(335, 80, 'Full Health Bonus! +250 points!', { fontSize: '25px', fill: '#000' }), 100);
+// 	        score += 250;
+// 	    }	
 
-	    scoreText.text = 'score: ' + score;
-        store.set('score', score);
-	}
-}
+// 	    scoreText.text = 'score: ' + score;
+//         store.set('score', score);
+// 	}
+// }

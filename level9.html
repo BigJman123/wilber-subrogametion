@@ -119,7 +119,7 @@ function create() {
     
     playerCreate(775, game.world.height - 607);
 
-    Health.create();
+    Health.create(860, 10);
 
     // makes a stars group and enables physics
     stars = game.add.group();
@@ -191,7 +191,7 @@ function create() {
 function update() {
     
     Timer.updateDisplay();
-    Score.checkBonus();
+    // Score.checkBonus();
 
     playerUpdate('level10.html', 'Loading Level 10!');
 
