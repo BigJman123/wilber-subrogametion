@@ -97,7 +97,7 @@ function playerUpdate (nextlevel, loadinglevel) {
         game.currentTimer.pause();
         
         getRandQuote();
-        setTimeout(() => location.reload(), 3000);
+        setTimeout(() => location.reload(), 4000);
     }
 
     if (stars.countLiving() == 0 && youwin == false) {
