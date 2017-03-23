@@ -19,6 +19,7 @@
     <script type="text/javascript" src="Timer.js"></script>
     <script type="text/javascript" src="Boss.js"></script>
     <script type="text/javascript" src="BulletPretend.js"></script>
+    <script type="text/javascript" src="Quote.js"></script>
     <script type="text/javascript" src="bossmove.js"></script>
     <style type="text/css">
         body {
@@ -46,6 +47,7 @@ function preload() {
     game.load.spritesheet('slime', 'assets/car5 64x20.png', 64, 20);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
     // Health.assets();
     HealthPretend.assets();
     game.load.audio('jump', 'assets/audio/Jump_03.ogg');
@@ -68,8 +70,6 @@ var player2;
 
 var healthText;
 var health;
-var playerHealth = 100;
-var invincible = false;
 var youwin = false;
 var youlose = false;
 
@@ -229,24 +229,6 @@ function create() {
 
 function update() {
 
-    //  Collide the player and the stars with the platforms
-
-    // var hitSlime = game.physics.arcade.collide(player, slimes);
-    
-    // var killSlime = game.physics.arcade.overlap(bullets, slimes);
-
-    // var grabStar = game.physics.arcade.overlap(player, stars, collectStar, null, this);
-
-
-    // health and stuffs
-
-    // if (hitSlime && ! invincible && ! cheats.check('god')) {
-    //     // hitplayer.play();
-    //     playerHealth -= 33;
-    //     healthbar.setPercent(playerHealth);
-    //     makeInvincible();
-    //     game.camera.flash(0xff0000, 500);
-    //     setTimeout(() => notInvincible(), 1000);
     // }
 
     // function makeInvincible() {
@@ -268,9 +250,9 @@ function update() {
         player.kill();
         bullets.destroy();
         store.get('score');
-        setTimeout(() => game.add.text(425, 50, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
+        getRandQuote();
 
-        // setTimeout(() => location.reload(), 3000);
+        setTimeout(() => location.reload(), 4000);
     }
     
     

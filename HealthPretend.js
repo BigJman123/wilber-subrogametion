@@ -18,7 +18,19 @@ HealthPretend.set = function(level) {
 }
 
 HealthPretend.hit = function() {
-    HealthPretend.set(HealthPretend.level -1);
+
+	if (! bossInvincible) {
+		HealthPretend.set(HealthPretend.level -1);
+		
+		bossInvincible = true;
+		player2.alpha = 0.2;
+
+		setTimeout(function() {
+			bossInvincible = false;
+			player2.alpha = 1;			
+		}, 1000)
+
+	}
 }
 
 HealthPretend.isEmpty = function() {

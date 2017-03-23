@@ -30,6 +30,7 @@ Bullet.prototype.update = function() {
     
     game.physics.arcade.collide(this, player2, function (bullet, player2) {
         HealthPretend.hit();
+        hitcar.play();
         setTimeout(() => bullet.destroy(), 1);
     });
 

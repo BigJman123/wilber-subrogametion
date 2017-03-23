@@ -4,6 +4,7 @@ var healthText2;
 var health2;
 
 var playerHealthPretend = 100;
+var bossInvincible = false;
 
 var pretend = (function() {
 
@@ -99,17 +100,10 @@ var player2Update = function() {
     }
 
     if (collidePlayer2) {
-        Health.hit();
-        // healthbar.setPercent(playerHealth);
-        // game.camera.flash(0xff0000, 500);
+        Health.kill();
+        hitplayer.play();
     }
     
-    // if (hitPlayer2) {
-    //     player2Health -= 20;
-    //     healthbar2.setPercent(player2Health);
-    //     // setTimeout(() => bullets.destroy(), 1);
-    // }
-
     function playerIsOnGround(player) {
         return player.body.touching.down && hitPlatform;
     }

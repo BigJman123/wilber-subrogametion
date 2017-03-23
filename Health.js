@@ -18,9 +18,25 @@ Health.set = function(level) {
 }
 
 Health.hit = function() {
-    Health.set(Health.level -1);
+    if (! playerInvincible) {
+		Health.set(Health.level -1);
+		
+		playerInvincible = true;
+		player.alpha = 0.2;
+
+		setTimeout(function() {
+			playerInvincible = false;
+			player.alpha = 1;			
+		}, 1000)
+
+	}
 }
 
 Health.isEmpty = function() {
     return Health.level == 0;
+}
+
+Health.kill = function() {
+	player.kill();
+	Health.set(Health.level - 3)
 }

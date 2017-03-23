@@ -1,3 +1,5 @@
+var playerInvincible = false;
+
 function playerAssets () {
 	game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
 }
