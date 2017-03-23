@@ -206,10 +206,11 @@ function create() {
 
 function update() {
     
-    Timer.updateDisplay();
-    // Score.checkBonus();
-    
     playerUpdate('boss.html', 'Get Ready!');
+
+    Timer.updateDisplay();
+
+    Score.handleLevelEnd();
     
 }
 

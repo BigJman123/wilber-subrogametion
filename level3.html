@@ -201,11 +201,12 @@ function create() {
 
 
 function update() {
-    
-    Timer.updateDisplay();
-    // Score.checkBonus();
 
     playerUpdate('level4.html', 'Loading Level 4!');
+
+    Timer.updateDisplay();
+
+    Score.handleLevelEnd();
 
 }
 </script>

@@ -212,11 +212,11 @@ function create() {
 
 function update() {
     
-    Timer.updateDisplay();
-    // Score.checkBonus();
-
     playerUpdate('level3.html', 'Loading Level 3!');
 
+    Timer.updateDisplay();
+
+    Score.handleLevelEnd()
 }
 
 </script>

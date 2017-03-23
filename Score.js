@@ -23,34 +23,66 @@ Score.add = function(value) {
     scoreText.text = 'Score: ' + score;
 }
 
-Score.timeBonus = function() {
+Score.handleLevelEnd = function() {
 	if (youwin == true && Score.levelEnd == false) {
-		Score.levelEnd = true;
-		
-		Timer.pause();
-		
-		var timeBonus = Timer.getTimeRemaining() * 5;
-		score += timeBonus;
-		scoreText.text = 'Score: ' + score;
 
-		return timeBonus;
+		Score.levelEnd = true;
+
+		// show any time bonus
+		var timeBonus = this.timeBonus();
+
+		// show any health bonus
+		var healthBonus = this.healthBonus();
+
+		// figure out total score and show it
+
+		// now we know the total score
+		score = score + timeBonus + healthBonus;
+		store.set('score', score);
+
+		this.showScoreCard(timeBonus, healthBonus, score);
+
+
+		// scoreText.text = 'Score: ' + score;
+
+		// Store the score in the store.set('score', score);
+
 	}
-	
-	store.set('score', score);
 }
 
-// Score.healthBonus = function() {
-// 	if (youwin == true && Score.levelEnd == false) {
-// 		Score.levelEnd = true;
-	    
-// 	    if (playerHealth == 100) {
-// 	        healthBonus = Health.level * 100;
-// 	        score += healthBonus;
-// 	        scoreText.text = 'Score: ' + score;
-	        
-// 	        return healthBonus;
-// 	    }	
-	    
-//         store.set('score', score);
-// 	}
-// }
+Score.showScoreCard = function(time, health, total) {
+	
+	setTimeout(() => Score.dimGame(), 1500);
+
+    setTimeout(() => game.add.sprite(game.world.centerX, game.world.centerY, 'bgimage3').anchor.setTo(.5), 1500);
+        
+    setTimeout(() => timertext = game.add.text(420, 220, 'Time Bonus!', { fontSize: '25px', fill: '#000' }), 2000);
+    setTimeout(() => timertext = game.add.text(445, 250, '+ ' + time + ' pts', { fontSize: '25px', fill: '#000' }), 2000);
+    // timertext.font = 'Press Start 2P';
+        
+    setTimeout(() => game.add.text(390, 320, 'Full Health Bonus!', { fontSize: '25px', fill: '#000' }), 2500);
+    setTimeout(() => game.add.text(445, 350, '+ ' + health + ' pts', { fontSize: '25px', fill: '#000' }), 2500);
+
+    setTimeout(() => game.add.text(425, 420, 'Total score: ', { fontSize: '25px', fill: '#000' }), 3000);
+    setTimeout(() => game.add.text(455, 450,  total + ' pts', { fontSize: '25px', fill: '#000' }), 3000);
+}
+
+Score.dimGame = function() {
+	var graphicOverlay = new Phaser.Graphics(game, 0, 0);
+        graphicOverlay.beginFill(0x000000, 0.35);
+        graphicOverlay.drawRect(0, 0, 1000, 650);
+        graphicOverlay.endFill();
+        game.add.image(0, 0, graphicOverlay.generateTexture());
+}
+
+Score.timeBonus = function() {
+		
+	Timer.pause();
+
+	return Timer.getTimeRemaining() * 5;
+}
+
+Score.healthBonus = function() {
+
+	return (Health.level == 3) ? 300 : 0;
+}

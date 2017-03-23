@@ -228,10 +228,11 @@ function create() {
 
 function update() {
     
-    Timer.updateDisplay();
-    // Score.checkBonus();
-    
     playerUpdate('level8.html', 'Loading Level 8!');
+
+    Timer.updateDisplay();
+
+    Score.handleLevelEnd();
     
 }
 

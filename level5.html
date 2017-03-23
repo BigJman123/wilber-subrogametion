@@ -219,11 +219,12 @@ function create() {
 
 
 function update() {
-    
-    Timer.updateDisplay();
-    // Score.checkBonus();
 
     playerUpdate('level6.html', 'Loading Level 6!');
+
+    Timer.updateDisplay();
+
+    Score.handleLevelEnd();
 
 }
 

@@ -232,11 +232,12 @@ function create() {
 
 
 function update() {
-    
-    Timer.updateDisplay();
-    // Score.checkBonus();
 
     playerUpdate('level5.html', 'Loading Level 5!');
+
+    Timer.updateDisplay();
+
+    Score.handleLevelEnd();
 
 }
 
