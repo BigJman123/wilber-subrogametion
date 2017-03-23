@@ -13,9 +13,9 @@ Timer.create = function() {
 };
 
 Timer.addText = function() {
-    timertext = game.add.text(445, 1, 'timer: ');
+    timertext = game.add.text(440, 8, 'timer: ', { fontSize: '15px', fill: '#000' });
     timertext.font = 'Press Start 2P';
-	timer = game.add.text(525, 3, Timer.timeAvailable);
+	timer = game.add.text(530, 8, Timer.timeAvailable, { fontSize: '15px', fill: '#000' });
     timer.font = 'Press Start 2P';
 }
 

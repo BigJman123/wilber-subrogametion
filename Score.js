@@ -14,16 +14,16 @@ Score.create = function() {
 	// store.set('score', 0);
 	score = store.get('score') || 0;
 	
-    scoreText = game.add.text(8, 8, 'SCORE: ' + score, { fontSize: '16px', fill: '#000' });
+    scoreText = game.add.text(8, 8, 'Score: ' + score, { fontSize: '20px', fill: '#000' });
     scoreText.font = 'Press Start 2P';
 }
 
 Score.add = function(value) {
 	score += value;
-    scoreText.text = 'score: ' + score;
+    scoreText.text = 'Score: ' + score;
 }
 
-Score.finalScore = function() {
+Score.timeBonus = function() {
 	if (youwin == true && Score.levelEnd == false) {
 		Score.levelEnd = true;
 		
@@ -31,28 +31,26 @@ Score.finalScore = function() {
 		
 		var timeBonus = Timer.getTimeRemaining() * 5;
 		score += timeBonus;
-		scoreText.text = 'score: ' + score;
+		scoreText.text = 'Score: ' + score;
 
-		return score;
+		return timeBonus;
 	}
-		return score;
+	
+	store.set('score', score);
 }
 
-// Score.checkBonus = function() {
+// Score.healthBonus = function() {
 // 	if (youwin == true && Score.levelEnd == false) {
 // 		Score.levelEnd = true;
-
-// 		if (timer.text >= 60) {
-// 	        setTimeout(() => game.add.text(365, 50, 'Time Bonus! +250 points!', { fontSize: '25px', fill: '#000' }), 100);
-// 	        score += 250;
-// 	    }
 	    
 // 	    if (playerHealth == 100) {
-// 	        setTimeout(() => game.add.text(335, 80, 'Full Health Bonus! +250 points!', { fontSize: '25px', fill: '#000' }), 100);
-// 	        score += 250;
+// 	        healthBonus = Health.level * 100;
+// 	        score += healthBonus;
+// 	        scoreText.text = 'Score: ' + score;
+	        
+// 	        return healthBonus;
 // 	    }	
-
-// 	    scoreText.text = 'score: ' + score;
+	    
 //         store.set('score', score);
 // 	}
 // }

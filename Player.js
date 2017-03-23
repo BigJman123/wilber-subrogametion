@@ -142,7 +142,9 @@ function playerUpdate (nextlevel, loadinglevel) {
 
         setTimeout(() => game.add.sprite(game.world.centerX, game.world.centerY, 'bgimage3').anchor.setTo(.5), 1500);
         
-        setTimeout(() => game.add.text(392, 250, 'Time Bonus! +' + Score.finalScore(), { fontSize: '25px', fill: '#000' }), 2000);
+        setTimeout(() => game.add.text(392, 250, 'Time Bonus!\n +' + Score.timeBonus() + ' pts', { fontSize: '25px', fill: '#000' }), 2000);
+        
+        setTimeout(() => game.add.text(375, 350, 'Full Health Bonus!\n' + ' + ' + healthBonus + ' pts', { fontSize: '20px', fill: '#000' }), 2500);
         // store.set('score', score);
         setTimeout(() => game.add.text(400, 175, loadinglevel, { fontSize: '25px', fill: '#ffd799'}), 8000);
         
