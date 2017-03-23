@@ -1,6 +1,6 @@
 function gameMusic () {
 	music = game.add.audio('bgm');
-    music.volume = 0.3;
+    music.volume = .3;
     music.play();
     
     jump = game.add.audio('jump');

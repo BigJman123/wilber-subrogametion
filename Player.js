@@ -88,7 +88,7 @@ function playerUpdate (nextlevel, loadinglevel) {
         Score.add(100);
     }
 
-    if (Health.level = 3 && youlose == false) {
+    if (Health.isEmpty() && youlose == false) {
         youlose = true;
         music.stop();
         lose.play();
@@ -97,7 +97,7 @@ function playerUpdate (nextlevel, loadinglevel) {
         game.currentTimer.pause();
         
         getRandQuote();
-        // setTimeout(() => location.reload(), 3000);
+        setTimeout(() => location.reload(), 3000);
     }
 
     if (stars.countLiving() == 0 && youwin == false) {
