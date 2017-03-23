@@ -30,14 +30,23 @@
     <style type="text/css">
         body {
             margin: 0;
+            background-color: #000;
+        }
+        #game {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
     </style>
 </head>
+
 <body>
+<div id='game'></div>
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(1000, 650, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 function preload() {
 
@@ -243,6 +252,6 @@ function update() {
 }
 
 </script>
-
+</div>
 </body>
 </html>
