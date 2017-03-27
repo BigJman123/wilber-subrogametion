@@ -75,7 +75,8 @@ var setupPlayer2 = function() {
 
 
     // Health bar
-    healthText2 = game.add.text(810, 10, "Joe's Health");
+    healthText2 = game.add.text(780, 15, "Joe's Health", { fontSize: 18});
+    healthText2.font = 'Press Start 2P';
     HealthPretend.create(830, 50); 
 
 }

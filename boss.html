@@ -4,6 +4,15 @@
     <script>
         // NEW GOOGLE ANALYTICS
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({ 
+            // active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
+            google: {
+                families: ['Press Start 2P']
+            }
+        });
+    </script>
 	<meta charset="UTF-8" />
 	<title>Boss</title>
     <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
@@ -13,13 +22,14 @@
     <script type="text/javascript" src="Health.js"></script>
     <script type="text/javascript" src="HealthPretend.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
-    <script type="text/javascript" src="Music.js"></script>
+    <script type="text/javascript" src="SoundFX.js"></script>
     <script type="text/javascript" src="Player.js"></script>
     <script type="text/javascript" src="Score.js"></script>
     <script type="text/javascript" src="Timer.js"></script>
     <script type="text/javascript" src="Boss.js"></script>
     <script type="text/javascript" src="BulletPretend.js"></script>
     <script type="text/javascript" src="Quote.js"></script>
+    <script type="text/javascript" src="GameStuff.js"></script>
     <script type="text/javascript" src="bossmove.js"></script>
     <style type="text/css">
         body {
@@ -59,14 +69,6 @@ function preload() {
     game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
     // Health.assets();
     HealthPretend.assets();
-    game.load.audio('jump', 'assets/audio/Jump_03.ogg');
-    game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
-    game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
-    game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
-    game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
-    game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
-    game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
-    game.load.audio('bgm', 'assets/audio/SubroHunterBoss.mp3');
 }
 
 var platforms;
@@ -163,25 +165,6 @@ function create() {
     player.animations.add('standleft', [5], 10, true);
     player.animations.add('standright', [6], 10, true);
 
-    // makes a stars group and enables physics
-    stars = game.add.group();
-    stars.enableBody = true;
-
-    // Left column
-    // stars.create(105, 109, 'money2');
-    // stars.create(105, 279, 'money2');
-    // stars.create(105, 444, 'money2');
-    
-    // // Middle column
-    // stars.create(490, 212, 'money1');
-    // stars.create(490, 377, 'money1');
-    
-    // // Right column
-    // stars.create(850, 109, 'money2');
-    // stars.create(850, 279, 'money2');
-    // stars.create(850, 444, 'money2');
-    
-
     // the bullet group contains all bullets and enables physics on them.
     bullets = game.add.group();
     bullets.enableBody = true;
@@ -189,40 +172,9 @@ function create() {
     bullets2 = game.add.group();
     bullets2.enableBody = true;
     
-    // the slime group contains all slimes and enables physics on them. The for loop adds slimes to the game.
-    slimes = game.add.group();
-    slimes.enableBody = true;
-
-    let slimeLocations = [
-        
-        // [55, 145],
-        // [80, 315],
-        // [105, 480],
-        
-        // [850, 145],
-        // [825, 315],
-        // [800, 480]
-        
-        
-        
-];
-
-    // let offset = 250;
-    slimeLocations.forEach(function (location) {
-
-        // setTimeout(() => {
-            var slime = new Slime(game, location[0], location[1]);
-            slimes.add(slime);    
-        // }, 500 + offset);
-        // offset += 500;
-
-    });
-
-    Score.reset();
-    Score.create();    
-    
     // Health bar
-    healthText = game.add.text(35, 10, "Ken's Health");
+    healthText = game.add.text(5, 15, "Ken's Health", { fontSize: 18 });
+    healthText.font = 'Press Start 2P';
     Health.create(50, 50);
 
     Timer.create();
@@ -234,7 +186,7 @@ function create() {
     cursors = game.input.keyboard.createCursorKeys();
     
     
-    gameMusic();
+    SoundFX.bossBG();
 
 }
 
@@ -243,13 +195,7 @@ function update() {
 
     fakeFrame += 1;
 
-
-    
-    // if (stars.countLiving() == 0 && youwin == false){
-    //     youwin = true;
-    //     store.set('score', score);
-    // }
-
+    GameStuff.bossUpdate();
 
     playerUpdate();
 

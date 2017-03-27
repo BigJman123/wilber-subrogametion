@@ -25,7 +25,7 @@ function playerCreate (gravity, height) {
     player.animations.add('standright', [6], 10, true);
 }
 
-function playerUpdate (nextlevel, loadinglevel) {
+function playerUpdate () {
 
     var fakeDirection = {
         left: cursors.left.isDown,
@@ -62,7 +62,7 @@ function playerUpdate (nextlevel, loadinglevel) {
     var grabStar = game.physics.arcade.overlap(player, stars, collectStar, null, this);
 
     if (hitSlime && ! invincible && ! cheats.check('god')) {
-        hitplayer.play();
+        SoundFX.hitPlayer();
         Health.hit();
         makeInvincible();
         game.camera.flash(0xff0000, 500);
@@ -81,12 +81,12 @@ function playerUpdate (nextlevel, loadinglevel) {
 
     // increases the score by 10 when a slime hit by a bullet
     if (killSlime) {
-        hitcar.play();
+        SoundFX.hitCar();
         Score.add(50);
     }
 
     if (grabStar) {
-        collect.play();
+        SoundFX.collect();
         Score.add(100);
     }
 
@@ -100,15 +100,6 @@ function playerUpdate (nextlevel, loadinglevel) {
         
         getRandQuote();
         setTimeout(() => location.reload(), 4000);
-    }
-
-    if (stars.countLiving() == 0 && youwin == false) {
-        youwin = true;
-        music.stop();
-        win.play();
-
-        setTimeout(() => game.add.text(400, 165, loadinglevel, { fontSize: '25px', fill: '#ffd799'}), 5000);
-        setTimeout(() => {window.location = nextlevel}, 6000);
     }
 
     function collectStar(player, stars) {
@@ -142,7 +133,8 @@ function playerUpdate (nextlevel, loadinglevel) {
     // Allow the player to jump if they are touching the ground.
     if (cursors.up.isDown && player.body.touching.down && hitPlatform)
     {
-        jump.play();
+        // jump.play();
+        SoundFX.jump();
         player.frame = direction == 1 ? 11 : 0;
         player.body.velocity.y = -350;
     }

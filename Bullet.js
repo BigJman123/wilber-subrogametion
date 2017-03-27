@@ -49,7 +49,8 @@ Bullet.prototype.update = function() {
 
 function shootBullet() {
     if (bullets.length < 5) {
-        shoot.play();
+        // shoot.play();
+        SoundFX.shoot();
         var bullet = new Bullet(game, player.x + (direction == 1 ? 45 : 0), player.y + 25, direction, bulletXSpeed);
         bullets.add(bullet);
     }

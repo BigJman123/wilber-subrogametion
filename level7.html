@@ -22,11 +22,12 @@
     <script type="text/javascript" src="Health.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Player.js"></script>
-    <script type="text/javascript" src="Music.js"></script>
+    <script type="text/javascript" src="SoundFX.js"></script>
     <script type="text/javascript" src="Platforms.js"></script>
     <script type="text/javascript" src="Timer.js"></script>
     <script type="text/javascript" src="Score.js"></script>
     <script type="text/javascript" src="Quote.js"></script>
+<script type="text/javascript" src="GameStuff.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -69,8 +70,11 @@ function preload() {
     game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
     game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
     game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
-    game.load.audio('bgm', 'assets/audio/SubroHunterLevels.mp3');
+    game.load.audio('levelbgm', 'assets/audio/SubroHunterLevels.mp3');
 }
+
+var loadingLevel = 'Loading Level 8!';
+var nextLevel = 'level8.html';
 
 var platforms;
 var slimes;
@@ -238,7 +242,9 @@ function create() {
 
 function update() {
     
-    playerUpdate('level8.html', 'Loading Level 8!');
+    playerUpdate();
+
+    GameStuff.levelUpdate(400, 165);
 
     Timer.updateDisplay();
 

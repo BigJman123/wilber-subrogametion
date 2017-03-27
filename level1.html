@@ -23,11 +23,12 @@
     <script type="text/javascript" src="Health.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
     <script type="text/javascript" src="Player.js"></script>
-    <script type="text/javascript" src="Music.js"></script>
+    <script type="text/javascript" src="SoundFX.js"></script>
     <script type="text/javascript" src="Platforms.js"></script>
     <script type="text/javascript" src="Timer.js"></script>
     <script type="text/javascript" src="Score.js"></script>
     <script type="text/javascript" src="Quote.js"></script>
+    <script type="text/javascript" src="GameStuff.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -73,16 +74,11 @@ function preload() {
     game.load.spritesheet('bgimage2', 'assets/bgimage2.png', 250, 125);
     game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
     Health.assets();
-    game.load.audio('jump', 'assets/audio/Jump_03.ogg');
-    game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
-    game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
-    game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
-    game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
-    game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
-    game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
-    game.load.audio('bgm', 'assets/audio/SubroHunterLevels.mp3');
-    
+    SoundFX.preload();
 }
+
+var nextLevel = 'level2.html';
+var loadingLevel = 'Loading Level 2!'
 
 var platforms;
 var slimes;
@@ -115,6 +111,8 @@ var bulletXSpeed = 300;
 var record;
 
 var camera;
+
+var SoundFX;
 
 function create() {
 
@@ -213,7 +211,8 @@ function create() {
     spaceBar.onDown.add(shootBullet, this);
     cursors = game.input.keyboard.createCursorKeys();
     
-    gameMusic();
+    SoundFX.bindAudio();
+    SoundFX.levelBG();
 
 }
 
@@ -221,7 +220,9 @@ function create() {
 function update() {
 
 
-    playerUpdate('level2.html', 'Loading Level 2!');
+    playerUpdate();
+    
+    GameStuff.levelUpdate(400, 165);
 
     Timer.updateDisplay();
 
