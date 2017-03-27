@@ -217,12 +217,15 @@ function create() {
         // offset += 500;
 
     });
-    
-    // scoreText = game.add.text(16, 16, 'score: ' + score, { fontSize: '32px', fill: '#000' });
+
+    Score.reset();
+    Score.create();    
     
     // Health bar
     healthText = game.add.text(35, 10, "Ken's Health");
     Health.create(50, 50);
+
+    Timer.create();
 
 
     // this makes the spacebar the key that shoots bullets
@@ -238,67 +241,23 @@ function create() {
 
 function update() {
 
-    // }
-
-    // function makeInvincible() {
-    //     invincible = true;
-    //     player.alpha = 0.2;
-    // }
-
-    // function notInvincible() {
-    //     invincible = false;
-    //     player.alpha = 1;
-    // }
     fakeFrame += 1;
 
 
-    if (Health.isEmpty() && youlose == false) {
-        youlose = true;
-        // music.stop();
-        // lose.play();
-        player.kill();
-        bullets.destroy();
-        store.get('score');
-        getRandQuote();
-
-        setTimeout(() => location.reload(), 4000);
-    }
     
-    
-    // increases the score by 10 when a slime hit by a bullet
-    // if (killSlime) {
-    //     // hitcar.play();
-    //     score += 10;
-    //     scoreText.text = 'score: ' + score;
+    // if (stars.countLiving() == 0 && youwin == false){
+    //     youwin = true;
+    //     store.set('score', score);
     // }
-
-    // if (grabStar) {
-    //     // collect.play();
-    //     score += 50;
-    //     scoreText.text = 'score: ' + score;
-    // }
-
-    if (stars.countLiving() == 0 && youwin == false){
-        youwin = true;
-        // music.stop();
-        // win.play();
-        store.set('score', score);
-        // setTimeout(() => game.add.text(430, 50, 'Get ready!', { fontSize: '30px', fill: '#ffd799'}), 500);
-        // setTimeout(() => game.add.text(320, 40, 'You are a true Subro Hunter!', { fontSize: '30px', fill: '#ffd799'}), 500);
-        
-        // setTimeout(() => {window.location = 'boss.html'}, 3000);
-    }
-
-    // function collectStar(player, stars) {
-    //     stars.kill();
-    // }
-
-    // helper
 
 
     playerUpdate();
 
     player2Update();
+
+    Timer.updateDisplay();
+
+    Score.handleLevelEnd();
 }
 
 </script>
