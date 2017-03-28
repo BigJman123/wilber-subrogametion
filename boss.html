@@ -69,6 +69,7 @@ function preload() {
     game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
     // Health.assets();
     HealthPretend.assets();
+    SoundFX.preload();
 }
 
 var platforms;
@@ -185,7 +186,7 @@ function create() {
     spaceBar.onDown.add(shootBullet, this);
     cursors = game.input.keyboard.createCursorKeys();
     
-    
+    SoundFX.bindAudio();
     SoundFX.bossBG();
 
 }

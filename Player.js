@@ -92,8 +92,8 @@ function playerUpdate () {
 
     if (Health.isEmpty() && youlose == false) {
         youlose = true;
-        music.stop();
-        lose.play();
+        // music.stop();
+        SoundFX.lose();
         player.kill();
         bullets.destroy();
         game.currentTimer.pause();

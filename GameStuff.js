@@ -3,8 +3,8 @@ var GameStuff = {};
 GameStuff.levelUpdate = function(x, y) {
 	if (stars.countLiving() == 0 && youwin == false) {
         youwin = true;
-        music.stop();
-        win.play();
+        // music.stop();
+        SoundFX.win();
 
         setTimeout(() => game.add.text(x, y, loadingLevel, { fontSize: '25px', fill: '#ffd799'}), 5000);
         setTimeout(() => {window.location = nextLevel}, 6000);

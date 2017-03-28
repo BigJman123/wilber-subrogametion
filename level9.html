@@ -63,14 +63,7 @@ function preload() {
     game.load.spritesheet('bgimage2', 'assets/bgimage2.png', 250, 125);
     game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
     Health.assets();
-    game.load.audio('jump', 'assets/audio/Jump_03.ogg');
-    game.load.audio('shoot', 'assets/audio/Shoot_01.ogg');
-    game.load.audio('collect', 'assets/audio/Collect_Point_01.ogg');
-    game.load.audio('hitplayer', 'assets/audio/Hit_03.ogg');
-    game.load.audio('hitcar', 'assets/audio/Hit_01.ogg');
-    game.load.audio('win', 'assets/audio/Jingle_Achievement_00.ogg');
-    game.load.audio('lose', 'assets/audio/Jingle_Lose_00.ogg');
-    game.load.audio('levelbgm', 'assets/audio/SubroHunterLevels.mp3');
+    SoundFX.preload();
 }
 
 var loadingLevel = 'Loading Level 10!';
@@ -212,7 +205,8 @@ function create() {
     spaceBar.onDown.add(shootBullet, this);
     cursors = game.input.keyboard.createCursorKeys();
     
-    gameMusic();
+    SoundFX.bindAudio();
+    SoundFX.levelBG();
 
 }
 
