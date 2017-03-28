@@ -26,7 +26,7 @@ SoundFX.bindAudio = function() {
     SoundFX.sounds.lose = game.add.audio('lose', .3, false);
 
     // BG Music
-    SoundFX.sounds.splashBG = game.add.audio('splashbgm', .3, false);
+    SoundFX.sounds.splashBG = game.add.audio('splashbgm', .5, false);
     SoundFX.sounds.levelBG = game.add.audio('levelbgm', .3, true);
     SoundFX.sounds.bossBG = game.add.audio('bossbgm', 1, true);
 
@@ -39,6 +39,33 @@ SoundFX.hitPlayer = function() {SoundFX.sounds.hitPlayer.play();};
 SoundFX.hitCar = function() {SoundFX.sounds.hitCar.play();};
 SoundFX.win = function() {SoundFX.sounds.win.play();};
 SoundFX.lose = function() {SoundFX.sounds.lose.play();};
-SoundFX.splashBG = function() {SoundFX.sounds.splashBG.play();};
-SoundFX.levelBG = function() {SoundFX.sounds.levelBG.play();};
-SoundFX.bossBG = function() {SoundFX.sounds.bossBG.play();};
+SoundFX.splashBG = function(method) {
+    
+    if (typeof method !== 'undefined') {
+        SoundFX.sounds.splashBG.stop();
+        return;
+    }
+
+    SoundFX.sounds.splashBG.play();
+
+};
+SoundFX.levelBG = function(method) {
+
+    if (typeof method !== 'undefined') {
+        SoundFX.sounds.levelBG.stop();
+        return;
+    }
+
+    SoundFX.sounds.levelBG.play();
+
+};
+SoundFX.bossBG = function(method) {
+
+    if (typeof method !== 'undefined') {
+        SoundFX.sounds.bossBG.stop();
+        return;
+    }
+
+    SoundFX.sounds.bossBG.play();
+
+};

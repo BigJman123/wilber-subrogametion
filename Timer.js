@@ -30,12 +30,13 @@ Timer.updateDisplay = function() {
 	    youlose = true;
 	    timer.kill();
         
-        music.stop();
-        lose.play();
+        SoundFX.levelBG('stop');
+        SoundFX.lose();
         player.kill();
         store.set('score', 0);
-        setTimeout(() => game.add.text(425, 10, 'Game Over', { fontSize: '30px', fill: '#000' }), 500);
-        setTimeout(() => location.reload(), 3000);
+
+        getRandQuote();
+        setTimeout(() => location.reload(), 4000);
     }
 }
 

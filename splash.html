@@ -11,6 +11,7 @@
     <script type="text/javascript" src="Bullet.js"></script>
     <script type="text/javascript" src="Slime.js"></script>
     <script type="text/javascript" src="Cheats.js"></script>
+    <script type="text/javascript" src="SoundFX.js"></script> 
     <style type="text/css">
         body {
             margin: 0;
@@ -51,6 +52,7 @@ function preload() {
     game.load.spritesheet('slime5', 'assets/car5 64x20.png', 64, 20);
     game.load.spritesheet('money1', 'assets/money1 30x36.png');
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    SoundFX.preload();
 }
 
 var platforms;
@@ -58,6 +60,8 @@ var slimes;
 var bullets;
 var stars;
 var black;
+var jump;
+var shoot;
 
 var player;
 animationRunning = false;
@@ -163,17 +167,6 @@ function create() {
 
     setTimeout(() => game.add.tween(text2).to({ alpha: 1}, 2500, Phaser.Easing.Linear.None, true, 0, 0, true), 5950);
 
-    // KEEP COMMENTED
-    // shield = game.add.sprite(game.world.centerX - 10, game.world.centerY - 10, 'shield');
-    // shield.anchor.setTo(0.5, 0.5);
-    // shield.alpha = 0;
-    
-    // var shield = game.add.tween(shield)
-    
-    // setTimeout(function () {
-    //     shield.to( { alpha: 1 }, 3250, Phaser.Easing.Linear.None, true, 0, 0, true);
-    // }, 11500);
-
     start = game.add.text(325, 425, 'press the space bar to start', { fontSize: '25px', fill: '#ffffff'});
     start.alpha = 0;
 
@@ -203,20 +196,6 @@ function create() {
     stars = game.add.group();
     stars.enableBody = true;
 
-    // creates the stars and displays them in the game
-    // Top row
-    // stars.create(250, 131, 'money1');
-    // stars.create(475, 114, 'money2');
-    // stars.create(715, 131, 'money1');
-    // // Middle row
-    // stars.create(250, 276, 'money1');
-    // stars.create(475, 259, 'money2');
-    // stars.create(715, 276, 'money1');
-    // // Bottom row
-    // stars.create(250, 417, 'money1');
-    // stars.create(475, 399, 'money2');
-    // stars.create(715, 417, 'money1');
-
     // the bullet group contains all bullets and enables physics on them.
     bullets = game.add.group();
     bullets.enableBody = true;
@@ -225,46 +204,10 @@ function create() {
     slimes = game.add.group();
     slimes.enableBody = true;
 
-    let slimeLocations = [
-        // Top ledge
-        // [0, 540],
-        // [350, 150],
-        // [550, 150],
-        
-        // // // Second ledge from top
-        // [150, 290],
-        // [350, 290],
-        // [550, 290],
-        
-        // // // Third ledge from the top
-        // [150, 430],
-        // [350, 430],
-        // [550, 430]
-        
-    ];
-
     slime1 = slimes.create(-100, 574, 'slime1');
     slime1.anchor.setTo(.5, .5);
     slime1.scale.x *= -1;
 
-    // a function that gives a random integer
-    // function getRandomInt(min, max) {
-    //   min = Math.ceil(min);
-    //   max = Math.floor(max);
-    //   return Math.floor(Math.random() * (max - min)) + min;
-    // }
-
-    // // let offset = 250;
-    // slimeLocations.forEach(function (location) {
-    //     let rand = getRandomInt(0, 300);
-    //     // setTimeout(() => {
-            // var slime = new Slime(game, location[0] + rand, location[1]);
-            // slimes.add(slime);    
-    //     // }, 500 + offset);
-    //     // offset += 500;
-
-    // });
-    
     function startGame (game) {
         setTimeout(() => {window.location = 'level1.html'}, 500);
     }
@@ -289,21 +232,8 @@ function create() {
     pretend.move('right', 19000, 3575)
     }, 13000);
     
-    music = game.add.audio('main');
-    music.play();
-    music.volume = 0.5;
-
-    jump = game.add.audio('jump');
-    jump.loop = false;
-    jump.volume = 0.1;
-    
-    shoot = game.add.audio('shoot');
-    shoot.loop = false;
-    shoot.volume = 0.1;
-    
-    hitcar = game.add.audio('hitcar');
-    hitcar.loop = false;
-    hitcar.volume = 0.1;
+    SoundFX.bindAudio();
+    SoundFX.splashBG();
 }
 
 
@@ -325,7 +255,7 @@ function update() {
     }
 
     if (killSlime) {
-        hitcar.play();
+        SoundFX.hitCar();
     }
 
     function collectStar(player, stars) {
@@ -366,7 +296,7 @@ function update() {
     // Allow the player to jump if they are touching the ground.
     if (pretend.up && player.body.touching.down && hitPlatform)
     {
-        jump.play();
+        SoundFX.jump();
         player.frame = direction == 1 ? 11 : 0;
         player.body.velocity.y = -350;
     }
@@ -380,27 +310,10 @@ function update() {
     }
 }
     
-    // tweenRight1 = game.add.tween(slime1).to({x: 550}, 3000, Phaser.Easing.Linear.None, true);
-    // tweenRight.onComplete.addOnce(function() {
-    //     game.add.tween(slime1).to({x: 700}, 3000, Phaser.Easing.Linear.None, true);
-    // });
-
-    // tweenRight = game.add.tween(slime2).to({x: 550}, 3000, Phaser.Easing.Linear.None, true);
-
-    // tweenRight = game.add.tween(slime3).to({x: 550}, 3000, Phaser.Easing.Linear.None, true);
-
-    // tweenRight = game.add.tween(slime4).to({x: 550}, 3000, Phaser.Easing.Linear.None, true);
-
-    // tweenRight = game.add.tween(slime5).to({x: 550}, 3000, Phaser.Easing.Linear.None, true);
-
     setTimeout(() => {
         if (animationRunning === false){
             animationRunning = true;
             tweenRight = game.add.tween(slimes).to({x: 1000}, 4300, Phaser.Easing.Linear.None, true);
-            // player.scale.setTo(-1, 1);s
-            // tweenRight.onComplete.addOnce(function() {
-            //     setTimeout(() => game.add.tween(slime1).to({x: 700}, 1000, Phaser.Easing.Linear.None, true), 6500);
-            // });
         }
 
     }, 13000);

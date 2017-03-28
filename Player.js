@@ -92,7 +92,7 @@ function playerUpdate () {
 
     if (Health.isEmpty() && youlose == false) {
         youlose = true;
-        // music.stop();
+        SoundFX.levelBG('stop');
         SoundFX.lose();
         player.kill();
         bullets.destroy();

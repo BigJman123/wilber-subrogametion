@@ -3,7 +3,7 @@ var GameStuff = {};
 GameStuff.levelUpdate = function(x, y) {
 	if (stars.countLiving() == 0 && youwin == false) {
         youwin = true;
-        // music.stop();
+        SoundFX.levelBG('stop');
         SoundFX.win();
 
         setTimeout(() => game.add.text(x, y, loadingLevel, { fontSize: '25px', fill: '#ffd799'}), 5000);
@@ -16,8 +16,8 @@ GameStuff.bossUpdate = function() {
 	// if ken is dead... end the game
 	if(HealthPretend.isEmpty() && youwin == false) {
 		youwin = true;
-		music.stop();
-		win.play();
+		SoundFX.bossBG('stop');
+		SoundFX.win();
 		player2.kill();
 		bullets2.destroy();
 	}

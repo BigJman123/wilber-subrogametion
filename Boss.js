@@ -102,7 +102,7 @@ var player2Update = function() {
 
     if (collidePlayer2) {
         Health.kill();
-        SoundFX.hitplayer();
+        SoundFX.hitPlayer();
     }
     
     function playerIsOnGround(player) {
