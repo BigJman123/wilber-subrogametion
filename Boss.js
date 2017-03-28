@@ -102,7 +102,7 @@ var player2Update = function() {
 
     if (collidePlayer2) {
         Health.kill();
-        hitplayer.play();
+        SoundFX.hitplayer();
     }
     
     function playerIsOnGround(player) {
@@ -154,7 +154,7 @@ var player2Update = function() {
     // Allow the player to jump if they are touching the ground.
     if (pretend.up && player2.body.touching.down && hitPlatform)
     {
-        jump.play();
+        SoundFX.jump();
         player2.frame = direction2 == 1 ? 11 : 0;
         player2.body.velocity.y = -350;
     }

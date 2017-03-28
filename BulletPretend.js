@@ -16,7 +16,7 @@ BulletPretend.prototype.update = function() {
 
     game.physics.arcade.collide(this, player, function (bullet2, player) {
         Health.hit();
-        hitcar.play();
+        SoundFX.hitCar();
         setTimeout(() => bullet2.destroy(), 1);
     });
 
@@ -35,7 +35,7 @@ BulletPretend.prototype.update = function() {
 
 function shootBulletPretend() {
     if (bullets2.length < 5) {
-        shoot.play();
+        SoundFX.shoot();
         var bullet2 = new BulletPretend(game, player2.x + (direction2 == 1 ? 45 : 0), player2.y + 40, direction2, bulletXSpeed);
         bullets2.add(bullet2);
     }
