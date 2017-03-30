@@ -49,23 +49,6 @@
 
 var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
-function preload() {
-
-    playerAssets();
-
-    game.load.image('sky', 'assets/sky.png');
-    Platforms.assets();
-    game.load.spritesheet('gavel', 'assets/gavel 32x32.png', 32, 32);
-    game.load.spritesheet('slime', 'assets/car3 69x27.png', 69, 27);
-    game.load.spritesheet('money1', 'assets/money1 30x36.png');
-    game.load.spritesheet('money2', 'assets/money2 48x54.png');
-    game.load.spritesheet('bgimage1', 'assets/bgimage1.png', 300, 75);
-    game.load.spritesheet('bgimage2', 'assets/bgimage2.png', 250, 125);
-    game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
-    Health.assets();
-    SoundFX.preload();
-}
-
 var loadingLevel = 'Loading Level 4!';
 var nextLevel = 'level4.html';
 
@@ -95,6 +78,24 @@ var direction = 1;
 var bulletXSpeed = 300;
 
 var record;
+
+function preload() {
+
+    playerAssets();
+
+    game.load.image('sky', 'assets/sky.png');
+    Platforms.assets();
+    game.load.spritesheet('gavel', 'assets/gavel 32x32.png', 32, 32);
+    game.load.spritesheet('slime', 'assets/car3 69x27.png', 69, 27);
+    game.load.spritesheet('money1', 'assets/money1 30x36.png');
+    game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    game.load.spritesheet('bgimage1', 'assets/bgimage1.png', 300, 75);
+    game.load.spritesheet('bgimage2', 'assets/bgimage2.png', 250, 125);
+    game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
+    Health.assets();
+    SoundFX.preload();
+}
+
 
 function create() {
 

@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-database.js"></script>
-    
+
     <!-- Leave out Storage -->
     <!-- <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-storage.js"></script> -->
 
@@ -70,35 +70,8 @@
 
 var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
-// function createText() {
-//     setTimeout(function() {
-//         text = game.add.text(game.world.centerX, game.world.centerY, "here is some text");
-//         text.anchor.setTo(0.5);
-
-//         text.font = 'Press Start 2P';
-//         text.fontSize = 15;
-//     }, 1000);
-// }
-
-function preload() {
-
-    playerAssets();
-
-    game.load.image('sky', 'assets/sky.png');
-    Platforms.assets();
-    game.load.spritesheet('gavel', 'assets/gavel 32x32.png', 32, 32);
-    game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
-    game.load.spritesheet('money1', 'assets/money1 30x36.png');
-    game.load.spritesheet('money2', 'assets/money2 48x54.png');
-    game.load.spritesheet('bgimage1', 'assets/bgimage1.png', 300, 75);
-    game.load.spritesheet('bgimage2', 'assets/bgimage2.png', 250, 125);
-    game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
-    Health.assets();
-    SoundFX.preload();
-}
-
-var nextLevel = 'level2.html';
 var loadingLevel = 'Loading Level 2!'
+var nextLevel = 'level2.html';
 
 var platforms;
 var slimes;
@@ -133,6 +106,23 @@ var record;
 var camera;
 
 var SoundFX;
+
+function preload() {
+
+    playerAssets();
+
+    game.load.image('sky', 'assets/sky.png');
+    Platforms.assets();
+    game.load.spritesheet('gavel', 'assets/gavel 32x32.png', 32, 32);
+    game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
+    game.load.spritesheet('money1', 'assets/money1 30x36.png');
+    game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    game.load.spritesheet('bgimage1', 'assets/bgimage1.png', 300, 75);
+    game.load.spritesheet('bgimage2', 'assets/bgimage2.png', 250, 125);
+    game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
+    Health.assets();
+    SoundFX.preload();
+}
 
 function create() {
 

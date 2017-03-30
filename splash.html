@@ -33,6 +33,17 @@
 
 var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
+var platforms;
+var slimes;
+var bullets;
+var stars;
+var black;
+var jump;
+var shoot;
+
+var player;
+animationRunning = false;
+
 function preload() {
 
     game.load.image('black', 'assets/black 1000x650.png', 1000, 650);
@@ -54,17 +65,6 @@ function preload() {
     game.load.spritesheet('money2', 'assets/money2 48x54.png');
     SoundFX.preload();
 }
-
-var platforms;
-var slimes;
-var bullets;
-var stars;
-var black;
-var jump;
-var shoot;
-
-var player;
-animationRunning = false;
 
 var pretend = (function() {
 

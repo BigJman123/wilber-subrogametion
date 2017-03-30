@@ -52,25 +52,8 @@
 
 var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
-function preload() {
-
-    game.load.image('sky', 'assets/sky.png');
-    game.load.image('ground', 'assets/platform.png');
-    game.load.image('ground2', 'assets/platform2.png');
-    game.load.image('ground3', 'assets/platform3.png');
-    game.load.image('ground4', 'assets/platform4.png');
-    game.load.image('ground5', 'assets/platform5.png');
-    game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
-    game.load.spritesheet('joe', 'assets/JoeBoss.png', 64, 64);
-    game.load.spritesheet('gavel', 'assets/gavel 32x32.png', 32, 32);
-    game.load.spritesheet('slime', 'assets/car5 64x20.png', 64, 20);
-    game.load.spritesheet('money1', 'assets/money1 30x36.png');
-    game.load.spritesheet('money2', 'assets/money2 48x54.png');
-    game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
-    // Health.assets();
-    HealthPretend.assets();
-    SoundFX.preload();
-}
+loadingLevel = 'You Win!'
+nextLevel = 'leaderboard.html';
 
 var platforms;
 var slimes;
@@ -100,6 +83,27 @@ var scoreText;
 var pretendDir = [];
 var record = false;
 var fakeFrame = 0;
+
+function preload() {
+
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.image('ground2', 'assets/platform2.png');
+    game.load.image('ground3', 'assets/platform3.png');
+    game.load.image('ground4', 'assets/platform4.png');
+    game.load.image('ground5', 'assets/platform5.png');
+    game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
+    game.load.spritesheet('joe', 'assets/JoeBoss.png', 64, 64);
+    game.load.spritesheet('gavel', 'assets/gavel 32x32.png', 32, 32);
+    game.load.spritesheet('slime', 'assets/car5 64x20.png', 64, 20);
+    game.load.spritesheet('money1', 'assets/money1 30x36.png');
+    game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
+    // Health.assets();
+    HealthPretend.assets();
+    SoundFX.preload();
+}
+
 
 function create() {
 
@@ -198,7 +202,7 @@ function update() {
 
     fakeFrame += 1;
 
-    GameStuff.bossUpdate();
+    GameStuff.bossUpdate(445, 165);
 
     playerUpdate();
 
