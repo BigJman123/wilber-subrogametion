@@ -10,9 +10,6 @@
     <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-database.js"></script>
-    
-    <!-- Leave out Storage -->
-    <!-- <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-storage.js"></script> -->
 
     <script>
       // Initialize Firebase
@@ -21,9 +18,10 @@
         authDomain: "wilbergame-ffc1c.firebaseapp.com",
         databaseURL: "https://wilbergame-ffc1c.firebaseio.com",
         storageBucket: "wilbergame-ffc1c.appspot.com",
-        messagingSenderId: "791286421337"
       };
       firebase.initializeApp(config);
+      
+      var database = firebase.database();
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script>
@@ -53,15 +51,15 @@
         #user {
             position: absolute;
             width: 50px;
-            top: 450px;
-            left: 390px;
+            top: 285px;
+            left: 475px;
             /*z-index: 500;*/
         }
         #submit {
             position: absolute;
             /*width: 50px;*/
-            top: 475px;
-            left: 390px;
+            top: 310px;
+            left: 475px;
             /*z-index: 500;*/
         }
     </style>
@@ -80,7 +78,9 @@
 
     // Manage firebase storage
     var storageRef = firebase.storage().ref();
+    
     var uploadsRef = firebase.database().ref(score);
+    
     var uploadFile = function(file) {
         var uploadTask = storageRef.child(file.name)
     }
@@ -131,7 +131,7 @@ function create() {
     scoreText.font = 'Press Start 2P';
     scoreText = game.add.text(575, 250, 'Final Score', { fontSize: '20px', fill: '#000' });
     scoreText.font = 'Press Start 2P';
-    scoreText = game.add.text(650, 295, score, { fontSize: '20px', fill: '#000' });
+    scoreText = game.add.text(635, 295, score, { fontSize: '20px', fill: '#000' });
     scoreText.font = 'Press Start 2P';
 
 }
