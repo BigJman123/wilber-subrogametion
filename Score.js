@@ -13,7 +13,7 @@ Score.create = function() {
 	// only on level 1
 	// store.set('score', 0);
 	score = store.get('score') || 0;
-	
+	// if (typeof(ScoreText) !== "undefined") {ScoreText.text}
     scoreText = game.add.text(8, 8, 'Score: ' + score, { fontSize: '20px', fill: '#000' });
     scoreText.font = 'Press Start 2P';
 }

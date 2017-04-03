@@ -33,7 +33,8 @@
         });
     </script>
 	<meta charset="UTF-8" />
-	<title>Level 1</title>
+	<title>Leaderboard</title>
+    <script src="https://code.jquery.com/jquery-3.2.0.js"></script>
     <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
     <script type="text/javascript" src="vendor/store.min.js"></script>
     <script type="text/javascript" src="Score.js"></script>
@@ -51,15 +52,15 @@
         #user {
             position: absolute;
             width: 50px;
-            top: 285px;
-            left: 475px;
+            top: 450px;
+            left: 775px;
             /*z-index: 500;*/
         }
         #submit {
             position: absolute;
             /*width: 50px;*/
-            top: 310px;
-            left: 475px;
+            top: 475px;
+            left: 775px;
             /*z-index: 500;*/
         }
     </style>
@@ -74,19 +75,24 @@
 </form>
 
 <script>
-(function() {
 
-    // Manage firebase storage
-    var storageRef = firebase.storage().ref();
-    
-    var uploadsRef = firebase.database().ref(score);
-    
-    var uploadFile = function(file) {
-        var uploadTask = storageRef.child(file.name)
-    }
-});
+// when a user first visits page app, generate a random user id for them
+// use that id to reference this user whenever they come back to your page
 
+// store this value in local storage, if it exists, set it globally, otherwise
+// generate a new unique id
+
+function uuid(a){return a?(a^Math.random()*16>>a/4).toString(16):([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,uuid)}
+
+function writeUserData(userInitials) {
+
+    database.ref('users/' + uuid()).set({
+        initials: userInitials,
+        score: score
+    });
+};
 </script>
+
 
 <script type="text/javascript">
 
@@ -95,11 +101,10 @@ var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, c
 var loadingLevel = '';
 var nextLevel = 'win.html';
 
-var score = store.get('score') || 0;
+var score = store.get('score');
 var scoreText;
 
-var userName = getElementById("user");
-
+writeData = false;
 
 var finalScore;
 
@@ -115,6 +120,7 @@ function preload() {
     game.load.image('sky', 'assets/sky.png');
 
 }
+
 
 
 function create() {
@@ -138,8 +144,23 @@ function create() {
 
 
 function update() {
-    
+
 }
+
+$(document).ready(function() {
+    $('#form').on('submit', function(e) {
+        e.preventDefault();
+        var user = $('#user').val();
+
+        if (user == "") {
+            alert('please fill in initials');
+            return false;
+        }
+        // get the value of the inputs
+        // store them in firebase
+        writeUserData(user);
+    })
+});
 
 </script>
 </div>
