@@ -6,7 +6,7 @@ GameStuff.levelUpdate = function(x, y) {
         SoundFX.levelBG('stop');
         SoundFX.win();
 
-        setTimeout(() => game.add.text(x, y, loadingLevel, { fontSize: '25px', fill: '#ffd799'}), 5000);
+        setTimeout(() => game.add.text(x, y, loadingLevel, { fontSize: '13px', fill: '#ffd799', font: 'Press Start 2P'}), 5000);
         setTimeout(() => {window.location = nextLevel}, 6000);
     }
 }
@@ -21,7 +21,7 @@ GameStuff.bossUpdate = function(x, y) {
 		player2.kill();
 		bullets2.destroy();
 
-		setTimeout(() => game.add.text(x, y, loadingLevel, { fontSize: '25px', fill: '#ffd799'}), 5000);
+		setTimeout(() => game.add.text(x, y, loadingLevel, { fontSize: '13px', fill: '#ffd799', font: 'Press Start 2P'}), 5000);
         setTimeout(() => {window.location = nextLevel}, 6000);
 	}
 }

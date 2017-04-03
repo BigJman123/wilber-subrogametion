@@ -55,7 +55,7 @@ function playerUpdate () {
 	//  Collide the player and the stars with the platforms
     var hitPlatform = game.physics.arcade.collide(player, platforms);
 
-    var killSlime = game.physics.arcade.overlap(bullets, slimes);
+    var killSlime = game.physics.arcade.overlap(slimes, bullets);
 
     var hitSlime = game.physics.arcade.collide(player, slimes);
 

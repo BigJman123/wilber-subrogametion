@@ -38,5 +38,5 @@ Health.isEmpty = function() {
 
 Health.kill = function() {
 	player.kill();
-	Health.set(Health.level - 3)
+	Health.set(Health.level = 0)
 }
