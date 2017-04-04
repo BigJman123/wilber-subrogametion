@@ -20,7 +20,9 @@ Score.create = function() {
 
 Score.add = function(value) {
 	score += value;
-    scoreText.text = 'Score: ' + score;
+    if (typeof(scoreText) !== "undefined") {
+    	scoreText.text = 'Score: ' + score;
+    };
 }
 
 Score.handleLevelEnd = function() {

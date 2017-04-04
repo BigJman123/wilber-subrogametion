@@ -1,0 +1,365 @@
+<!doctype html> 
+<html lang="en"> 
+<head>
+
+    <script>
+        // NEW GOOGLE ANALYTICS
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({ 
+            // active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
+            google: {
+                families: ['Press Start 2P']
+            }
+        });
+    </script>
+	<meta charset="UTF-8" />
+	<title>You Win!</title>
+    <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
+    <script type="text/javascript" src="vendor/store.min.js"></script>
+    <script type="text/javascript" src="Bullet.js"></script>
+    <script type="text/javascript" src="Slime.js"></script>
+    <script type="text/javascript" src="Health.js"></script>
+    <script type="text/javascript" src="Cheats.js"></script>
+    <script type="text/javascript" src="Player.js"></script>
+    <script type="text/javascript" src="SoundFX.js"></script>
+    <script type="text/javascript" src="Platforms.js"></script>
+    <script type="text/javascript" src="Timer.js"></script>
+    <script type="text/javascript" src="Score.js"></script>
+    <script type="text/javascript" src="Quote.js"></script>
+    <script type="text/javascript" src="GameStuff.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+            background-color: #000;
+        }
+        #game {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+<div id='game'></div>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+
+// var loadingLevel = 'Loading Level 2!'
+// var nextLevel = 'level2.html';
+
+var platforms;
+var slimes;
+var bullets;
+var stars;
+
+var hitSlime;
+var killSlime;
+var grabStar;
+var collectStar;
+var hitPlatform;
+
+var player;
+
+var finalScore;
+
+var healthText;
+var health;
+var invincible = false;
+var youwin = false;
+var youlose = false;
+
+var cursors;
+var spaceBar;
+
+var direction = 1;
+
+var bulletXSpeed = 300;
+
+var record;
+
+var camera;
+
+var SoundFX;
+
+function preload() {
+
+    playerAssets();
+
+    game.load.image('sky', 'assets/sky.png');
+    Platforms.assets();
+    game.load.spritesheet('gavel', 'assets/gavel 32x32.png', 32, 32);
+    game.load.spritesheet('slime', 'assets/car1 66x24.png', 66, 24);
+    game.load.spritesheet('money1', 'assets/money1 30x36.png');
+    game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    // game.load.spritesheet('bgimage1', 'assets/bgimage1.png', 300, 75);
+    // game.load.spritesheet('bgimage2', 'assets/bgimage2.png', 250, 125);
+    // game.load.spritesheet('bgimage3', 'assets/bgimage3.png', 280, 385);
+    Health.assets();
+    SoundFX.preload();
+}
+
+var pretend = (function() {
+
+    var direction = {
+        left: false,
+        right: false,
+        up: false,
+        down: false,
+    };
+
+    var move = function(dir, at, duration)
+    {
+        var that = this;
+
+        setTimeout(function() {that[dir] = true;}, at);
+        setTimeout(function() {that[dir] = false;}, at + duration);
+    };
+
+    var fire = function(at)
+    {
+        setTimeout(function() {shootBullet();}, at);
+    }
+
+    return {
+        move: move,
+        fire: fire,
+        left: direction.left,
+        right: direction.right,
+        up: direction.up,
+        down: direction.down
+    }
+})();
+
+function create() {
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //  A simple background for our game
+    game.add.sprite(0, 0, 'sky').scale.setTo(2,2);
+
+    // game.add.sprite(0, -30, 'bgimage1', 0);
+    // game.add.sprite(850, -15, 'bgimage2', 0).scale.setTo(.6, .6);
+    // game.add.sprite(game.world.centerX - 75, -30, 'bgimage2', 1).scale.setTo(.6, .6);
+    
+
+    //  The platforms group contains the ground and ledges then we enable physics on platforms
+    platforms = game.add.group();
+    platforms.enableBody = true;
+
+    // Here we create the ground and scale it to fit the width of the game
+    var ground = platforms.create(0, game.world.height - 64, 'ground');
+    ground.scale.setTo(3, 2);
+
+    //  This stops it from falling away when you jump on it
+    ground.body.immovable = true;
+
+    // makes a stars group and enables physics
+    stars = game.add.group();
+    stars.enableBody = true;
+
+    // for (var i = 0; i < 12; i++)
+    // {
+    //     //  Create a star inside of the 'stars' group
+    //     var star = stars.create(i * 88, -50, 'money1');
+
+    //     //  Let gravity do its thing
+    //     star.body.gravity.y = 120;
+
+    //     //  This just gives each star a slightly random bounce value
+    //     star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    // }
+
+    // creates the stars and displays them in the game
+    // Top row
+    // stars.create(250, 131, 'money1');
+    // stars.create(475, 114, 'money2');
+    // stars.create(715, 131, 'money1');
+    // // Middle row
+    // stars.create(250, 276, 'money1');
+    // stars.create(475, 259, 'money2');
+    // stars.create(715, 276, 'money1');
+    // // Bottom row
+    // stars.create(250, 417, 'money1');
+    // stars.create(475, 399, 'money2');
+    // stars.create(715, 417, 'money1');
+
+    // the bullet group contains all bullets and enables physics on them.
+    bullets = game.add.group();
+    bullets.enableBody = true;
+    
+    // the slime group contains all slimes and enables physics on them. The for loop adds slimes to the game.
+    // slimes = game.add.group();
+    // slimes.enableBody = true;
+    // game.physics.arcade.gravity.y = 150;
+
+    // let slimeLocations = [
+    //     // Top ledge
+    //     [150, 150],
+    //     [350, 150],
+    //     [550, 150],
+        
+    //     // // Second ledge from top
+    //     [150, 290],
+    //     [350, 290],
+    //     [550, 290],
+        
+    //     // // Third ledge from the top
+    //     [150, 430],
+    //     [350, 430],
+    //     [550, 430]
+        
+    // ];
+
+    // // a function that gives a random integer
+    // function getRandomInt(min, max) {
+    //   min = Math.ceil(min);
+    //   max = Math.floor(max);
+    //   return Math.floor(Math.random() * (max - min)) + min;
+    // }
+
+    // // let offset = 250;
+    // slimeLocations.forEach(function (location) {
+    //     let rand = getRandomInt(0, 250);
+    //     // setTimeout(() => {
+    //         var slime = new Slime(game, location[0] + rand, location[1]);
+    //         slimes.add(slime);
+    //     // }, 500 + offset);
+    //     // offset += 500;
+
+    // });
+    
+    // Score.reset();
+    // Score.create();
+    
+    // healthText = game.add.text(775, 3, 'health');
+    // Health.create(868, 10);
+
+    player = game.add.sprite(475, game.world.height - 110, 'ken');
+    player.scale.setTo(0.75, 0.75);
+
+    game.physics.arcade.enable(player);
+    player.body.bounce.y = 0.0;
+    player.body.gravity.y = 775;
+    player.body.collideWorldBounds = true;
+
+    player.animations.add('left', [4, 3, 2, 1], 10, true);
+    player.animations.add('right', [7, 8, 9, 10], 10, true);
+    player.animations.add('jumpleft', [0], 10, true);
+    player.animations.add('jumpright', [11], 10, true);
+    player.animations.add('standleft', [5], 10, true);
+    player.animations.add('standright', [6], 10, true);
+    
+    // Player    
+    // playerCreate(425, game.world.height - 110);
+
+    // this makes the spacebar the key that shoots bullets
+    spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceBar.onDown.add(shootBullet, this);
+    cursors = game.input.keyboard.createCursorKeys();
+    
+    SoundFX.bindAudio();
+    SoundFX.levelBG();
+
+    game.time.events.repeat(Phaser.Timer.SECOND * .01, 3000, createStar, this);
+
+    pretend.move('right', 3000, 2000)
+    pretend.move('up', 3000, 500)
+    pretend.move('left', 5000, 4000)
+    pretend.move('up', 5000, 500)
+    pretend.move('right', 7800, 5000)
+    pretend.move('up', 9000, 500)
+    // pretend.move('left', 7600, 4300)
+
+}
+
+function createStar() {
+    var star = stars.create(game.world.randomX, -100, 'money1');
+
+    game.physics.enable(star, Phaser.Physics.ARCADE);
+
+    star.body.gravity.y = 150;
+    star.body.bounce.y = 0.2;
+    // star.body.collideWorldBounds = true;
+}
+
+
+function update() {
+
+    var hitPlatform = game.physics.arcade.collide(player, platforms);
+
+    var grabStar = game.physics.arcade.overlap(player, stars, collectStar, null, this);
+
+    game.physics.arcade.collide(stars, platforms);
+
+    // playerUpdate();
+    
+    // GameStuff.levelUpdate(400, 165);
+
+    // Timer.updateDisplay();
+
+    // Score.handleLevelEnd();
+
+    function collectStar(player, stars) {
+        stars.kill();
+    }
+
+    function playerIsOnGround() {
+        return player.body.touching.down && hitPlatform;
+    }
+
+    //  Reset the players velocity (movement)
+    player.body.velocity.x = 0;
+
+    handlePlayerMovement();
+
+    if (pretend.left) {
+        player.body.velocity.x = -225;
+        let animation = playerIsOnGround() ? 'left' : 'jumpleft';
+        player.animations.play(animation);
+
+    } else if (pretend.right) {
+
+        player.body.velocity.x = 225;
+        let animation = playerIsOnGround() ? 'right' : 'jumpright';
+        player.animations.play(animation);
+
+    } else if (! pretend.right || ! pretend.left) {
+        //  Stand still
+        player.animations.stop();
+
+        if (playerIsOnGround()) {
+            let animation = direction == 1 ? 'standright' : 'standleft';
+            player.animations.play(animation);
+        }
+    }
+
+    // Allow the player to jump if they are touching the ground.
+    if (pretend.up && player.body.touching.down && hitPlatform)
+    {
+        SoundFX.jump();
+        player.frame = direction == 1 ? 11 : 0;
+        player.body.velocity.y = -350;
+    }
+
+    function handlePlayerMovement() {
+    if (pretend.left) {
+        direction = -1;
+    }
+    else if (pretend.right) {
+        direction = 1;
+    }
+}
+    
+}
+
+</script>
+</div>
+</body>
+</html>
