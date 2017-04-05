@@ -12,6 +12,7 @@ SoundFX.preload = function() {
     game.load.audio('levelbgm', 'assets/audio/SubroHunterLevels.mp3');
     game.load.audio('bossbgm', 'assets/audio/SubroHunterBoss.mp3');
     game.load.audio('splashbgm', 'assets/audio/SubroHunterMain.mp3');
+    game.load.audio('credits', 'assets/audio/Credits.mp3');
 };
 
 SoundFX.bindAudio = function() {
@@ -29,6 +30,8 @@ SoundFX.bindAudio = function() {
     SoundFX.sounds.splashBG = game.add.audio('splashbgm', .5, false);
     SoundFX.sounds.levelBG = game.add.audio('levelbgm', .3, true);
     SoundFX.sounds.bossBG = game.add.audio('bossbgm', 1, true);
+    SoundFX.sounds.creditsBG = game.add.audio('credits', .3, false);
+    SoundFX.sounds.creditsBG.addMarker('start_here', 12.5, 120, .3, false);
 
 };
 
@@ -67,5 +70,19 @@ SoundFX.bossBG = function(method) {
     }
 
     SoundFX.sounds.bossBG.play();
+
+};
+
+SoundFX.creditsBG = function(method) {
+
+    if (typeof method !== 'undefined') {
+        SoundFX.sounds.credits.stop();
+        return;
+    }
+
+    SoundFX.sounds.creditsBG.play('start_here');
+    setTimeout(function() {
+        SoundFX.sounds.creditsBG.fadeOut(5000);
+    }, 23500);
 
 };
