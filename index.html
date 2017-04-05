@@ -1,0 +1,342 @@
+<!doctype html> 
+<html lang="en"> 
+<head>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-92223000-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({ 
+            // active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
+            google: {
+                families: ['Press Start 2P']
+            }
+        });
+    </script>
+	<meta charset="UTF-8" />
+	<title>Splash</title>
+    <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
+    <script type="text/javascript" src="vendor/store.min.js"></script>
+    <script type="text/javascript" src="Bullet.js"></script>
+    <script type="text/javascript" src="Slime.js"></script>
+    <script type="text/javascript" src="Cheats.js"></script>
+    <script type="text/javascript" src="SoundFX.js"></script> 
+    <style type="text/css">
+        body {
+            margin: 0;
+            background-color: #000;
+        }
+        #game {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+<div id='game'></div>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+
+var platforms;
+var slimes;
+var bullets;
+var stars;
+var black;
+var jump;
+var shoot;
+
+var player;
+animationRunning = false;
+
+function preload() {
+
+    game.load.image('black', 'assets/black 1000x650.png', 1000, 650);
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.image('ground2', 'assets/platform6.png');
+    game.load.image('shield', 'assets/wilber.png');
+    game.load.image('hunter', 'assets/hunterhigh.png');
+    game.load.image('subrohunter', 'assets/Subro Hunter black 1680x585.png');
+    game.load.spritesheet('ken', 'assets/ken.png', 64, 64);
+    game.load.spritesheet('gavel', 'assets/gavel 18x27.png', 18, 27);
+    game.load.spritesheet('slime1', 'assets/car1 66x24.png', 66, 24);
+    game.load.spritesheet('slime2', 'assets/car2 68x21.png', 68, 21);
+    game.load.spritesheet('slime3', 'assets/car3 69x27.png', 69, 27);
+    game.load.spritesheet('slime4', 'assets/car4 67x21.png', 67, 21);
+    game.load.spritesheet('slime5', 'assets/car5 64x20.png', 64, 20);
+    game.load.spritesheet('money1', 'assets/money1 30x36.png');
+    game.load.spritesheet('money2', 'assets/money2 48x54.png');
+    SoundFX.preload();
+}
+
+var pretend = (function() {
+
+    var direction = {
+        left: false,
+        right: false,
+        up: false,
+        down: false,
+    };
+
+    var move = function(dir, at, duration)
+    {
+        var that = this;
+
+        setTimeout(function() {that[dir] = true;}, at);
+        setTimeout(function() {that[dir] = false;}, at + duration);
+    };
+
+    var fire = function(at)
+    {
+        setTimeout(function() {shootBullet();}, at);
+    }
+
+    return {
+        move: move,
+        fire: fire,
+        left: direction.left,
+        right: direction.right,
+        up: direction.up,
+        down: direction.down
+    }
+})();
+
+
+var healthText;
+var healthbar;
+var playerHealth = 100;
+var invincible = false;
+
+var cursors;
+var spaceBar;
+
+var direction = 1;
+
+var bulletXSpeed = 300;
+
+var score = 0;
+var scoreText;
+
+var bgm;
+
+var start = true;
+
+function create() {
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    
+
+    //  A simple background for our game
+    sky = game.add.sprite(0, 0, 'sky');
+    sky.scale.setTo(2, 2);
+
+    hunter = game.add.sprite(90, 75, 'subrohunter');
+    hunter.scale.setTo(.5, .5);
+
+    //  The platforms group contains the ground and ledges then we enable physics on platforms
+    platforms = game.add.group();
+    platforms.enableBody = true;
+
+    // Here we create the ground and scale it to fit the width of the game
+    var ground = platforms.create(0, game.world.height - 64, 'ground');
+    ground.scale.setTo(3, 2);
+
+    //  This stops it from falling away when you jump on it
+    ground.body.immovable = true;
+    
+    // The player and its settings
+    player = game.add.sprite(0, 540, 'ken');
+    player.scale.setTo(0.75, 0.75);
+
+    black = game.add.sprite(0, 0, 'black');
+    black.alpha = 1;
+
+    skip = game.add.text(810, 615, 'space bar to skip', { fontSize: '10px', fill: '#ffffff', font: 'Press Start 2P'});
+    skip.alpha = .2;
+
+    setTimeout(function () {
+        game.add.tween(skip).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false); 
+    }, 11000);
+
+    text1 = game.add.text(315, 300, 'Wilber Group', { fontSize: '30px', fill: '#ffffff', align: 'center', font: 'Press Start 2P'});
+    text1.alpha = 0;
+
+    setTimeout(() => game.add.tween(text1).to({ alpha: 1}, 2500, Phaser.Easing.Linear.None, true, 0, 0, true), 500);
+
+    text2 = game.add.text(390, 300, 'Presents', { fontSize: '30px', fill: '#ffffff', align: 'center', font: 'Press Start 2P'});
+    text2.alpha = 0;
+
+    setTimeout(() => game.add.tween(text2).to({ alpha: 1}, 2500, Phaser.Easing.Linear.None, true, 0, 0, true), 5950);
+
+    start = game.add.text(300, 425, 'press the space bar to start', { fontSize: '15px', fill: '#ffffff', font: 'Press Start 2P'});
+    start.alpha = 0;
+
+    setTimeout(function() {
+        game.add.tween(start).to( { alpha: 1} , 0, Phaser.Easing.Linear.None, true, 0, -1, true);
+    }, 13500);
+
+    setTimeout(function() {
+        game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
+    }, 12866);
+
+    //  Player physics properties. Give the little guy a slight bounce.
+    game.physics.arcade.enable(player);
+    player.body.bounce.y = 0.0;
+    player.body.gravity.y = 775;
+    player.body.collideWorldBounds = true;
+
+    //  Our three animations, walking left ,right and jumping.
+    player.animations.add('left', [4, 3, 2, 1], 10, true);
+    player.animations.add('right', [7, 8, 9, 10], 10, true);
+    player.animations.add('jumpleft', [0], 10, true);
+    player.animations.add('jumpright', [11], 10, true);
+    player.animations.add('standleft', [5], 10, true);
+    player.animations.add('standright', [6], 10, true);
+
+    // makes a stars group and enables physics
+    stars = game.add.group();
+    stars.enableBody = true;
+
+    // the bullet group contains all bullets and enables physics on them.
+    bullets = game.add.group();
+    bullets.enableBody = true;
+    
+    // the slime group contains all slimes and enables physics on them. The for loop adds slimes to the game.
+    slimes = game.add.group();
+    slimes.enableBody = true;
+
+    slime1 = slimes.create(-100, 574, 'slime1');
+    slime1.anchor.setTo(.5, .5);
+    slime1.scale.x *= -1;
+
+    function startGame (game) {
+        setTimeout(() => {window.location = 'level1.html'}, 500);
+    }
+
+    // this makes the spacebar the key that shoots bullets
+    spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceBar.onDown.add(startGame, this);
+    cursors = game.input.keyboard.createCursorKeys();
+
+
+    // control the movement of the player
+    setTimeout(() => {
+
+    pretend.move('right', 0, 2100)
+    pretend.move('up', 2100, 500)
+    pretend.fire(3000)
+    pretend.move('up', 4500, 21000)
+    pretend.move('right', 5400, 2250)
+    pretend.move('left', 7600, 4300)
+    pretend.move('right', 10000, 6500)
+    pretend.move('left', 16200, 4250)
+    pretend.move('right', 19000, 3575)
+    }, 13000);
+    
+    SoundFX.bindAudio();
+    SoundFX.splashBG();
+}
+
+
+function update() {
+    //  Collide the player and the stars with the platforms
+    var hitPlatform = game.physics.arcade.collide(player, platforms);
+
+    var hitSlime = game.physics.arcade.collide(player, slimes);
+    
+    var killSlime = game.physics.arcade.overlap(bullets, slimes);
+
+    var grabStar = game.physics.arcade.overlap(player, stars, collectStar, null, this);
+    
+    if (stars.countLiving() == 10){
+        store.set('score', score);
+        setTimeout(() => game.add.text(400, 75, 'Loading Level 2!', { fontSize: '30px', fill: '#ffd799'}), 1000);
+        
+        setTimeout(() => {window.location = 'level2.html'}, 3000);
+    }
+
+    if (killSlime) {
+        SoundFX.hitCar();
+    }
+
+    function collectStar(player, stars) {
+        stars.kill();
+    }
+
+    // helper
+    function playerIsOnGround() {
+        return player.body.touching.down && hitPlatform;
+    }
+
+    //  Reset the players velocity (movement)
+    player.body.velocity.x = 0;
+
+    handlePlayerMovement();
+
+    if (pretend.left) {
+        player.body.velocity.x = -225;
+        let animation = playerIsOnGround() ? 'left' : 'jumpleft';
+        player.animations.play(animation);
+
+    } else if (pretend.right) {
+
+        player.body.velocity.x = 225;
+        let animation = playerIsOnGround() ? 'right' : 'jumpright';
+        player.animations.play(animation);
+
+    } else if (! pretend.right || ! pretend.left) {
+        //  Stand still
+        player.animations.stop();
+
+        if (playerIsOnGround()) {
+            let animation = direction == 1 ? 'standright' : 'standleft';
+            player.animations.play(animation);
+        }
+    }
+
+    // Allow the player to jump if they are touching the ground.
+    if (pretend.up && player.body.touching.down && hitPlatform)
+    {
+        SoundFX.jump();
+        player.frame = direction == 1 ? 11 : 0;
+        player.body.velocity.y = -350;
+    }
+
+    function handlePlayerMovement() {
+    if (pretend.left) {
+        direction = -1;
+    }
+    else if (pretend.right) {
+        direction = 1;
+    }
+}
+    
+    setTimeout(() => {
+        if (animationRunning === false){
+            animationRunning = true;
+            tweenRight = game.add.tween(slimes).to({x: 1000}, 4300, Phaser.Easing.Linear.None, true);
+        }
+
+    }, 13000);
+
+
+}
+
+</script>
+</div>
+</body>
+</html>
