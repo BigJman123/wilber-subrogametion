@@ -1,0 +1,156 @@
+<!doctype html> 
+<html lang="en"> 
+<head>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-92223000-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({ 
+            // active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
+            google: {
+                families: ['Press Start 2P']
+            }
+        });
+    </script>
+	<meta charset="UTF-8" />
+	<title>Controls</title>
+    <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
+    <script type="text/javascript" src="vendor/store.min.js"></script>
+    <!--<script type="text/javascript" src="Bullet.js"></script>-->
+    <!--<script type="text/javascript" src="Slime.js"></script>-->
+    <!--<script type="text/javascript" src="Health.js"></script>-->
+    <!--<script type="text/javascript" src="Cheats.js"></script>-->
+    <!--<script type="text/javascript" src="Player.js"></script>-->
+    <!--<script type="text/javascript" src="SoundFX.js"></script>-->
+    <!--<script type="text/javascript" src="Platforms.js"></script>-->
+    <!--<script type="text/javascript" src="Timer.js"></script>-->
+    <!--<script type="text/javascript" src="Score.js"></script>-->
+    <!--<script type="text/javascript" src="Quote.js"></script>-->
+    <!--<script type="text/javascript" src="GameStuff.js"></script>-->
+    <style type="text/css">
+        body {
+            margin: 0;
+            background-color: #000;
+        }
+        #game {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+<div id='game'></div>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+
+var platforms;
+var slimes;
+var bullets;
+var stars;
+
+var hitSlime;
+var killSlime;
+var grabStar;
+var collectStar;
+var hitPlatform;
+
+var player;
+
+var finalScore;
+
+var healthText;
+var health;
+var invincible = false;
+var youwin = false;
+var youlose = false;
+
+var cursors;
+var spaceBar;
+
+var direction = 1;
+
+var bulletXSpeed = 300;
+
+var record;
+
+var camera;
+
+var SoundFX;
+
+function preload() {
+
+    game.load.image('sky', 'assets/sky.png');
+    game.load.spritesheet('slime', 'assets/car1 131x47.png', 131, 47);
+    game.load.image('money', 'assets/money 160x180.png', 160, 180);
+    game.load.image('space', 'assets/space.png', 230, 60);
+    game.load.image('arrows', 'assets/arrows.png', 135, 90);
+}
+
+function create() {
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //  A simple background for our game
+    game.add.sprite(0, 0, 'sky').scale.setTo(2,2);
+
+    game.add.image(200, 200, 'space');
+    game.add.image(600, 180, 'arrows');
+    
+    game.add.text(265, 160, 'press', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    game.add.text(235, 280, 'to shoot!', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    
+    game.add.text(628, 150, 'jump', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    game.add.text(510, 238, 'left', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    game.add.text(745, 238, 'right', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    
+    car = game.add.image(250, 450, 'slime');
+    
+    game.add.text(250, 390, 'destroy', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    game.add.text(278, 415, 'cars!', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    
+    money = game.add.image(625, 425, 'money');
+    money.scale.setTo(.5, .5);
+    
+    game.add.text(600, 365, 'collect', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    game.add.text(615, 390, 'money!', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    
+    setTimeout(function() {
+        game.add.text(380, 50, 'Good Luck!', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
+    }, 5000);
+    
+    setTimeout(() => {window.location = 'level1.html'}, 8000);
+
+}
+
+
+function update() {
+
+
+    // playerUpdate();
+    
+    // GameStuff.levelUpdate(400, 165);
+
+    // Timer.updateDisplay();
+
+    // Score.handleLevelEnd();
+    
+}
+
+</script>
+</div>
+</body>
+</html>
