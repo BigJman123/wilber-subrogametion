@@ -193,9 +193,10 @@ function create() {
     SoundFX.creditsBG();
 
     game.time.events.repeat(Phaser.Timer.SECOND * .5, 50, createStar, this);
+    
     setTimeout(function() {
         game.time.events.repeat(Phaser.Timer.SECOND * .01, 3000, createStar, this);
-    }, 6300);
+    }, 5300);
     
     var creator1 = game.add.text(415, 190, 'a game by:', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
     creator1.alpha = 0;
@@ -215,7 +216,7 @@ function create() {
         setTimeout(() => game.add.tween(creator3).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 2500);
         game.add.tween(creator4).to( { alpha: 1 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
         setTimeout(() => game.add.tween(creator4).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 2500);
-    }, 7200);
+    }, 6200);
 
     music1 = game.add.text(440, 190, 'music by:', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
     music1.alpha = 0;
@@ -239,7 +240,7 @@ function create() {
         setTimeout(() => game.add.tween(music4).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 2500);
         game.add.tween(music5).to( { alpha: 1 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
         setTimeout(() => game.add.tween(music5).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 2500);
-    }, 11000);
+    }, 10000);
 
     phaserlogo = game.add.image(340, 150, 'phaserlogo');
     phaserlogo.scale.setTo(.6, .6);
@@ -253,14 +254,14 @@ function create() {
         setTimeout(() => game.add.tween(phaserlogo).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 2000);
         game.add.tween(text).to( { alpha: 1 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
         setTimeout(() => game.add.tween(text).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 2000);
-    }, 15000);
+    }, 14000);
 
     black = game.add.sprite(0, 0, 'black');
     black.alpha = 0;
 
     setTimeout(function() {
         game.add.tween(black).to( { alpha: 1 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
-    }, 20000);
+    }, 19000);
 
     wilber = game.add.image(370, 130, 'wilber')
     wilber.alpha = 0;
@@ -274,7 +275,7 @@ function create() {
         setTimeout(() => game.add.tween(wilber).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 4000);
         game.add.tween(text2).to( { alpha: 1 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
         setTimeout(() => game.add.tween(text2).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 4000);
-    }, 18000);
+    }, 17000);
 
     text3 = game.add.text(325, 315, 'thanks for playing!', { fontSize: '20px', fill: '#fff', font: 'Press Start 2P'});
     text3.alpha = 0;
@@ -284,7 +285,7 @@ function create() {
         setTimeout(() => game.add.tween(text3).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 2000);
         game.add.tween(text3).to( { alpha: 1 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
         setTimeout(() => game.add.tween(text3).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false), 2000);
-    }, 24000);
+    }, 23000);
 
     // setTimeout(function() {
 

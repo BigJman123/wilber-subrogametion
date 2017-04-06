@@ -31,7 +31,7 @@ SoundFX.bindAudio = function() {
     SoundFX.sounds.levelBG = game.add.audio('levelbgm', .3, true);
     SoundFX.sounds.bossBG = game.add.audio('bossbgm', 1, true);
     SoundFX.sounds.creditsBG = game.add.audio('credits', .3, false);
-    SoundFX.sounds.creditsBG.addMarker('start_here', 12.5, 120, .3, false);
+    SoundFX.sounds.creditsBG.addMarker('start_here', 1, 35, .3, false);
 
 };
 
@@ -82,7 +82,7 @@ SoundFX.creditsBG = function(method) {
 
     SoundFX.sounds.creditsBG.play('start_here');
     setTimeout(function() {
-        SoundFX.sounds.creditsBG.fadeOut(5000);
+        SoundFX.sounds.creditsBG.fadeOut(3500);
     }, 23500);
 
 };
