@@ -49,32 +49,32 @@
             justify-content: center;
             height: 100vh;
         }
-        #user {
+        /*#user {
             position: absolute;
             width: 50px;
             top: 450px;
             left: 775px;
             /*z-index: 500;*/
         }
-        #submit {
-            position: absolute;
+        /*#submit {*/
+            /*position: absolute;*/
             /*width: 50px;*/
-            top: 475px;
-            left: 775px;
+            /*top: 475px;*/
+            /*left: 775px;*/
             /*z-index: 500;*/
-        }
+        /*}*/
     </style>
 </head>
 
 <body>
 <div id='game'></div>
 
-<form id="form">
+<!-- <form id="form">
 <input type="text" name="user" id="user" />          
 <input type="submit" id="submit">Submit</input>
-</form>
+</form> -->
 
-<script>
+<!-- <script>
 
 // when a user first visits page app, generate a random user id for them
 // use that id to reference this user whenever they come back to your page
@@ -91,7 +91,7 @@ function writeUserData(userInitials) {
         score: score
     });
 };
-</script>
+</script> -->
 
 
 <script type="text/javascript">
@@ -111,9 +111,9 @@ var finalScore;
 var cursors;
 var spaceBar;
 
-function getText () {
-    var text = document.getElementById('text');
-}
+// function getText () {
+//     var text = document.getElementById('text');
+// }
 
 function preload() {
 
@@ -128,14 +128,25 @@ function create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    getText();
+    // getText();
 
     //  A simple background for our game
     game.add.sprite(0, 0, 'sky').scale.setTo(2,2);
 
-    scoreText = game.add.text(225, 250, 'Enter Initials', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    scoreText = game.add.text(575, 250, 'Final Score', { fontSize: '20px', fill: '#000', font: 'Press Start 2P'});
-    scoreText = game.add.text(635, 295, score, { fontSize: '20px', fill: '#000', font: 'Press Start 2P' });
+    game.add.text(250, 75, 'rank', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(450, 75, 'player', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(650, 75, 'score', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+
+    game.add.text(275, 125, '1', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(275, 175, '2', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(275, 225, '3', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(275, 275, '4', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(275, 325, '5', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(275, 375, '6', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(275, 425, '7', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(275, 475, '8', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(275, 525, '9', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(265, 575, '10', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
 
 }
 
@@ -144,21 +155,21 @@ function update() {
 
 }
 
-$(document).ready(function() {
-    $('#form').on('submit', function(e) {
-        e.preventDefault();
-        var user = $('#user').val();
+// $(document).ready(function() {
+//     $('#form').on('submit', function(e) {
+//         e.preventDefault();
+//         var user = $('#user').val();
 
-        if (user == "") {
-            alert('please fill in initials');
-            return false;
-        }
-        // get the value of the inputs
-        // store them in firebase
-        writeUserData(user);
-        {window.location = 'scoreboard.html'};
-    })
-});
+//         if (user == "") {
+//             alert('please fill in initials');
+//             return false;
+//         }
+//         // get the value of the inputs
+//         // store them in firebase
+//         writeUserData(user);
+//         {window.location = 'scoreboard.html'};
+//     })
+// });
 
 </script>
 </div>
