@@ -22,6 +22,8 @@
       firebase.initializeApp(config);
       
       var database = firebase.database();
+      var ref = firebase.database().ref();
+      var userRef = ref.child('users');
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script>
@@ -55,7 +57,7 @@
             top: 450px;
             left: 775px;
             /*z-index: 500;*/
-        }
+        /*}*/
         /*#submit {*/
             /*position: absolute;*/
             /*width: 50px;*/
@@ -161,6 +163,17 @@ function create() {
 function update() {
 
 }
+
+userRef.orderByChild('score').limitToFirst(10).on('value', function(snap) {
+    var data = snap.val();
+    
+    function showData(data) {
+        game.add.text(100, 100, data);
+    }
+    
+    showData(data);
+    // console.log(snap.val());
+})
 
 // $(document).ready(function() {
 //     $('#form').on('submit', function(e) {
