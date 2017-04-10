@@ -22,8 +22,6 @@
       firebase.initializeApp(config);
       
       var database = firebase.database();
-      var ref = firebase.database().ref();
-      var userRef = ref.child('users');
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script>
@@ -34,8 +32,8 @@
             }
         });
     </script>
-	<meta charset="UTF-8" />
-	<title>Scoreboard</title>
+    <meta charset="UTF-8" />
+    <title>Scoreboard</title>
     <script src="https://code.jquery.com/jquery-3.2.0.js"></script>
     <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
     <script type="text/javascript" src="vendor/store.min.js"></script>
@@ -164,14 +162,27 @@ function update() {
 
 }
 
-userRef.orderByChild('score').limitToFirst(10).on('value', function(snap) {
-    var data = snap.val();
+var ref = firebase.database().ref();
+var userRef = ref.child('users');
+
+// var userData = [];
+
+userRef.orderByChild('score').limitToLast(10).once('value', function(snap) {
+    initials = item.initials[0];
+    item = child.val();
+
+    snap.forEach(function(child) {
+        // initials item.initials
+        game.add.text(100, 100, initials++);
+        // initials item.score
+        game.add.text(200, 200, item.score);
+    })
     
-    function showData(data) {
-        game.add.text(100, 100, data);
-    }
+        // function showData(data) {
+    //     game.add.text(100, 100, data);
+    // }
     
-    showData(data);
+    // showData(data);
     // console.log(snap.val());
 })
 
