@@ -1,0 +1,166 @@
+<!doctype html> 
+<html lang="en"> 
+<head>
+
+    <script>
+        // NEW GOOGLE ANALYTICS
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.7.3/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase-database.js"></script>
+
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyC5rbCamD_1tnehTOGiFzHPEYhDTqJ-Cqk",
+        authDomain: "wilbergame-ffc1c.firebaseapp.com",
+        databaseURL: "https://wilbergame-ffc1c.firebaseio.com",
+        storageBucket: "wilbergame-ffc1c.appspot.com",
+      };
+      firebase.initializeApp(config);
+      
+      var database = firebase.database();
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script>
+        WebFont.load({ 
+            // active: function() { game.time.events.add(Phaser.Timer.SECOND, createText, this); },
+            google: {
+                families: ['Press Start 2P']
+            }
+        });
+    </script>
+	<meta charset="UTF-8" />
+	<title>Leaderboard</title>
+    <script src="https://code.jquery.com/jquery-3.2.0.js"></script>
+    <script src="//cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js"></script>
+    <script type="text/javascript" src="vendor/store.min.js"></script>
+    <script type="text/javascript" src="Score.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+            background-color: #000;
+        }
+        #game {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #user {
+            position: absolute;
+            width: 50px;
+            top: 450px;
+            left: 390px;
+            /*z-index: 500;*/
+        }
+        #submit {
+            position: absolute;
+            /*width: 50px;*/
+            top: 475px;
+            left: 390px;
+            /*z-index: 500;*/
+        }
+    </style>
+</head>
+
+<body>
+<div id='game'></div>
+
+<form id="form">
+<input type="text" name="user" id="user" />          
+<input type="submit" id="submit">Submit</input>
+</form>
+
+<script>
+
+// when a user first visits page app, generate a random user id for them
+// use that id to reference this user whenever they come back to your page
+
+// store this value in local storage, if it exists, set it globally, otherwise
+// generate a new unique id
+
+function uuid(a){return a?(a^Math.random()*16>>a/4).toString(16):([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,uuid)}
+
+function writeUserData(userInitials) {
+
+    database.ref('users/' + uuid()).set({
+        initials: userInitials,
+        score: score
+    });
+};
+</script>
+
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+
+var loadingLevel = '';
+var nextLevel = 'win.html';
+
+var score = store.get('score');
+var scoreText;
+
+writeData = false;
+
+var finalScore;
+
+var cursors;
+var spaceBar;
+
+function getText () {
+    var text = document.getElementById('text');
+}
+
+function preload() {
+
+    game.load.image('sky', 'assets/sky.png');
+
+}
+
+
+
+function create() {
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    getText();
+
+    //  A simple background for our game
+    game.add.sprite(0, 0, 'sky').scale.setTo(2,2);
+
+    scoreText = game.add.text(225, 250, 'Enter Initials', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    scoreText = game.add.text(575, 250, 'Final Score', { fontSize: '20px', fill: '#000', font: 'Press Start 2P'});
+    scoreText = game.add.text(635, 295, score, { fontSize: '20px', fill: '#000', font: 'Press Start 2P' });
+
+}
+
+
+function update() {
+
+}
+
+$(document).ready(function() {
+    $('#form').on('submit', function(e) {
+        e.preventDefault();
+        var user = $('#user').val();
+
+        if (user == "") {
+            alert('please fill in initials');
+            return false;
+        }
+        // get the value of the inputs
+        // store them in firebase
+        writeUserData(user);
+        {window.location = 'scoreboard.html'};
+    })
+});
+
+</script>
+</div>
+</body>
+</html>
