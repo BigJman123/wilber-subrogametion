@@ -25,6 +25,9 @@
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script>
+        var game;
+        var time;
+
         WebFont.load({ 
             active: function() { game.time.events.add(Phaser.Timer.SECOND, createScoreboard, this); },
             google: {
@@ -103,7 +106,7 @@ function readUserData() {
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1000, 650, Phaser.AUTO, 'game', { preload: preload, create: create, update: update, render: render });
 
 var loadingLevel = '';
 var nextLevel = 'win.html';
@@ -117,6 +120,10 @@ var finalScore;
 
 var cursors;
 var spaceBar;
+
+var rectangle;
+var rectangle2;
+var rectangle3;
 
 // function getText () {
 //     var text = document.getElementById('text');
@@ -140,20 +147,20 @@ function create() {
     //  A simple background for our game
     game.add.sprite(0, 0, 'sky').scale.setTo(2,2);
 
-    game.add.text(250, 75, 'rank', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(450, 75, 'player', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(650, 75, 'score', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    rectangle = new Phaser.Rectangle(195, 48, 600, 5);
+    rectangle2 = new Phaser.Rectangle(383, 20, 5, 615);
+    rectangle3 = new Phaser.Rectangle(605, 20, 5, 615);
 
-    game.add.text(275, 125, '1', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(275, 175, '2', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(275, 225, '3', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(275, 275, '4', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(275, 325, '5', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(275, 375, '6', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(275, 425, '7', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(275, 475, '8', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(275, 525, '9', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
-    game.add.text(265, 575, '10', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(275, 125, '1', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(275, 175, '2', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(275, 225, '3', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(275, 275, '4', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(275, 325, '5', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(275, 375, '6', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(275, 425, '7', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(275, 475, '8', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(275, 525, '9', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    // game.add.text(265, 575, '10', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
 
 }
 
@@ -163,6 +170,11 @@ function update() {
 }
 
 function createScoreboard() {
+
+    game.add.text(250, 25, 'RANK', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(450, 25, 'PLAYER', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+    game.add.text(650, 25, 'SCORE', { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+
     
     var ref = firebase.database().ref();
     var userRef = ref.child('users');
@@ -172,16 +184,23 @@ function createScoreboard() {
         var rank = 10;
 
         snap.forEach(function(item) {
-            var y = 100 * rank;
-
-            game.add.text(50, y, rank);
-            game.add.text(100, y, item.initials);
-            game.add.text(200, y, item.score);
+            var y = 60 * rank;
+            var item = item.val();
+            
+            game.add.text(275, y, rank, { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+            game.add.text(475, y, item.initials, { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
+            game.add.text(650, y, item.score, { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
 
             rank--; // decrement by one
         });
 
     });
+}
+
+function render() {
+    game.debug.geom(rectangle, '#0fffff');
+    game.debug.geom(rectangle2, '#0fffff');
+    game.debug.geom(rectangle3, '#0fffff');
 }
     
 
