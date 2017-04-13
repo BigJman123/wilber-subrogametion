@@ -190,12 +190,12 @@ function createScoreboard() {
 
     userRef.orderByChild('score').limitToLast(10).once('value', function(snap) {
 
-        var rank = 10;
+        var rank = Object.keys(snap.val()).length;
 
         snap.forEach(function(item) {
             var y = 60 * rank;
             var item = item.val();
-            
+
             game.add.text(275, y, rank, { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
             game.add.text(475, y, item.initials, { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});
             game.add.text(650, y, item.score, { fontSize: '18px', fill: '#000', font: 'Press Start 2P'});

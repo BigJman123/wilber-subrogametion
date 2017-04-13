@@ -133,6 +133,8 @@ var bgm;
 
 var start = true;
 
+var wilber;
+
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
@@ -160,25 +162,19 @@ function create() {
     player = game.add.sprite(0, 540, 'ken');
     player.scale.setTo(0.75, 0.75);
 
+
+
     black = game.add.sprite(0, 0, 'black');
     black.alpha = 1;
-
-    skip = game.add.text(810, 615, 'space bar to skip', { fontSize: '10px', fill: '#ffffff', font: 'Press Start 2P'});
-    skip.alpha = .2;
-
-    setTimeout(function () {
-        game.add.tween(skip).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false); 
-    }, 11000);
 
     text1 = game.add.text(315, 300, 'Wilber Group', { fontSize: '30px', fill: '#ffffff', align: 'center', font: 'Press Start 2P'});
     text1.alpha = 0;
 
-    setTimeout(() => game.add.tween(text1).to({ alpha: 1}, 2500, Phaser.Easing.Linear.None, true, 0, 0, true), 500);
-
     text2 = game.add.text(390, 300, 'Presents', { fontSize: '30px', fill: '#ffffff', align: 'center', font: 'Press Start 2P'});
     text2.alpha = 0;
 
-    setTimeout(() => game.add.tween(text2).to({ alpha: 1}, 2500, Phaser.Easing.Linear.None, true, 0, 0, true), 5950);
+    skip = game.add.text(810, 615, 'space bar to skip', { fontSize: '10px', fill: '#ffffff', font: 'Press Start 2P'});
+    skip.alpha = .2;
 
     start = game.add.text(300, 390, 'press the space bar to start', { fontSize: '15px', fill: '#ffffff', font: 'Press Start 2P'});
     start.alpha = 0;
@@ -186,17 +182,44 @@ function create() {
     board = game.add.text(275, 425, 'press L to check the leaderboard', { fontSize: '15px', fill: '#ffffff', font: 'Press Start 2P'});
     board.alpha = 0;
 
-    setTimeout(function() {
-        game.add.tween(start).to( { alpha: 1} , 0, Phaser.Easing.Linear.None, true, 0, -1, true);
-    }, 13500);
-
-    setTimeout(function() {
-        game.add.tween(board).to({ alpha: 1}, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
-    }, 13500);
-
-    setTimeout(function() {
+    function fadeOutBlack() {
         game.add.tween(black).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
-    }, 12866);
+    }
+
+    function fadeInWilberGroup() {
+        game.add.tween(text1).to({ alpha: 1}, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
+    }
+
+    function fadeInPresents() {
+        game.add.tween(text2).to({ alpha: 1}, 2500, Phaser.Easing.Linear.None, true, 0, 0, true);
+    }
+
+    function fadeOutSkip() {
+        game.add.tween(skip).to( { alpha: 0 }, 0, Phaser.Easing.Linear.None, true, 0, 0, false); 
+    }
+
+    function fadeInStart() {
+        game.add.tween(start).to( { alpha: 1} , 0, Phaser.Easing.Linear.None, true, 0, -1, true);
+    }
+
+    function fadeInLeaderboard() {
+        game.add.tween(board).to({ alpha: 1}, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
+    }
+
+    var skip = [
+        setTimeout(fadeInWilberGroup, 500),
+        setTimeout(fadeInPresents, 5950),
+        setTimeout(fadeOutSkip, 11000),
+        setTimeout(fadeOutBlack, 12866),
+        setTimeout(fadeInStart, 13500),
+        setTimeout(fadeInLeaderboard, 13500)
+    ];
+    
+
+    skip.forEach(function(item, array) {
+        clearTimeout(skip);
+    });
+
 
     //  Player physics properties. Give the little guy a slight bounce.
     game.physics.arcade.enable(player);
