@@ -138,8 +138,6 @@ function create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    
-
     //  A simple background for our game
     sky = game.add.sprite(0, 0, 'sky');
     sky.scale.setTo(2, 2);
@@ -182,11 +180,18 @@ function create() {
 
     setTimeout(() => game.add.tween(text2).to({ alpha: 1}, 2500, Phaser.Easing.Linear.None, true, 0, 0, true), 5950);
 
-    start = game.add.text(300, 425, 'press the space bar to start', { fontSize: '15px', fill: '#ffffff', font: 'Press Start 2P'});
+    start = game.add.text(300, 390, 'press the space bar to start', { fontSize: '15px', fill: '#ffffff', font: 'Press Start 2P'});
     start.alpha = 0;
+
+    board = game.add.text(275, 425, 'press L to check the leaderboard', { fontSize: '15px', fill: '#ffffff', font: 'Press Start 2P'});
+    board.alpha = 0;
 
     setTimeout(function() {
         game.add.tween(start).to( { alpha: 1} , 0, Phaser.Easing.Linear.None, true, 0, -1, true);
+    }, 13500);
+
+    setTimeout(function() {
+        game.add.tween(board).to({ alpha: 1}, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
     }, 13500);
 
     setTimeout(function() {
@@ -227,9 +232,15 @@ function create() {
         setTimeout(() => {window.location = 'controls.html'}, 500);
     }
 
+    function checkScore () {
+        setTimeout(() => {window.location = 'scoreboard.html'}, 500);
+    }
+
     // this makes the spacebar the key that shoots bullets
     spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     spaceBar.onDown.add(startGame, this);
+    l = game.input.keyboard.addKey(Phaser.Keyboard.L);
+    l.onDown.add(checkScore, this);
     cursors = game.input.keyboard.createCursorKeys();
 
 

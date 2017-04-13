@@ -183,11 +183,18 @@ function create() {
     player.animations.add('jumpright', [11], 10, true);
     player.animations.add('standleft', [5], 10, true);
     player.animations.add('standright', [6], 10, true);
+
+    function skipCredits(game) {
+        setTimeout(() => {window.location = 'index.html'}, 500);
+    }
     
-    // this makes the spacebar the key that shoots bullets
+    // this skips the credit sequence
     spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    spaceBar.onDown.add(shootBullet, this);
-    cursors = game.input.keyboard.createCursorKeys();
+    spaceBar.onDown.add(skipCredits, this);
+    // cursors = game.input.keyboard.createCursorKeys();
+
+    skip = game.add.text(810, 612, 'space bar to skip', { fontSize: '10px', fill: '#ffffff', font: 'Press Start 2P'});
+    skip.alpha = .2;
     
     SoundFX.bindAudio();
     SoundFX.creditsBG();
@@ -294,14 +301,14 @@ function create() {
     pretend.move('right', -10, 1100)
     pretend.move('up', 2000, 500)
     pretend.move('right', 3000, 1160)
-    pretend.move('right', 8500, 2000)
-    pretend.move('up', 8500, 500)
-    pretend.move('left', 10500, 4100)
-    pretend.move('up', 10500, 500)
-    pretend.move('right', 14500, 4300)
-    pretend.move('up', 14600, 500)
-    pretend.move('left', 18700, 2500)
-    pretend.move('up', 18700, 500)
+    pretend.move('right', 8250, 2000)
+    pretend.move('up', 8250, 500)
+    pretend.move('left', 10250, 4100)
+    pretend.move('up', 10250, 500)
+    pretend.move('right', 14200, 4300)
+    pretend.move('up', 14300, 500)
+    pretend.move('left', 18400, 2500)
+    pretend.move('up', 18400, 500)
 
     setTimeout(() => {window.location = 'index.html'}, 28500);
 }

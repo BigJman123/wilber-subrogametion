@@ -53,14 +53,14 @@
             position: absolute;
             width: 50px;
             top: 450px;
-            left: 390px;
+            left: 785px;
             /*z-index: 500;*/
         }
         #submit {
             position: absolute;
             /*width: 50px;*/
             top: 475px;
-            left: 390px;
+            left: 785px;
             /*z-index: 500;*/
         }
     </style>
@@ -156,7 +156,7 @@ $(document).ready(function() {
         // get the value of the inputs
         // store them in firebase
         writeUserData(user);
-        {window.location = 'scoreboard.html'};
+        setTimeout(() => {window.location = 'win.html'}, 500);
     })
 });
 
