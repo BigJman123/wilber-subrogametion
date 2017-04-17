@@ -206,19 +206,80 @@ function create() {
         game.add.tween(board).to({ alpha: 1}, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
     }
 
-    var skip = [
+    setTimeout(fadeOutSkip, 11000);
+    setTimeout(fadeInStart, 13500);
+    setTimeout(fadeInLeaderboard, 13500);
+
+    var skipIntroCredits = [
         setTimeout(fadeInWilberGroup, 500),
         setTimeout(fadeInPresents, 5950),
         setTimeout(fadeOutSkip, 11000),
         setTimeout(fadeOutBlack, 12866),
-        setTimeout(fadeInStart, 13500),
-        setTimeout(fadeInLeaderboard, 13500)
     ];
     
 
-    skip.forEach(function(item, array) {
-        clearTimeout(skip);
-    });
+    // skip.forEach(function(item, array) {
+    //     clearTimeout(skip);
+    // });
+
+    var clearAllIntervals = function() {
+        skipIntroCredits.forEach(function(item) {
+            clearInterval(item);
+        });
+    }
+
+    // when they skip the intro (with spacebar)
+    var skipIntro = function() {
+        clearAllIntervals();
+
+        // SoundFX.sounds.splashBG.addMarker('skip_intro', 12.5, 45000, 0.3, false);
+        // addMarker(splashbgm, 12.5, 0.3, false);
+
+
+
+        sky = game.add.sprite(0, 0, 'sky');
+        sky.scale.setTo(2, 2);
+
+        hunter = game.add.sprite(90, 75, 'subrohunter');
+        hunter.scale.setTo(.5, .5);
+
+        platforms = game.add.group();
+        platforms.enableBody = true;
+
+        // Here we create the ground and scale it to fit the width of the game
+        var ground = platforms.create(0, game.world.height - 64, 'ground');
+        ground.scale.setTo(3, 2);
+
+        //  This stops it from falling away when you jump on it
+        ground.body.immovable = true;
+
+        start = game.add.text(300, 390, 'press the space bar to start', { fontSize: '15px', fill: '#ffffff', font: 'Press Start 2P'});
+        start.alpha = 0;
+
+        board = game.add.text(275, 425, 'press L to check the leaderboard', { fontSize: '15px', fill: '#ffffff', font: 'Press Start 2P'});
+        board.alpha = 0;
+
+        function fadeInStart() {
+        game.add.tween(start).to( { alpha: 1} , 0, Phaser.Easing.Linear.None, true, 0, -1, true);
+        }
+
+        function fadeInLeaderboard() {
+        game.add.tween(board).to({ alpha: 1}, 0, Phaser.Easing.Linear.None, true, 0, 0, false);
+        }
+
+        setTimeout(fadeInStart, 1);
+        setTimeout(fadeInLeaderboard, 1);
+
+        function toControls() {
+            {window.location = 'controls.html'};
+        }
+
+        spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        spaceBar.onDown.add(toControls, this);
+
+        // set up view to be what you want here
+        // change action of spacebar to go  to level 1
+    }
 
 
     //  Player physics properties. Give the little guy a slight bounce.
@@ -261,7 +322,7 @@ function create() {
 
     // this makes the spacebar the key that shoots bullets
     spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    spaceBar.onDown.add(startGame, this);
+    spaceBar.onDown.add(skipIntro, this);
     l = game.input.keyboard.addKey(Phaser.Keyboard.L);
     l.onDown.add(checkScore, this);
     cursors = game.input.keyboard.createCursorKeys();
